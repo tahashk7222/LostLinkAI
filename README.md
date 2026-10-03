@@ -146,20 +146,25 @@ and on demand via `POST /reports/{id}/match`:
    the earlier hashed-vector matcher.
 3. **Candidate retrieval** filters by opposite type, open status, other users, compatible category group,
    time window (found ≥ lost − 12 h, ≤ lost + 60 days) and radius (30 km). Every candidate that passes is scored.
-4. **Scoring v2** (`app/ai/matching.py`). Identity signals are description, typed features, brand/model, colour,
-   and visual similarity (corroboration only). Location and time are context. Category is a gate.
-   - A lead qualifies only with a distinctive identity signal (a typed feature, or brand with a description match)
-     and at least one other identity group. Category, location and time alone never qualify, and a visually
-     similar photo alone never qualifies. Brand plus colour alone is a Weak lead.
-   - Missing identity evidence lowers the score through a coverage factor.
-   - Contradictions cap the score: category, brand, model, colour, features, found before loss.
-   - Labels: **Strong** (≥ 0.75, at least three identity supports, no strong contradiction), **Possible**
-     (≥ `MATCH_THRESHOLD`, default 0.55), **Weak** (some identity support, ≥ 0.35, stored, not notified).
-   - The score is a rule-based relevance value. It is not a probability of ownership.
-   - `MATCH_SCORER=v1` restores the earlier weighted score.
-5. **Notification**: only Strong and Possible leads notify, at most 3 per report per run. Weak leads are visible
-   to the owner in the match list, with a warning, and do not change report status. A Weak lead that later becomes
-   notifiable notifies once.
+4. **Scoring v3** (`app/ai/matching.py`, default). Three things are kept apart: the **relevance** score (ranking), the
+   **lead label**, and **notification eligibility**.
+   - Identity-bearing groups can qualify a lead: a shared model code, a matching **marking** feature (engraving,
+     name, initials, sticker) or **damage** feature (scratch, dent, crack), and a description match after removing
+     the report's own brand, colour, category and model words and any accessory wording.
+   - Generic attributes only corroborate and never qualify a lead alone: brand, colour, and accessory features
+     (keychain, tag, strap, case). A common brand on a key ring is not identity.
+   - A lead qualifies with at least one identity group and at least two groups in total. Category, location and time
+     never qualify, and a visually similar photo never qualifies.
+   - Missing identity evidence lowers the score through a coverage factor. Contradictions cap the score.
+   - Labels: **Strong** (≥ 0.75, qualifies, at least three groups, no strong contradiction), **Possible** (qualifies,
+     ≥ `MATCH_THRESHOLD`, default 0.55), **Weak** (any identity or generic match, ≥ 0.35: stored and shown, never
+     notified, and it cannot start ownership verification).
+   - The relevance score is a rule-based value. It is not a probability of ownership.
+   - `MATCH_SCORER=v2` restores the earlier identity rule (brand plus a description match qualified, and accessory
+     features counted as identity). `MATCH_SCORER=v1` restores the earlier weighted score.
+5. **Notification**: only Strong and Possible leads (`notify_eligible`) notify, at most 3 per report per run. Weak leads
+   are visible to the owner in the match list, at most five before "Show more", with a warning, and do not change
+   report status. A Weak lead that later becomes notifiable notifies once.
 
 Each reason and concern is stored as structured **evidence** (`signal`, `text`, `direction`
 `supports`/`contradicts`, and a rule-based `strength` of `STRONG`/`MODERATE`/`WEAK`), together with the lead label.

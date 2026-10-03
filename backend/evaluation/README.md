@@ -14,6 +14,7 @@ The numbers describe these datasets only. They are not measured accuracy on real
 |---|---|
 | `data/synthetic_pairs.json` (`--dataset base`) | 50 lost queries across 10 item types, 50 true pairs, 250 hard negatives, 30 unrelated found reports. No photos. |
 | `data/synthetic_pairs_extended.json` (`--dataset extended`) | The base set, plus synthetic photos on every report, plus 350 targeted hard negatives (50 per type, 7 types). 680 found reports in total. |
+| `data/synthetic_pairs_targeted.json` (`--dataset targeted`) | 45 lost queries in nine true-match cases (5 each) with three case-specific hard negatives per query. Built by `generate_targeted.py`. Each query and true match carries a `case` label, so recall is reported per case. 210 found reports. |
 
 Hard-negative types (each built to look like its query's item, and each a different physical item):
 
@@ -123,6 +124,58 @@ The rule "a visually similar photo alone never notifies" is covered by a unit te
   description, treating a missing description as absent, and removing the retrieval top-50 cut. The top-50
   cut was dropping true matches. See `phase3a-description*.json`.
 
+### Scoring v3 (default), and the targeted set
+
+Recorded v2 and v1 results above are unchanged. Re-runs on the current code are kept separately
+(`v2-current-code-*.json`, `v2-recheck-*.json`). The `v2-recheck` files were produced before the extraction fixes,
+and their numbers equal the recorded v2 numbers exactly.
+
+| Set | Scorer | P@1 | Recall at threshold | FPR all | FPR hard | Notif. precision | Notif./query | Weak/query |
+|---|---|---|---|---|---|---|---|---|
+| base | v2, current code (`v2-current-code-base`) | 56.0% | 22.0% | 0.1% | 2.0% | 47.8% | 0.46 | 8.3 |
+| base | **v3 (default)** (`v3-base`) | 56.0% | 14.0% | 0.0% | 0.0% | **87.5%** | **0.16** | 8.9 |
+| extended | v2, current code (`v2-current-code-extended`) | 12.0% | 22.0% | 0.1% | 1.8% | 36.7% | 0.60 | 21.6 |
+| extended | **v3 (default)** (`v3-extended`) | 12.0% | 14.0% | 0.0% | 0.0% | 46.7% | 0.30 | 22.7 |
+| targeted | v2 (`v2-targeted`) | 64.4% | 46.7% | 0.2% | 1.5% | 48.8% | 0.96 | 14.6 |
+| targeted | **v3 (default)** (`v3-targeted`) | 64.4% | 48.9% | 0.1% | **0.0%** | **64.7%** | **0.76** | 15.4 |
+
+Per case, targeted set (true matches notified, out of 5 each):
+
+| Case | v2 | v3 |
+|---|---|---|
+| tc-colour-category-location | 0/5 | 0/5 (by rule: colour, category and place never notify) |
+| tc-colour-description | 0/5 | **5/5** |
+| tc-common-brand-feature | 5/5 | 3/5 (both misses: a generic accessory, "blue plastic tag with a number") |
+| tc-missing-brand | 4/5 | 4/5 |
+| tc-missing-feature | 1/5 | 0/5 (the found report has no feature; brand and colour alone are not identity) |
+| tc-roman-urdu | 5/5 | 5/5 |
+| tc-misspelled | 0/5 | 0/5 (misspelt free text and fields defeat the vocabulary) |
+| tc-generic-template | 0/5 | 0/5 (templated text and colour and brand only) |
+| tc-distinctive-description | 5/5 | 5/5 |
+
+Hard-negative types on the targeted set: `tg-same-attrs-other`, `tg-common-brand-other` and
+`tg-different-brand-same-feature` are notified 0 times under v3 (v2 notified 2 `tg-common-brand-other`).
+
+**What v3 changed, and what it cost**
+
+- Notification precision rose and same-query hard-negative false positives went to zero on all three sets.
+- Recall on the original sets fell (22% → 14%). Four true pairs that v2 notified on base and extended are Weak under
+  v3. In each, the only shared identity was an accessory phrase ("football shaped keychain", "blue plastic tag with a
+  number", "blue case with a sticker") or a brand word. v3 treats those as generic. The same accessory phrases also
+  appear on the false positives v2 produced, so the rule cannot separate them.
+- On the targeted set, v3 recovers five true matches that v2 missed (colour and description), and loses four.
+- The ceiling is the data. On the base set, 9 of 50 true pairs have an identity-bearing group (a marking, damage,
+  model or distinctive description) on either side of the match. v3 notifies 7 of them. The other 41 share only colour,
+  brand or place, which the rule must leave as Weak.
+- **Decision made after inspecting false positives (disclosed):** the bare word "tag" was typed as a marking, and
+  caused key-ring false positives. It is now an accessory. "name tag" is still a marking. This is a classification
+  change, not a change to the data. It removed about 11 false positives on the base set and also removed three true
+  matches that shared a numbered tag.
+- **Extraction fix:** a phrase takes the type of its most identifying cue (marking > damage > accessory > other). Before
+  the fix, "engraved back cover" and "torn left strap" were typed as accessories.
+- **Cross-query false positives** are not counted in the hard-negative rate. v3 has 8 on extended and 12 on targeted.
+  They are found reports from other queries that share an identifying phrase by chance.
+
 ### Earlier history
 
 | File | Note |
@@ -136,7 +189,9 @@ The rule "a visually similar photo alone never notifies" is covered by a unit te
 
 - Templated text is easier than real descriptions. Recall here is likely optimistic for description signals
   and pessimistic for identity rules, because the templates rarely state identifying details.
-- No Roman-Urdu or misspelled descriptions are included.
+- The targeted set includes a small Roman-Urdu case and a misspelling case (both hand-written). Their results say
+  little about real Roman-Urdu or misspelled reports.
+- The targeted cases are small (5 queries each). A single query changes a case rate by 20 points.
 - Only lost-side queries are evaluated. Found-side queries are not measured.
 - Hard negatives are constructed by rules. They do not cover the full range of real look-alikes.
 - Photos are synthetic silhouettes, so the visual signal behaves very differently from real photographs.
