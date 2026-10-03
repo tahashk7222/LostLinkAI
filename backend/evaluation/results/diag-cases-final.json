@@ -1,0 +1,4974 @@
+{
+  "dataset": "cases",
+  "scorer": "v3",
+  "threshold": 0.55,
+  "cap": 3,
+  "candidate_rows": 2563,
+  "true_pairs": 50,
+  "rules": {
+    "v3 (recorded)": {
+      "notified": 75,
+      "true_notified": 35,
+      "recall": 0.7,
+      "precision": 0.467,
+      "notified_per_query": 1.5,
+      "fp_same_query_hard": 40,
+      "fp_cross_query": 0,
+      "recall_by_case": {
+        "tc-common-brand": "0/5",
+        "tc-common-brand-unique-feature": "5/5",
+        "tc-custom-accessory": "0/5",
+        "tc-damage": "5/5",
+        "tc-engraving": "5/5",
+        "tc-generic-accessory": "0/5",
+        "tc-generic-sticker": "5/5",
+        "tc-initials": "5/5",
+        "tc-unique-number": "5/5",
+        "tc-unique-sticker": "5/5"
+      },
+      "false_positives": [
+        {
+          "query": "L001",
+          "found": "F007",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.689,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 4821 under the back cover",
+              "found": "label with serial 4821 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L002",
+          "found": "F014",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.693,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 1837 under the back cover",
+              "found": "label with serial 1837 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L003",
+          "found": "F021",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 9075 under the back cover",
+              "found": "label with serial 9075 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L004",
+          "found": "F028",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.683,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 2216 under the back cover",
+              "found": "label with serial 2216 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L005",
+          "found": "F035",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.695,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 6643 under the back cover",
+              "found": "label with serial 6643 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L006",
+          "found": "F042",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.68,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'ayesha 2019' on the back cover",
+              "found": "engraved 'ayesha 2019' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L007",
+          "found": "F049",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.678,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'bilal 2018' on the back cover",
+              "found": "engraved 'bilal 2018' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L008",
+          "found": "F056",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.683,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'hina 2020' on the back cover",
+              "found": "engraved 'hina 2020' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L009",
+          "found": "F063",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.693,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'omar 7' on the back cover",
+              "found": "engraved 'omar 7' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L010",
+          "found": "F070",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'sana 11' on the back cover",
+              "found": "engraved 'sana 11' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L011",
+          "found": "F077",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.686,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials ak inside the front pocket",
+              "found": "initials ak inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L012",
+          "found": "F084",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.701,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials mr inside the front pocket",
+              "found": "initials mr inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L013",
+          "found": "F091",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.697,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials sh inside the front pocket",
+              "found": "initials sh inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L014",
+          "found": "F098",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.689,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials ha inside the front pocket",
+              "found": "initials ha inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F105",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials zb inside the front pocket",
+              "found": "initials zb inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L016",
+          "found": "F112",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.695,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a red dragon on the back",
+              "found": "sticker of a red dragon on the back",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L017",
+          "found": "F119",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.68,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a blue whale on the lid",
+              "found": "sticker of a blue whale on the lid",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L018",
+          "found": "F126",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.683,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a yellow sun",
+              "found": "sticker of a yellow sun",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L019",
+          "found": "F133",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.677,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a purple owl on the back",
+              "found": "sticker of a purple owl on the back",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L020",
+          "found": "F140",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.668,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a white horse with a star",
+              "found": "sticker of a white horse with a star",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L021",
+          "found": "F147",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.68,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "cricket team sticker on the front pocket",
+              "found": "cricket team sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L022",
+          "found": "F154",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "football club sticker on the front pocket",
+              "found": "football club sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L023",
+          "found": "F161",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.675,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "music band sticker on the front pocket",
+              "found": "music band sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L024",
+          "found": "F168",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.69,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "flag sticker on the front pocket",
+              "found": "flag sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L025",
+          "found": "F175",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.682,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "star sticker on the front pocket",
+              "found": "star sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L026",
+          "found": "F182",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.685,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "long diagonal scratch across the front glass",
+              "found": "long diagonal scratch across the front glass",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L027",
+          "found": "F189",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.688,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "deep dent near the lower corner",
+              "found": "deep dent near the lower corner",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L028",
+          "found": "F196",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.686,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "crack along the top edge",
+              "found": "crack along the top edge",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L029",
+          "found": "F203",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.677,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "torn stitching on the left strap",
+              "found": "torn stitching on the left strap",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L030",
+          "found": "F210",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.686,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "chipped paint near the hinge",
+              "found": "chipped paint near the hinge",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L046",
+          "found": "F307",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.789,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved ak-19 on the back cover",
+              "found": "engraved ak-19 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L046",
+          "found": "F306",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.699,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved ak-19 on the back cover",
+              "found": "engraved ak-19 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L047",
+          "found": "F314",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.798,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved bt-07 on the back cover",
+              "found": "engraved bt-07 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L047",
+          "found": "F313",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.727,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved bt-07 on the back cover",
+              "found": "engraved bt-07 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L048",
+          "found": "F321",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.8,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved xr-33 on the back cover",
+              "found": "engraved xr-33 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L048",
+          "found": "F320",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.722,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved xr-33 on the back cover",
+              "found": "engraved xr-33 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L049",
+          "found": "F328",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.792,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved lm-52 on the back cover",
+              "found": "engraved lm-52 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L049",
+          "found": "F327",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.7,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved lm-52 on the back cover",
+              "found": "engraved lm-52 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L050",
+          "found": "F335",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.792,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved qz-18 on the back cover",
+              "found": "engraved qz-18 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L050",
+          "found": "F334",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.7,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved qz-18 on the back cover",
+              "found": "engraved qz-18 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs location": {
+      "notified": 75,
+      "true_notified": 35,
+      "recall": 0.7,
+      "precision": 0.467,
+      "notified_per_query": 1.5,
+      "fp_same_query_hard": 40,
+      "fp_cross_query": 0,
+      "recall_by_case": {
+        "tc-common-brand": "0/5",
+        "tc-common-brand-unique-feature": "5/5",
+        "tc-custom-accessory": "0/5",
+        "tc-damage": "5/5",
+        "tc-engraving": "5/5",
+        "tc-generic-accessory": "0/5",
+        "tc-generic-sticker": "5/5",
+        "tc-initials": "5/5",
+        "tc-unique-number": "5/5",
+        "tc-unique-sticker": "5/5"
+      },
+      "false_positives": [
+        {
+          "query": "L001",
+          "found": "F007",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.689,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 4821 under the back cover",
+              "found": "label with serial 4821 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L002",
+          "found": "F014",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.693,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 1837 under the back cover",
+              "found": "label with serial 1837 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L003",
+          "found": "F021",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 9075 under the back cover",
+              "found": "label with serial 9075 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L004",
+          "found": "F028",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.683,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 2216 under the back cover",
+              "found": "label with serial 2216 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L005",
+          "found": "F035",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.695,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 6643 under the back cover",
+              "found": "label with serial 6643 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L006",
+          "found": "F042",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.68,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'ayesha 2019' on the back cover",
+              "found": "engraved 'ayesha 2019' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L007",
+          "found": "F049",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.678,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'bilal 2018' on the back cover",
+              "found": "engraved 'bilal 2018' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L008",
+          "found": "F056",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.683,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'hina 2020' on the back cover",
+              "found": "engraved 'hina 2020' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L009",
+          "found": "F063",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.693,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'omar 7' on the back cover",
+              "found": "engraved 'omar 7' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L010",
+          "found": "F070",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'sana 11' on the back cover",
+              "found": "engraved 'sana 11' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L011",
+          "found": "F077",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.686,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials ak inside the front pocket",
+              "found": "initials ak inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L012",
+          "found": "F084",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.701,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials mr inside the front pocket",
+              "found": "initials mr inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L013",
+          "found": "F091",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.697,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials sh inside the front pocket",
+              "found": "initials sh inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L014",
+          "found": "F098",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.689,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials ha inside the front pocket",
+              "found": "initials ha inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F105",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials zb inside the front pocket",
+              "found": "initials zb inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L016",
+          "found": "F112",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.695,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a red dragon on the back",
+              "found": "sticker of a red dragon on the back",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L017",
+          "found": "F119",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.68,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a blue whale on the lid",
+              "found": "sticker of a blue whale on the lid",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L018",
+          "found": "F126",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.683,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a yellow sun",
+              "found": "sticker of a yellow sun",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L019",
+          "found": "F133",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.677,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a purple owl on the back",
+              "found": "sticker of a purple owl on the back",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L020",
+          "found": "F140",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.668,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a white horse with a star",
+              "found": "sticker of a white horse with a star",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L021",
+          "found": "F147",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.68,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "cricket team sticker on the front pocket",
+              "found": "cricket team sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L022",
+          "found": "F154",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "football club sticker on the front pocket",
+              "found": "football club sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L023",
+          "found": "F161",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.675,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "music band sticker on the front pocket",
+              "found": "music band sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L024",
+          "found": "F168",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.69,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "flag sticker on the front pocket",
+              "found": "flag sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L025",
+          "found": "F175",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.682,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "star sticker on the front pocket",
+              "found": "star sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L026",
+          "found": "F182",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.685,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "long diagonal scratch across the front glass",
+              "found": "long diagonal scratch across the front glass",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L027",
+          "found": "F189",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.688,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "deep dent near the lower corner",
+              "found": "deep dent near the lower corner",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L028",
+          "found": "F196",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.686,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "crack along the top edge",
+              "found": "crack along the top edge",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L029",
+          "found": "F203",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.677,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "torn stitching on the left strap",
+              "found": "torn stitching on the left strap",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L030",
+          "found": "F210",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.686,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "chipped paint near the hinge",
+              "found": "chipped paint near the hinge",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L046",
+          "found": "F307",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.789,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved ak-19 on the back cover",
+              "found": "engraved ak-19 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L046",
+          "found": "F306",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.699,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved ak-19 on the back cover",
+              "found": "engraved ak-19 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L047",
+          "found": "F314",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.798,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved bt-07 on the back cover",
+              "found": "engraved bt-07 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L047",
+          "found": "F313",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.727,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved bt-07 on the back cover",
+              "found": "engraved bt-07 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L048",
+          "found": "F321",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.8,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved xr-33 on the back cover",
+              "found": "engraved xr-33 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L048",
+          "found": "F320",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.722,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved xr-33 on the back cover",
+              "found": "engraved xr-33 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L049",
+          "found": "F328",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.792,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved lm-52 on the back cover",
+              "found": "engraved lm-52 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L049",
+          "found": "F327",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.7,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved lm-52 on the back cover",
+              "found": "engraved lm-52 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L050",
+          "found": "F335",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.792,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved qz-18 on the back cover",
+              "found": "engraved qz-18 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L050",
+          "found": "F334",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.7,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved qz-18 on the back cover",
+              "found": "engraved qz-18 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs brand or accessory (not colour alone)": {
+      "notified": 45,
+      "true_notified": 35,
+      "recall": 0.7,
+      "precision": 0.778,
+      "notified_per_query": 0.9,
+      "fp_same_query_hard": 10,
+      "fp_cross_query": 0,
+      "recall_by_case": {
+        "tc-common-brand": "0/5",
+        "tc-common-brand-unique-feature": "5/5",
+        "tc-custom-accessory": "0/5",
+        "tc-damage": "5/5",
+        "tc-engraving": "5/5",
+        "tc-generic-accessory": "0/5",
+        "tc-generic-sticker": "5/5",
+        "tc-initials": "5/5",
+        "tc-unique-number": "5/5",
+        "tc-unique-sticker": "5/5"
+      },
+      "false_positives": [
+        {
+          "query": "L046",
+          "found": "F307",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.789,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved ak-19 on the back cover",
+              "found": "engraved ak-19 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L046",
+          "found": "F306",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.699,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved ak-19 on the back cover",
+              "found": "engraved ak-19 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L047",
+          "found": "F314",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.798,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved bt-07 on the back cover",
+              "found": "engraved bt-07 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L047",
+          "found": "F313",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.727,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved bt-07 on the back cover",
+              "found": "engraved bt-07 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L048",
+          "found": "F321",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.8,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved xr-33 on the back cover",
+              "found": "engraved xr-33 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L048",
+          "found": "F320",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.722,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved xr-33 on the back cover",
+              "found": "engraved xr-33 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L049",
+          "found": "F328",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.792,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved lm-52 on the back cover",
+              "found": "engraved lm-52 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L049",
+          "found": "F327",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.7,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved lm-52 on the back cover",
+              "found": "engraved lm-52 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L050",
+          "found": "F335",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.792,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved qz-18 on the back cover",
+              "found": "engraved qz-18 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L050",
+          "found": "F334",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.7,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved qz-18 on the back cover",
+              "found": "engraved qz-18 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs a specific marking (digits, initials, customised)": {
+      "notified": 45,
+      "true_notified": 20,
+      "recall": 0.4,
+      "precision": 0.444,
+      "notified_per_query": 0.9,
+      "fp_same_query_hard": 25,
+      "fp_cross_query": 0,
+      "recall_by_case": {
+        "tc-common-brand": "0/5",
+        "tc-common-brand-unique-feature": "5/5",
+        "tc-custom-accessory": "0/5",
+        "tc-damage": "0/5",
+        "tc-engraving": "5/5",
+        "tc-generic-accessory": "0/5",
+        "tc-generic-sticker": "0/5",
+        "tc-initials": "5/5",
+        "tc-unique-number": "5/5",
+        "tc-unique-sticker": "0/5"
+      },
+      "false_positives": [
+        {
+          "query": "L001",
+          "found": "F007",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.689,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 4821 under the back cover",
+              "found": "label with serial 4821 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L002",
+          "found": "F014",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.693,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 1837 under the back cover",
+              "found": "label with serial 1837 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L003",
+          "found": "F021",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 9075 under the back cover",
+              "found": "label with serial 9075 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L004",
+          "found": "F028",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.683,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 2216 under the back cover",
+              "found": "label with serial 2216 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L005",
+          "found": "F035",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.695,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 6643 under the back cover",
+              "found": "label with serial 6643 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L006",
+          "found": "F042",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.68,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'ayesha 2019' on the back cover",
+              "found": "engraved 'ayesha 2019' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L007",
+          "found": "F049",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.678,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'bilal 2018' on the back cover",
+              "found": "engraved 'bilal 2018' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L008",
+          "found": "F056",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.683,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'hina 2020' on the back cover",
+              "found": "engraved 'hina 2020' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L009",
+          "found": "F063",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.693,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'omar 7' on the back cover",
+              "found": "engraved 'omar 7' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L010",
+          "found": "F070",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'sana 11' on the back cover",
+              "found": "engraved 'sana 11' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L011",
+          "found": "F077",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.686,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials ak inside the front pocket",
+              "found": "initials ak inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L012",
+          "found": "F084",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.701,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials mr inside the front pocket",
+              "found": "initials mr inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L013",
+          "found": "F091",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.697,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials sh inside the front pocket",
+              "found": "initials sh inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L014",
+          "found": "F098",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.689,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials ha inside the front pocket",
+              "found": "initials ha inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F105",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials zb inside the front pocket",
+              "found": "initials zb inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L046",
+          "found": "F307",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.789,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved ak-19 on the back cover",
+              "found": "engraved ak-19 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L046",
+          "found": "F306",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.699,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved ak-19 on the back cover",
+              "found": "engraved ak-19 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L047",
+          "found": "F314",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.798,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved bt-07 on the back cover",
+              "found": "engraved bt-07 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L047",
+          "found": "F313",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.727,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved bt-07 on the back cover",
+              "found": "engraved bt-07 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L048",
+          "found": "F321",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.8,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved xr-33 on the back cover",
+              "found": "engraved xr-33 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L048",
+          "found": "F320",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.722,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved xr-33 on the back cover",
+              "found": "engraved xr-33 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L049",
+          "found": "F328",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.792,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved lm-52 on the back cover",
+              "found": "engraved lm-52 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L049",
+          "found": "F327",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.7,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved lm-52 on the back cover",
+              "found": "engraved lm-52 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L050",
+          "found": "F335",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.792,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved qz-18 on the back cover",
+              "found": "engraved qz-18 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L050",
+          "found": "F334",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.7,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved qz-18 on the back cover",
+              "found": "engraved qz-18 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs location and brand or accessory": {
+      "notified": 45,
+      "true_notified": 35,
+      "recall": 0.7,
+      "precision": 0.778,
+      "notified_per_query": 0.9,
+      "fp_same_query_hard": 10,
+      "fp_cross_query": 0,
+      "recall_by_case": {
+        "tc-common-brand": "0/5",
+        "tc-common-brand-unique-feature": "5/5",
+        "tc-custom-accessory": "0/5",
+        "tc-damage": "5/5",
+        "tc-engraving": "5/5",
+        "tc-generic-accessory": "0/5",
+        "tc-generic-sticker": "5/5",
+        "tc-initials": "5/5",
+        "tc-unique-number": "5/5",
+        "tc-unique-sticker": "5/5"
+      },
+      "false_positives": [
+        {
+          "query": "L046",
+          "found": "F307",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.789,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved ak-19 on the back cover",
+              "found": "engraved ak-19 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L046",
+          "found": "F306",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.699,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved ak-19 on the back cover",
+              "found": "engraved ak-19 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L047",
+          "found": "F314",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.798,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved bt-07 on the back cover",
+              "found": "engraved bt-07 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L047",
+          "found": "F313",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.727,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved bt-07 on the back cover",
+              "found": "engraved bt-07 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L048",
+          "found": "F321",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.8,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved xr-33 on the back cover",
+              "found": "engraved xr-33 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L048",
+          "found": "F320",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.722,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved xr-33 on the back cover",
+              "found": "engraved xr-33 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L049",
+          "found": "F328",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.792,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved lm-52 on the back cover",
+              "found": "engraved lm-52 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L049",
+          "found": "F327",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.7,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved lm-52 on the back cover",
+              "found": "engraved lm-52 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L050",
+          "found": "F335",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.792,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved qz-18 on the back cover",
+              "found": "engraved qz-18 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L050",
+          "found": "F334",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.7,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved qz-18 on the back cover",
+              "found": "engraved qz-18 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 + specific accessory as identity (two-group rule)": {
+      "notified": 120,
+      "true_notified": 40,
+      "recall": 0.8,
+      "precision": 0.333,
+      "notified_per_query": 2.4,
+      "fp_same_query_hard": 80,
+      "fp_cross_query": 0,
+      "recall_by_case": {
+        "tc-common-brand": "0/5",
+        "tc-common-brand-unique-feature": "5/5",
+        "tc-custom-accessory": "5/5",
+        "tc-damage": "5/5",
+        "tc-engraving": "5/5",
+        "tc-generic-accessory": "0/5",
+        "tc-generic-sticker": "5/5",
+        "tc-initials": "5/5",
+        "tc-unique-number": "5/5",
+        "tc-unique-sticker": "5/5"
+      },
+      "false_positives": [
+        {
+          "query": "L001",
+          "found": "F007",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.689,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 4821 under the back cover",
+              "found": "label with serial 4821 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L001",
+          "found": "F006",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.592,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 4821 under the back cover",
+              "found": "label with serial 4821 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L002",
+          "found": "F014",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.693,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 1837 under the back cover",
+              "found": "label with serial 1837 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L002",
+          "found": "F013",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.602,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 1837 under the back cover",
+              "found": "label with serial 1837 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L003",
+          "found": "F021",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 9075 under the back cover",
+              "found": "label with serial 9075 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L003",
+          "found": "F020",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.603,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 9075 under the back cover",
+              "found": "label with serial 9075 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L004",
+          "found": "F028",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.683,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 2216 under the back cover",
+              "found": "label with serial 2216 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L004",
+          "found": "F027",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.605,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 2216 under the back cover",
+              "found": "label with serial 2216 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L005",
+          "found": "F035",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.695,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 6643 under the back cover",
+              "found": "label with serial 6643 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L005",
+          "found": "F034",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.592,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "label with serial 6643 under the back cover",
+              "found": "label with serial 6643 under the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L006",
+          "found": "F042",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.68,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'ayesha 2019' on the back cover",
+              "found": "engraved 'ayesha 2019' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L006",
+          "found": "F041",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.635,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'ayesha 2019' on the back cover",
+              "found": "engraved 'ayesha 2019' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L007",
+          "found": "F049",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.678,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'bilal 2018' on the back cover",
+              "found": "engraved 'bilal 2018' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L007",
+          "found": "F048",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.595,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'bilal 2018' on the back cover",
+              "found": "engraved 'bilal 2018' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L008",
+          "found": "F056",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.683,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'hina 2020' on the back cover",
+              "found": "engraved 'hina 2020' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L008",
+          "found": "F055",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.587,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'hina 2020' on the back cover",
+              "found": "engraved 'hina 2020' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L009",
+          "found": "F063",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.693,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'omar 7' on the back cover",
+              "found": "engraved 'omar 7' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L009",
+          "found": "F062",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.59,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'omar 7' on the back cover",
+              "found": "engraved 'omar 7' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L010",
+          "found": "F070",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'sana 11' on the back cover",
+              "found": "engraved 'sana 11' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L010",
+          "found": "F069",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.615,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved 'sana 11' on the back cover",
+              "found": "engraved 'sana 11' on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L011",
+          "found": "F077",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.686,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials ak inside the front pocket",
+              "found": "initials ak inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L011",
+          "found": "F076",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.616,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials ak inside the front pocket",
+              "found": "initials ak inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L012",
+          "found": "F084",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.701,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials mr inside the front pocket",
+              "found": "initials mr inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L012",
+          "found": "F083",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.63,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials mr inside the front pocket",
+              "found": "initials mr inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L013",
+          "found": "F091",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.697,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials sh inside the front pocket",
+              "found": "initials sh inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L013",
+          "found": "F090",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.6,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials sh inside the front pocket",
+              "found": "initials sh inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L014",
+          "found": "F098",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.689,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials ha inside the front pocket",
+              "found": "initials ha inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L014",
+          "found": "F097",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.594,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials ha inside the front pocket",
+              "found": "initials ha inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F105",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials zb inside the front pocket",
+              "found": "initials zb inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F104",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.604,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "initials zb inside the front pocket",
+              "found": "initials zb inside the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L016",
+          "found": "F112",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.695,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a red dragon on the back",
+              "found": "sticker of a red dragon on the back",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L016",
+          "found": "F111",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.602,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a red dragon on the back",
+              "found": "sticker of a red dragon on the back",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L017",
+          "found": "F119",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.68,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a blue whale on the lid",
+              "found": "sticker of a blue whale on the lid",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L017",
+          "found": "F118",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.609,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a blue whale on the lid",
+              "found": "sticker of a blue whale on the lid",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L018",
+          "found": "F126",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.683,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a yellow sun",
+              "found": "sticker of a yellow sun",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L018",
+          "found": "F125",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.586,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a yellow sun",
+              "found": "sticker of a yellow sun",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L019",
+          "found": "F133",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.677,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a purple owl on the back",
+              "found": "sticker of a purple owl on the back",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L019",
+          "found": "F132",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.605,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a purple owl on the back",
+              "found": "sticker of a purple owl on the back",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L020",
+          "found": "F140",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.668,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a white horse with a star",
+              "found": "sticker of a white horse with a star",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L020",
+          "found": "F139",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.591,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "sticker of a white horse with a star",
+              "found": "sticker of a white horse with a star",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L021",
+          "found": "F147",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.68,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "cricket team sticker on the front pocket",
+              "found": "cricket team sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L021",
+          "found": "F146",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.608,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "cricket team sticker on the front pocket",
+              "found": "cricket team sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L022",
+          "found": "F154",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "football club sticker on the front pocket",
+              "found": "football club sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L022",
+          "found": "F153",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.604,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "football club sticker on the front pocket",
+              "found": "football club sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L023",
+          "found": "F161",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.675,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "music band sticker on the front pocket",
+              "found": "music band sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L023",
+          "found": "F160",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.621,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "music band sticker on the front pocket",
+              "found": "music band sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L024",
+          "found": "F168",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.69,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "flag sticker on the front pocket",
+              "found": "flag sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L024",
+          "found": "F167",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.622,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "flag sticker on the front pocket",
+              "found": "flag sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L025",
+          "found": "F175",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.682,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "star sticker on the front pocket",
+              "found": "star sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L025",
+          "found": "F174",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.601,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "star sticker on the front pocket",
+              "found": "star sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L026",
+          "found": "F182",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.685,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "long diagonal scratch across the front glass",
+              "found": "long diagonal scratch across the front glass",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L026",
+          "found": "F181",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.601,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "long diagonal scratch across the front glass",
+              "found": "long diagonal scratch across the front glass",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L027",
+          "found": "F189",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.688,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "deep dent near the lower corner",
+              "found": "deep dent near the lower corner",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L027",
+          "found": "F188",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.599,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "deep dent near the lower corner",
+              "found": "deep dent near the lower corner",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L028",
+          "found": "F196",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.686,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "crack along the top edge",
+              "found": "crack along the top edge",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L028",
+          "found": "F195",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.612,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "crack along the top edge",
+              "found": "crack along the top edge",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L029",
+          "found": "F203",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.677,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "torn stitching on the left strap",
+              "found": "torn stitching on the left strap",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L029",
+          "found": "F202",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.594,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "torn stitching on the left strap",
+              "found": "torn stitching on the left strap",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L030",
+          "found": "F210",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.686,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "chipped paint near the hinge",
+              "found": "chipped paint near the hinge",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L030",
+          "found": "F209",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.582,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "chipped paint near the hinge",
+              "found": "chipped paint near the hinge",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L031",
+          "found": "F217",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.674,
+          "groups": [],
+          "corroborating": [
+            "accessory features",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "accessory",
+              "specific": true,
+              "lost": "custom keychain with a red leather tag number 17",
+              "found": "custom keychain with a red leather tag number 17",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L031",
+          "found": "F216",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.609,
+          "groups": [],
+          "corroborating": [
+            "accessory features",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "accessory",
+              "specific": true,
+              "lost": "custom keychain with a red leather tag number 17",
+              "found": "custom keychain with a red leather tag number 17",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L032",
+          "found": "F224",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.692,
+          "groups": [],
+          "corroborating": [
+            "accessory features",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "accessory",
+              "specific": true,
+              "lost": "custom keychain with a blue tag number 42",
+              "found": "custom keychain with a blue tag number 42",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L032",
+          "found": "F223",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.599,
+          "groups": [],
+          "corroborating": [
+            "accessory features",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "accessory",
+              "specific": true,
+              "lost": "custom keychain with a blue tag number 42",
+              "found": "custom keychain with a blue tag number 42",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L033",
+          "found": "F231",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.686,
+          "groups": [],
+          "corroborating": [
+            "accessory features",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "accessory",
+              "specific": true,
+              "lost": "customised keychain with a brass charm 9",
+              "found": "customised keychain with a brass charm 9",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L033",
+          "found": "F230",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.609,
+          "groups": [],
+          "corroborating": [
+            "accessory features",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "accessory",
+              "specific": true,
+              "lost": "customised keychain with a brass charm 9",
+              "found": "customised keychain with a brass charm 9",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L034",
+          "found": "F238",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.689,
+          "groups": [],
+          "corroborating": [
+            "accessory features",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "accessory",
+              "specific": true,
+              "lost": "custom keychain with a white tag number 88",
+              "found": "custom keychain with a white tag number 88",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L034",
+          "found": "F237",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.616,
+          "groups": [],
+          "corroborating": [
+            "accessory features",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "accessory",
+              "specific": true,
+              "lost": "custom keychain with a white tag number 88",
+              "found": "custom keychain with a white tag number 88",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L035",
+          "found": "F245",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.689,
+          "groups": [],
+          "corroborating": [
+            "accessory features",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "accessory",
+              "specific": true,
+              "lost": "customised keychain with a green tag number 5",
+              "found": "customised keychain with a green tag number 5",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L035",
+          "found": "F244",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.607,
+          "groups": [],
+          "corroborating": [
+            "accessory features",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "accessory",
+              "specific": true,
+              "lost": "customised keychain with a green tag number 5",
+              "found": "customised keychain with a green tag number 5",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L046",
+          "found": "F307",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.789,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved ak-19 on the back cover",
+              "found": "engraved ak-19 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L046",
+          "found": "F306",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.699,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved ak-19 on the back cover",
+              "found": "engraved ak-19 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L047",
+          "found": "F314",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.798,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved bt-07 on the back cover",
+              "found": "engraved bt-07 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L047",
+          "found": "F313",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.727,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved bt-07 on the back cover",
+              "found": "engraved bt-07 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L048",
+          "found": "F321",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.8,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved xr-33 on the back cover",
+              "found": "engraved xr-33 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L048",
+          "found": "F320",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.722,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved xr-33 on the back cover",
+              "found": "engraved xr-33 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L049",
+          "found": "F328",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.792,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved lm-52 on the back cover",
+              "found": "engraved lm-52 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L049",
+          "found": "F327",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.7,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved lm-52 on the back cover",
+              "found": "engraved lm-52 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L050",
+          "found": "F335",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-same-cat-loc",
+          "score": 0.792,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved qz-18 on the back cover",
+              "found": "engraved qz-18 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L050",
+          "found": "F334",
+          "role": "hard_negative",
+          "negative_type": "tg-same-feature-far",
+          "score": 0.7,
+          "groups": [
+            "model",
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": true,
+              "lost": "engraved qz-18 on the back cover",
+              "found": "engraved qz-18 on the back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "recorded_notifications_before_cap": 75
+}

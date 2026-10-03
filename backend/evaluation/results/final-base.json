@@ -1,0 +1,709 @@
+{
+  "queries": 50,
+  "found_reports": 330,
+  "true_pairs": 50,
+  "hard_negative_pairs": 250,
+  "metrics": {
+    "precision_at_1": 0.56,
+    "recall_retrieved": 1.0,
+    "recall_at_threshold": 0.14,
+    "false_positive_rate_all_negatives": 0.0,
+    "false_positive_rate_hard_negatives": 0.0,
+    "precision_of_notifications": 1.0,
+    "notifications_per_query": 0.14,
+    "weak_leads_per_query": 8.88,
+    "queries_with_false_notification": 0.0
+  },
+  "fpr_by_hard_type": {
+    "hn-before-loss": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-brand": {
+      "population": 40,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-category": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-colour": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-lookalike": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-nearby": {
+      "population": 10,
+      "notified": 0,
+      "rate": 0.0
+    }
+  },
+  "recall_by_case": {},
+  "true_pair_outcomes": [
+    {
+      "query": "L001",
+      "found": "F001",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.62,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L002",
+      "found": "F007",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.471,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L003",
+      "found": "F013",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.585,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L004",
+      "found": "F019",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.618,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "colour"
+      ]
+    },
+    {
+      "query": "L005",
+      "found": "F025",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.484,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L006",
+      "found": "F031",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.662,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand"
+      ]
+    },
+    {
+      "query": "L007",
+      "found": "F037",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.534,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand"
+      ]
+    },
+    {
+      "query": "L008",
+      "found": "F043",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.494,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand"
+      ]
+    },
+    {
+      "query": "L009",
+      "found": "F049",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.492,
+      "notified": false,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": []
+    },
+    {
+      "query": "L010",
+      "found": "F055",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.574,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand"
+      ]
+    },
+    {
+      "query": "L011",
+      "found": "F061",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.5,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L012",
+      "found": "F067",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.603,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L013",
+      "found": "F073",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.526,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L014",
+      "found": "F079",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.728,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L015",
+      "found": "F085",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.572,
+      "notified": false,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": []
+    },
+    {
+      "query": "L016",
+      "found": "F091",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.548,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand"
+      ]
+    },
+    {
+      "query": "L017",
+      "found": "F097",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.62,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L018",
+      "found": "F103",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.478,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L019",
+      "found": "F109",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.451,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L020",
+      "found": "F115",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.487,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L021",
+      "found": "F121",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.523,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L022",
+      "found": "F127",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.599,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L023",
+      "found": "F133",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.413,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L024",
+      "found": "F139",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.433,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L025",
+      "found": "F145",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.625,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L026",
+      "found": "F151",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.516,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L027",
+      "found": "F157",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.573,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L028",
+      "found": "F163",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.585,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L029",
+      "found": "F169",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.601,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L030",
+      "found": "F175",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.624,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L031",
+      "found": "F181",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.61,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L032",
+      "found": "F187",
+      "case": null,
+      "lead": null,
+      "score": 0.456,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": []
+    },
+    {
+      "query": "L033",
+      "found": "F193",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.451,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L034",
+      "found": "F199",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.626,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L035",
+      "found": "F205",
+      "case": null,
+      "lead": null,
+      "score": 0.327,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": []
+    },
+    {
+      "query": "L036",
+      "found": "F211",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.513,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L037",
+      "found": "F217",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.523,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L038",
+      "found": "F223",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.437,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L039",
+      "found": "F229",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.477,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L040",
+      "found": "F235",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.604,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L041",
+      "found": "F241",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.593,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L042",
+      "found": "F247",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.492,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L043",
+      "found": "F253",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.624,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L044",
+      "found": "F259",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.777,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L045",
+      "found": "F265",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.472,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L046",
+      "found": "F271",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.588,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L047",
+      "found": "F277",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.736,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L048",
+      "found": "F283",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.489,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L049",
+      "found": "F289",
+      "case": null,
+      "lead": null,
+      "score": 0.421,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": []
+    },
+    {
+      "query": "L050",
+      "found": "F295",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.495,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    }
+  ],
+  "counts": {
+    "true_notified": 7,
+    "notified_total": 7,
+    "false_notified": 0,
+    "false_notified_hard": 0,
+    "false_notified_by_type": {}
+  },
+  "false_positive_examples": [],
+  "runtime_seconds": 25.67,
+  "label": "final-base",
+  "dataset": {
+    "file": "synthetic_pairs.json",
+    "name": "SYNTHETIC",
+    "generator": "backend/evaluation/generate_dataset.py",
+    "seed": 20261003,
+    "notice": "Invented for offline evaluation. Not real user reports, people or locations history. Coordinates are campus place points from app/geo/uet_lahore.json."
+  },
+  "config": {
+    "threshold": 0.55,
+    "max_candidates": 10,
+    "max_notifications": 3,
+    "scorer": "v3",
+    "text_method": "bm25",
+    "weights": {
+      "category": 0.15,
+      "text": 0.2,
+      "color": 0.12,
+      "brand": 0.08,
+      "features": 0.1,
+      "image": 0.1,
+      "location": 0.15,
+      "time": 0.1
+    }
+  }
+}

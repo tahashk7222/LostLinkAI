@@ -1,0 +1,725 @@
+{
+  "dataset": "targeted",
+  "scorer": "v3",
+  "threshold": 0.55,
+  "cap": 3,
+  "candidate_rows": 1309,
+  "true_pairs": 45,
+  "rules": {
+    "v3 (recorded)": {
+      "notified": 26,
+      "true_notified": 22,
+      "recall": 0.489,
+      "precision": 0.846,
+      "notified_per_query": 0.578,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 4,
+      "recall_by_case": {
+        "tc-colour-category-location": "0/5",
+        "tc-colour-description": "5/5",
+        "tc-common-brand-feature": "3/5",
+        "tc-distinctive-description": "5/5",
+        "tc-generic-template": "0/5",
+        "tc-missing-brand": "4/5",
+        "tc-missing-feature": "0/5",
+        "tc-misspelled": "0/5",
+        "tc-roman-urdu": "5/5"
+      },
+      "false_positives": [
+        {
+          "query": "L006",
+          "found": "F037",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.614,
+          "groups": [
+            "description"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": []
+        },
+        {
+          "query": "L014",
+          "found": "F167",
+          "role": "hard_negative",
+          "negative_type": "tg-common-brand-other",
+          "score": 0.722,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L014",
+          "found": "F103",
+          "role": "hard_negative",
+          "negative_type": "tg-common-brand-other",
+          "score": 0.714,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L024",
+          "found": "F077",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.609,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "blue case with a sticker",
+              "found": "blue case with a sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs location": {
+      "notified": 26,
+      "true_notified": 22,
+      "recall": 0.489,
+      "precision": 0.846,
+      "notified_per_query": 0.578,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 4,
+      "recall_by_case": {
+        "tc-colour-category-location": "0/5",
+        "tc-colour-description": "5/5",
+        "tc-common-brand-feature": "3/5",
+        "tc-distinctive-description": "5/5",
+        "tc-generic-template": "0/5",
+        "tc-missing-brand": "4/5",
+        "tc-missing-feature": "0/5",
+        "tc-misspelled": "0/5",
+        "tc-roman-urdu": "5/5"
+      },
+      "false_positives": [
+        {
+          "query": "L006",
+          "found": "F037",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.614,
+          "groups": [
+            "description"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": []
+        },
+        {
+          "query": "L014",
+          "found": "F167",
+          "role": "hard_negative",
+          "negative_type": "tg-common-brand-other",
+          "score": 0.722,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L014",
+          "found": "F103",
+          "role": "hard_negative",
+          "negative_type": "tg-common-brand-other",
+          "score": 0.714,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L024",
+          "found": "F077",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.609,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "blue case with a sticker",
+              "found": "blue case with a sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs brand or accessory (not colour alone)": {
+      "notified": 21,
+      "true_notified": 18,
+      "recall": 0.4,
+      "precision": 0.857,
+      "notified_per_query": 0.467,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 3,
+      "recall_by_case": {
+        "tc-colour-category-location": "0/5",
+        "tc-colour-description": "5/5",
+        "tc-common-brand-feature": "3/5",
+        "tc-distinctive-description": "5/5",
+        "tc-generic-template": "0/5",
+        "tc-missing-brand": "0/5",
+        "tc-missing-feature": "0/5",
+        "tc-misspelled": "0/5",
+        "tc-roman-urdu": "5/5"
+      },
+      "false_positives": [
+        {
+          "query": "L006",
+          "found": "F037",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.614,
+          "groups": [
+            "description"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": []
+        },
+        {
+          "query": "L014",
+          "found": "F167",
+          "role": "hard_negative",
+          "negative_type": "tg-common-brand-other",
+          "score": 0.722,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L014",
+          "found": "F103",
+          "role": "hard_negative",
+          "negative_type": "tg-common-brand-other",
+          "score": 0.714,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs a specific marking (digits, initials, customised)": {
+      "notified": 16,
+      "true_notified": 15,
+      "recall": 0.333,
+      "precision": 0.938,
+      "notified_per_query": 0.356,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 1,
+      "recall_by_case": {
+        "tc-colour-category-location": "0/5",
+        "tc-colour-description": "5/5",
+        "tc-common-brand-feature": "0/5",
+        "tc-distinctive-description": "5/5",
+        "tc-generic-template": "0/5",
+        "tc-missing-brand": "0/5",
+        "tc-missing-feature": "0/5",
+        "tc-misspelled": "0/5",
+        "tc-roman-urdu": "5/5"
+      },
+      "false_positives": [
+        {
+          "query": "L006",
+          "found": "F037",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.614,
+          "groups": [
+            "description"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": []
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs location and brand or accessory": {
+      "notified": 21,
+      "true_notified": 18,
+      "recall": 0.4,
+      "precision": 0.857,
+      "notified_per_query": 0.467,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 3,
+      "recall_by_case": {
+        "tc-colour-category-location": "0/5",
+        "tc-colour-description": "5/5",
+        "tc-common-brand-feature": "3/5",
+        "tc-distinctive-description": "5/5",
+        "tc-generic-template": "0/5",
+        "tc-missing-brand": "0/5",
+        "tc-missing-feature": "0/5",
+        "tc-misspelled": "0/5",
+        "tc-roman-urdu": "5/5"
+      },
+      "false_positives": [
+        {
+          "query": "L006",
+          "found": "F037",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.614,
+          "groups": [
+            "description"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": []
+        },
+        {
+          "query": "L014",
+          "found": "F167",
+          "role": "hard_negative",
+          "negative_type": "tg-common-brand-other",
+          "score": 0.722,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L014",
+          "found": "F103",
+          "role": "hard_negative",
+          "negative_type": "tg-common-brand-other",
+          "score": 0.714,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 + specific accessory as identity (two-group rule)": {
+      "notified": 34,
+      "true_notified": 22,
+      "recall": 0.489,
+      "precision": 0.647,
+      "notified_per_query": 0.756,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 12,
+      "recall_by_case": {
+        "tc-colour-category-location": "0/5",
+        "tc-colour-description": "5/5",
+        "tc-common-brand-feature": "3/5",
+        "tc-distinctive-description": "5/5",
+        "tc-generic-template": "0/5",
+        "tc-missing-brand": "4/5",
+        "tc-missing-feature": "0/5",
+        "tc-misspelled": "0/5",
+        "tc-roman-urdu": "5/5"
+      },
+      "false_positives": [
+        {
+          "query": "L006",
+          "found": "F037",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.614,
+          "groups": [
+            "description"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": []
+        },
+        {
+          "query": "L012",
+          "found": "F061",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.6,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "blue case with a sticker",
+              "found": "blue case with a sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L014",
+          "found": "F167",
+          "role": "hard_negative",
+          "negative_type": "tg-common-brand-other",
+          "score": 0.722,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L014",
+          "found": "F103",
+          "role": "hard_negative",
+          "negative_type": "tg-common-brand-other",
+          "score": 0.714,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L016",
+          "found": "F045",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.747,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "blue case with a sticker",
+              "found": "blue case with a sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L016",
+          "found": "F080",
+          "role": "hard_negative",
+          "negative_type": "tg-different-brand-same-feature",
+          "score": 0.564,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "blue case with a sticker",
+              "found": "blue case with a sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L020",
+          "found": "F015",
+          "role": "hard_negative",
+          "negative_type": "tg-common-brand-other",
+          "score": 0.66,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "blue case with a sticker",
+              "found": "blue case with a sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L022",
+          "found": "F055",
+          "role": "hard_negative",
+          "negative_type": "tg-common-brand-other",
+          "score": 0.656,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "engraved back cover",
+              "found": "engraved back cover",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L024",
+          "found": "F080",
+          "role": "hard_negative",
+          "negative_type": "tg-different-brand-same-feature",
+          "score": 0.673,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "blue case with a sticker",
+              "found": "blue case with a sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L024",
+          "found": "F175",
+          "role": "hard_negative",
+          "negative_type": "tg-common-brand-other",
+          "score": 0.661,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand",
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "blue case with a sticker",
+              "found": "blue case with a sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L024",
+          "found": "F077",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.609,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "blue case with a sticker",
+              "found": "blue case with a sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L025",
+          "found": "F049",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.6,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "cricket team sticker on the front pocket",
+              "found": "cricket team sticker on the front pocket",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "recorded_notifications_before_cap": 26
+}

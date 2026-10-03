@@ -185,6 +185,45 @@ Hard-negative types on the targeted set: `tg-same-attrs-other`, `tg-common-brand
 | `phase2-bm25.json` | After BM25 description similarity. Base set. |
 | `after-steps-1-7.json` | After the lifecycle and evidence steps. Base set, same numbers as the original scorer. |
 
+## Final hardening pass (scoring v3, synthetic only)
+
+Three changes, all v3-only (v2 and v1 reproduce their recorded results exactly; `v2-final-check-*.json` confirms it):
+
+1. **Identifier conflicts.** Each side states an identifier (a serial, initials, a quoted name) that the other does not.
+   Such a pair is a contradiction: capped at 0.45, with no feature support. Identical identifiers match. A side that
+   states fewer identifiers is not a contradiction.
+2. **Colour conflict blocks notification** unless a strong identity is present: a shared model code or an
+   identifier-matched feature. The relevance score is unchanged.
+3. **Marking or damage identity needs a close location**: the same place, or ≤ 250 m (`NEAR_M`, the existing "near"
+   distance). Model identity is not limited by distance.
+
+| Set | Scorer | P@1 | Recall | FPR all | FPR hard | Notif. precision | Notif./query | Weak/query |
+|---|---|---|---|---|---|---|---|---|
+| base | v2 (recorded) | 56.0% | 22.0% | 0.1% | 2.0% | 47.8% | 0.46 | 8.3 |
+| base | v3 | 56.0% | 14.0% | 0.0% | 0.0% | 87.5% | 0.16 | 8.9 |
+| base | **final** | 56.0% | 14.0% | 0.0% | 0.0% | **100.0%** | **0.14** | 8.9 |
+| extended | v2 | 12.0% | 22.0% | 0.1% | 1.8% | 36.7% | 0.60 | 21.6 |
+| extended | v3 | 12.0% | 14.0% | 0.0% | 0.0% | 46.7% | 0.30 | 22.7 |
+| extended | **final** | 12.0% | 14.0% | 0.0% | 0.0% | **63.6%** | **0.22** | 22.7 |
+| targeted | v2 | 64.4% | 46.7% | 0.2% | 1.5% | 48.8% | 0.96 | 14.6 |
+| targeted | v3 | 64.4% | 48.9% | 0.1% | 0.0% | 64.7% | 0.76 | 15.4 |
+| targeted | **final** | 64.4% | 48.9% | 0.0% | 0.0% | **84.6%** | **0.58** | 15.6 |
+| cases | v2 | 90.0% | 100.0% | 0.5% | 28.8% | 33.3% | 3.00 | 20.8 |
+| cases | v3 | 90.0% | 70.0% | 0.4% | 22.5% | 33.3% | 2.10 | 23.1 |
+| cases | **final** | 90.0% | 70.0% | 0.2% | 14.0% | **46.7%** | **1.50** | 23.4 |
+
+Against v3, the final version removes 1, 4, 10 and 47 notifications on base, extended, targeted and cases before the
+per-query cap (after the cap: 1, 4, 8 and 30). All of the removed notifications were false. None were gained, and no
+true positive was lost. The removals are: the 10 colour-conflict
+notifications (every one was false), the identifier-conflict false positives (cases cross-query 6 → 0), and far-apart
+marking or damage notifications.
+
+Remaining false positives under the final version: extended 4 (generic "name written on the lid" and "photo partly
+torn", each matched on colour only); targeted 4 (a rare word and colour, and two generic-attribute collisions between
+identical items); cases 40, all same-query feature controls: 35 with the identical specific identifier at the same
+place and no brand, and 5 engraved-code controls at a distance. The 5 distant ones pass through the model group,
+because the model-code pattern reads "AK-19" as a model. That is a general rule question, and it is not fixed here.
+
 ## Identity analysis (scoring v3, synthetic only)
 
 This section analyses the v3 precision and recall trade-off. It does not change the scorer, and it is not a
