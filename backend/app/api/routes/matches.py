@@ -10,29 +10,16 @@ from app.models import Case, ItemReport, MatchCandidate, Verification
 from app.models.enums import MatchStatus, ReportStatus
 from app.schemas.workflow import VerificationAnswersIn, VerifyDecisionIn
 from app.services.audit import audit
+from app.services.match_lifecycle import reopen_if_unmatched, withdraw_matches
 from app.services.matches import get_match_for, match_summary
 from app.services.notifications import notify
 from app.services.state_machine import transition
 
 router = APIRouter(prefix="/matches", tags=["matches & verification"])
 
-OPEN_MATCH = (MatchStatus.POTENTIAL_MATCH, MatchStatus.VERIFICATION_PENDING, MatchStatus.AWAITING_FINDER_REVIEW)
-
 
 def _latest_verification(db, match_id: int) -> Verification | None:
     return db.scalar(select(Verification).where(Verification.match_id == match_id).order_by(Verification.id.desc()))
-
-
-def _reopen_if_unmatched(db, report: ItemReport) -> None:
-    """Return a report to ACTIVE when it has no open matches left."""
-    if report.status != ReportStatus.POTENTIAL_MATCH:
-        return
-    db.flush()  # autoflush is off: make the caller's status change visible to the query
-    still_open = db.scalar(select(MatchCandidate.id).where(
-        or_(MatchCandidate.lost_report_id == report.id, MatchCandidate.found_report_id == report.id),
-        MatchCandidate.status.in_(OPEN_MATCH)).limit(1))
-    if still_open is None:
-        transition(report, ReportStatus.ACTIVE)
 
 
 @router.get("")
@@ -56,8 +43,8 @@ def dismiss(match_id: int, user: CurrentUser, db: DB):
     """Owner says: this is not my item."""
     m, _ = get_match_for(db, user, match_id, roles=("owner",))
     transition(m, MatchStatus.DISMISSED)
-    _reopen_if_unmatched(db, m.lost_report)
-    _reopen_if_unmatched(db, m.found_report)
+    reopen_if_unmatched(db, m.lost_report)
+    reopen_if_unmatched(db, m.found_report)
     audit(db, "match.dismissed", user.id, "match", m.id)
     db.commit()
     return match_summary(db, m, user)
@@ -134,6 +121,9 @@ def decide(match_id: int, body: VerifyDecisionIn, user: CurrentUser, db: DB):
         transition(m, MatchStatus.VERIFIED)
         transition(lost, ReportStatus.CONNECTED)
         transition(found, ReportStatus.CONNECTED)
+        # Other owners' unverified suggestions for these items are now stale.
+        withdraw_matches(db, lost, reason="report connected to another match")
+        withdraw_matches(db, found, reason="report connected to another match")
         case = Case(match_id=m.id)
         db.add(case)
         db.flush()
@@ -143,8 +133,8 @@ def decide(match_id: int, body: VerifyDecisionIn, user: CurrentUser, db: DB):
     else:
         v.result = "REJECTED"
         transition(m, MatchStatus.REJECTED)
-        _reopen_if_unmatched(db, lost)
-        _reopen_if_unmatched(db, found)
+        reopen_if_unmatched(db, lost)
+        reopen_if_unmatched(db, found)
         notify(db, lost.user_id, "verification_rejected", link=f"/matches/{m.id}", item=lost.name)
         audit(db, "verification.rejected", user.id, "match", m.id, advisory=v.advisory_score)
     db.commit()

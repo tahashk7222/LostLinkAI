@@ -10,6 +10,7 @@ notifications; it never grants access to private data.
 """
 
 import logging
+import threading
 
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session, selectinload
@@ -23,10 +24,18 @@ from app.db.session import SessionLocal
 from app.models import ItemAttribute, ItemReport, MatchCandidate
 from app.models.enums import AIStatus, MatchStatus, ReportStatus, ReportType
 from app.services.audit import audit
+from app.services.match_lifecycle import OPEN_MATCH, withdraw_matches
 from app.services.notifications import notify
 from app.services.state_machine import transition
 
 logger = logging.getLogger("lostlink.ai")
+
+# Serialises matching runs within this process, including the commit. Two runs for overlapping
+# reports would otherwise race on the same candidate pairs. Multi-process deployments need a
+# database-level lock instead (see README limitations).
+MATCHING_LOCK = threading.RLock()
+
+OPEN_REPORT_STATUSES = (ReportStatus.ACTIVE, ReportStatus.POTENTIAL_MATCH)
 
 
 def analyze_report(db: Session, report: ItemReport):
@@ -70,21 +79,33 @@ def select_new_matches(results, cfg=None):
 
 
 def run_matching(db: Session, report: ItemReport) -> list[MatchCandidate]:
-    """Full pipeline for one report. Returns matches at or above threshold, best first."""
+    """Reconcile the report's suggestions with the current scores.
+
+    Creates new suggestions at or above threshold, refreshes uncontested ones, and withdraws
+    uncontested ones that no longer qualify. Returns open matches, best first.
+    Callers hold MATCHING_LOCK and commit.
+    """
     cfg = get_matching_config()
+    if report.status not in OPEN_REPORT_STATUSES:
+        # Closed or moderated while queued: no new suggestions, and withdraw any old ones.
+        withdraw_matches(db, report, reason="report is no longer open")
+        report.ai_status, report.ai_error = AIStatus.DONE, None
+        return []
+
     results = score_candidates(db, report, cfg)
+    current = {(lost.id, found.id): (lost, found, res) for lost, found, res in select_new_matches(results, cfg)}
+    withdraw_matches(db, report, keep=set(current), reason="no longer a candidate")
+
     matches: list[MatchCandidate] = []
-    for lost, found, res in results[: cfg.max_candidates]:
+    for (lost_id, found_id), (lost, found, res) in current.items():
         existing = db.scalar(select(MatchCandidate).where(
-            MatchCandidate.lost_report_id == lost.id, MatchCandidate.found_report_id == found.id))
-        if existing:
-            if existing.status == MatchStatus.POTENTIAL_MATCH:  # refresh score only before workflow starts
+            MatchCandidate.lost_report_id == lost_id, MatchCandidate.found_report_id == found_id))
+        if existing is not None:
+            if existing.status == MatchStatus.POTENTIAL_MATCH:  # refresh only before the workflow starts
                 existing.score, existing.signals, existing.explanation = res.score, res.signals, res.explanation
-            if existing.score >= cfg.threshold:
+            if existing.status in OPEN_MATCH:
                 matches.append(existing)
-            continue
-        if res.score < cfg.threshold:
-            continue
+            continue  # dismissed, rejected or verified pairs are never re-suggested or re-notified
         m = MatchCandidate(lost_report_id=lost.id, found_report_id=found.id, score=res.score,
                            signals=res.signals, explanation=res.explanation)
         db.add(m)
@@ -104,7 +125,7 @@ def run_matching(db: Session, report: ItemReport) -> list[MatchCandidate]:
 
 def process_report(report_id: int) -> None:
     """Background entry point with its own DB session and failure isolation."""
-    with SessionLocal() as db:
+    with MATCHING_LOCK, SessionLocal() as db:
         report = db.scalar(select(ItemReport).options(selectinload(ItemReport.images))
                            .where(ItemReport.id == report_id))
         if report is None:

@@ -4,7 +4,7 @@ from fastapi import APIRouter, BackgroundTasks, File, Query, UploadFile
 from sqlalchemy import func, or_, select
 from sqlalchemy.orm import selectinload
 
-from app.ai.orchestrator import process_report, run_matching
+from app.ai.orchestrator import MATCHING_LOCK, process_report, run_matching
 from app.ai.providers import get_image_embedder
 from app.api.deps import DB, CurrentUser
 from app.core.config import get_settings
@@ -15,6 +15,7 @@ from app.schemas.reports import ImageOut, ReportCreate, ReportUpdate
 from app.services import storage
 from app.services.audit import audit
 from app.services.location import resolve_location
+from app.services.match_lifecycle import withdraw_matches
 from app.services.matches import match_summary
 from app.services.reports import PUBLIC_STATUSES, get_owned, get_viewable, image_url, load_report, serialize
 from app.services.state_machine import transition
@@ -85,6 +86,7 @@ def update_report(report_id: int, body: ReportUpdate, user: CurrentUser, db: DB,
         if new_status != ReportStatus.CLOSED:
             raise bad_request("You can only close your report")
         transition(r, ReportStatus.CLOSED)
+        withdraw_matches(db, r, reason="report closed")
     if data:
         if r.status not in EDITABLE_STATUSES:
             raise AppError(409, "This report can no longer be edited")
@@ -166,16 +168,17 @@ def match_now(report_id: int, user: CurrentUser, db: DB):
     r = get_owned(db, user, report_id)
     if r.status not in PUBLIC_STATUSES:
         raise AppError(409, "Matching only runs for open reports")
-    try:
-        matches = run_matching(db, r)
-        db.commit()
-    except Exception:
-        db.rollback()
-        r = db.get(ItemReport, report_id)
-        r.ai_status = AIStatus.FAILED
-        r.ai_error = "Automatic matching failed. Please try again later."
-        db.commit()
-        raise AppError(503, "Matching is temporarily unavailable. Your report is saved; please retry later.")
+    with MATCHING_LOCK:
+        try:
+            matches = run_matching(db, r)
+            db.commit()
+        except Exception:
+            db.rollback()
+            r = db.get(ItemReport, report_id)
+            r.ai_status = AIStatus.FAILED
+            r.ai_error = "Automatic matching failed. Please try again later."
+            db.commit()
+            raise AppError(503, "Matching is temporarily unavailable. Your report is saved; please retry later.")
     return {"matches": [match_summary(db, m, user) for m in matches]}
 
 

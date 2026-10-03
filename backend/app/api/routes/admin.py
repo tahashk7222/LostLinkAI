@@ -11,6 +11,7 @@ from app.core.errors import bad_request, not_found
 from app.models import AuditLog, Case, Flag, ItemReport, MatchCandidate, User
 from app.models.enums import AIStatus, FlagStatus, ReportStatus, Role
 from app.services.audit import audit
+from app.services.match_lifecycle import withdraw_matches
 from app.services.matches import match_summary
 from app.services.notifications import notify
 from app.services.reports import load_report, to_public
@@ -67,6 +68,7 @@ def deactivate_report(report_id: int, admin: AdminUser, db: DB):
     if r is None:
         raise not_found("Report")
     transition(r, ReportStatus.DEACTIVATED)
+    withdraw_matches(db, r, reason="report deactivated")
     notify(db, r.user_id, "report_deactivated", link=f"/reports/{r.id}", item=r.name)
     audit(db, "admin.report_deactivated", admin.id, "report", r.id)
     db.commit()
