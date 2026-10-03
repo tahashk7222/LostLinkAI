@@ -37,11 +37,25 @@ export interface Report {
   attributes?: { attribute_name: string; attribute_value: string; source: "USER" | "RULE"; confidence: number }[];
 }
 
+export type LeadLabel = "STRONG" | "POSSIBLE" | "WEAK";
+
+/** One structured reason or conflict. Text is built from public report fields only. */
+export interface Evidence {
+  signal: string;
+  text: string;
+  direction: "supports" | "contradicts";
+  strength: "STRONG" | "MODERATE" | "WEAK";
+  value: string | number | null;
+}
+
 export interface Match {
   id: number;
   score: number;
   score_percent: number;
   confidence: "HIGH" | "MEDIUM" | "LOW";
+  /** Null for suggestions created before lead labels existed. */
+  lead: LeadLabel | null;
+  evidence: Evidence[];
   explanation: string[];
   signals: Record<string, number>;
   status: string;

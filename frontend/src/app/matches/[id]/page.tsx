@@ -5,8 +5,9 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { api, imageUrl } from "@/lib/api";
 import { formatDate } from "@/lib/format";
+import { LeadBadge, LeadDescription, MatchEvidence } from "@/components/MatchEvidence";
 import type { Match } from "@/lib/types";
-import { ConfidenceBadge, ErrorBox, InfoBox, Protected, Spinner, StatusBadge, TypeBadge } from "@/components/ui";
+import { ErrorBox, InfoBox, Protected, Spinner, StatusBadge, TypeBadge } from "@/components/ui";
 
 const SIGNAL_LABELS: Record<string, string> = {
   category: "Item type",
@@ -56,8 +57,6 @@ function MatchDetails() {
   if (error && !m) return <ErrorBox message={error} />;
   if (!m) return <Spinner />;
   const other = m.other_report;
-  const reasons = m.explanation.filter((e) => !e.startsWith("Note:"));
-  const notes = m.explanation.filter((e) => e.startsWith("Note:")).map((e) => e.slice(6));
 
   return (
     <div className="space-y-6">
@@ -68,7 +67,7 @@ function MatchDetails() {
           <h1 className="text-2xl font-bold text-slate-900">{other?.name}</h1>
         </div>
         <div className="flex items-center gap-2">
-          <ConfidenceBadge confidence={m.confidence} percent={m.score_percent} />
+          <LeadBadge lead={m.lead} percent={m.score_percent} />
           <StatusBadge status={m.status} />
         </div>
       </div>
@@ -98,13 +97,21 @@ function MatchDetails() {
         )}
 
         <div className="space-y-6">
-          <div className="card">
-            <h2 className="mb-3 font-semibold text-slate-900">Why LostLink AI suggested this</h2>
-            <ul className="space-y-1.5 text-sm">
-              {reasons.map((r) => <li key={r} className="text-slate-700">✓ {r}</li>)}
-              {notes.map((r) => <li key={r} className="text-amber-700">⚠ {r}</li>)}
-            </ul>
-            <div className="mt-4 space-y-2">
+          <div className="card space-y-4">
+            <h2 className="font-semibold text-slate-900">Why LostLink suggested this</h2>
+            <LeadDescription lead={m.lead} />
+            {m.evidence.length > 0 ? (
+              <MatchEvidence evidence={m.evidence} lead={m.lead} />
+            ) : (
+              <ul className="space-y-1.5 text-sm">
+                {m.explanation.map((r) => (
+                  <li key={r} className={r.startsWith("Note:") ? "text-amber-700" : "text-slate-700"}>
+                    {r.startsWith("Note:") ? `⚠ ${r.slice(6)}` : `✓ ${r}`}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <div className="space-y-2 border-t border-slate-100 pt-4">
               {Object.entries(m.signals).map(([k, v]) => (
                 <div key={k} className="flex items-center gap-3 text-xs">
                   <span className="w-36 text-slate-500">{SIGNAL_LABELS[k] ?? k}</span>
@@ -115,6 +122,9 @@ function MatchDetails() {
                 </div>
               ))}
             </div>
+            <p className="mt-3 text-xs text-slate-500">
+              Signal values come from fixed rules. They are not probabilities, and a missing bar means that detail could not be compared.
+            </p>
             {m.signals.image !== undefined && (
               <p className="mt-3 text-xs text-slate-500">Photo similarity compares colours and overall shape. It does not recognise the object itself.</p>
             )}
