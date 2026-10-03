@@ -150,7 +150,19 @@ and on demand via `POST /reports/{id}/match`:
    brand) cap or discount the score.
 5. Matches ≥ `MATCH_THRESHOLD` (default 0.55) are stored with an explanation, and both parties are notified.
 
+Each reason and concern is stored as structured **evidence** (`signal`, `text`, `direction`
+`supports`/`contradicts`, and a deterministic `strength` of `STRONG`/`MODERATE`/`WEAK`). The score is a
+fixed weighted rule value, not a probability.
+
+**Stale suggestions.** An uncontested suggestion is withdrawn when it no longer qualifies: the report is
+edited so it is no longer a candidate, the score drops below the threshold, either report is closed or
+deactivated, or the other report is connected to a different match. Suggestions already in verification
+are never withdrawn. Dismissed and rejected pairs are not re-suggested. Matching runs are serialised
+within the API process (`MATCHING_LOCK`).
+
 If the pipeline fails, the report is kept, `ai_status = FAILED` is shown, and the user can retry.
+
+Offline evaluation on a labelled **synthetic** dataset lives in `backend/evaluation/` (see its README).
 
 ### Plugging in real models (vision / LLM teams)
 
@@ -193,7 +205,7 @@ State machines (`app/services/state_machine.py`), with invalid transitions retur
 - Generic error messages to clients; stack traces only in server logs.
 - User data is not used for model training.
 
-Known MVP limitations: JWT stored in `localStorage` (consider httpOnly cookies), no rate limiting yet, email
+Known MVP limitations: matching is serialised per API process only, so multiple API workers need a database-level lock; a withdrawn suggestion's notification link returns 404; JWT stored in `localStorage` (consider httpOnly cookies), no rate limiting yet, email
 notifications are logged rather than sent (`services/notifications.py::send_email`), map tiles come from the
 public OpenStreetMap tile server (use a tile provider for heavy production use), and image similarity is a
 heuristic.
