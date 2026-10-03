@@ -40,9 +40,11 @@ def analyze_report(db: Session, report: ItemReport):
     return u
 
 
-def run_matching(db: Session, report: ItemReport) -> list[MatchCandidate]:
-    """Full pipeline for one report. Returns matches at or above threshold, best first."""
-    cfg = get_matching_config()
+def score_candidates(db: Session, report: ItemReport, cfg=None) -> list[tuple[ItemReport, ItemReport, object]]:
+    """Understanding -> retrieval -> scoring for one report. Returns (lost, found, result), best first.
+
+    Shared by the live pipeline and the offline evaluation harness (backend/evaluation)."""
+    cfg = cfg or get_matching_config()
     ru = analyze_report(db, report)
     db.flush()
 
@@ -58,6 +60,19 @@ def run_matching(db: Session, report: ItemReport) -> list[MatchCandidate]:
         results.append((lost, found, score_pair(lost, found, lu, fu, cfg)))
 
     results.sort(key=lambda r: r[2].score, reverse=True)
+    return results
+
+
+def select_new_matches(results, cfg=None):
+    """Which scored pairs would become (notified) match candidates in a fresh database."""
+    cfg = cfg or get_matching_config()
+    return [r for r in results[: cfg.max_candidates] if r[2].score >= cfg.threshold]
+
+
+def run_matching(db: Session, report: ItemReport) -> list[MatchCandidate]:
+    """Full pipeline for one report. Returns matches at or above threshold, best first."""
+    cfg = get_matching_config()
+    results = score_candidates(db, report, cfg)
     matches: list[MatchCandidate] = []
     for lost, found, res in results[: cfg.max_candidates]:
         existing = db.scalar(select(MatchCandidate).where(
