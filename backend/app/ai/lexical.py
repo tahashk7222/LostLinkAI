@@ -64,13 +64,16 @@ class BM25Index:
         return round(min(1.0, self._raw(query, doc) / best), 3)
 
 
-def pair_similarity(index: BM25Index, lost, found) -> float | None:
+def pair_similarity(index: BM25Index, lost, found, exclude: frozenset[str] = frozenset()) -> float | None:
     """Description similarity for one pair. The lost description is the query (the owner's wording).
 
-    Returns None when either description has no identity terms: nothing was compared, so the signal is
-    absent. That is different from 0, which means the descriptions were compared and share nothing.
+    `exclude` removes words from both descriptions before comparing (scoring v3 removes accessory wording
+    this way, so a shared keychain does not count as identity). Returns None when either side has no terms
+    left: nothing was compared, so the signal is absent. That is different from 0, which means the
+    descriptions were compared and share nothing.
     """
-    q, d = description_terms(lost), description_terms(found)
+    q = [t for t in description_terms(lost) if t not in exclude]
+    d = [t for t in description_terms(found) if t not in exclude]
     if not q or not d:
         return None
     return index.normalized(q, d)

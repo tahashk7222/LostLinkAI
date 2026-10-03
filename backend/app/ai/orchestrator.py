@@ -17,7 +17,7 @@ from sqlalchemy.orm import Session, selectinload
 
 from app.ai.config import get_matching_config
 from app.ai.lexical import BM25Index, description_terms, pair_similarity
-from app.ai.matching import _NO_TEXT_SIGNAL, score_pair
+from app.ai.matching import _NO_TEXT_SIGNAL, generic_identity_terms, score_pair
 from app.ai.providers import get_text_embedder
 from app.ai.retrieval import retrieve_candidates
 from app.ai.understanding import embedding_text, understand
@@ -71,19 +71,25 @@ def score_candidates(db: Session, report: ItemReport, cfg=None) -> list[tuple[It
         else:
             lost, found, lu, fu = cand, report, cu, ru
         text_sim = pair_similarity(index, lost, found) if index else _NO_TEXT_SIGNAL
-        results.append((lost, found, score_pair(lost, found, lu, fu, cfg, text_sim=text_sim)))
+        # Identity words: the description without accessory wording on either side (scoring v3).
+        identity_sim = None
+        if index:
+            generic = generic_identity_terms(lost, lu) | generic_identity_terms(found, fu)
+            identity_sim = pair_similarity(index, lost, found, exclude=generic)
+        results.append((lost, found, score_pair(lost, found, lu, fu, cfg, text_sim=text_sim,
+                                                identity_sim=identity_sim)))
 
     results.sort(key=lambda r: r[2].score, reverse=True)
     return results
 
 
-NOTIFIABLE_LEADS = ("STRONG", "POSSIBLE")
-
-
 def select_notifiable(results, cfg=None):
-    """Pairs that would notify their owners in a fresh database: Strong or Possible leads, capped per report."""
+    """Pairs that would notify their owners in a fresh database: notification-eligible leads, capped per report.
+
+    Eligibility is decided by the scorer (`notify_eligible`), separately from the relevance score that
+    orders the candidates. Strong and Possible leads are eligible; Weak leads are not."""
     cfg = cfg or get_matching_config()
-    return [r for r in results if r[2].lead in NOTIFIABLE_LEADS][: cfg.max_notifications]
+    return [r for r in results if r[2].notify_eligible][: cfg.max_notifications]
 
 
 def select_stored(results, cfg=None):
@@ -120,7 +126,7 @@ def run_matching(db: Session, report: ItemReport) -> list[MatchCandidate]:
                 existing.score, existing.signals, existing.explanation = res.score, res.signals, res.explanation
                 existing.evidence, existing.lead_label = res.evidence, res.lead
                 matches.append(existing)
-                if was_weak and res.lead in NOTIFIABLE_LEADS:  # a Weak lead has become notifiable
+                if was_weak and res.notify_eligible:  # a Weak lead has become notifiable
                     _notify_new_lead(db, existing, lost, found, res)
             elif existing.status in OPEN_MATCH:
                 matches.append(existing)
@@ -131,7 +137,7 @@ def run_matching(db: Session, report: ItemReport) -> list[MatchCandidate]:
         db.add(m)
         db.flush()
         matches.append(m)
-        if res.lead in NOTIFIABLE_LEADS:  # Weak leads are visible to the owner, but do not notify or change status
+        if res.notify_eligible:  # Weak leads are visible to the owner, but do not notify or change status
             _notify_new_lead(db, m, lost, found, res)
 
     counterparts = {r.id: r for lost, found, _ in current.values() for r in (lost, found) if r.id != report.id}

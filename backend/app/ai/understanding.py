@@ -116,8 +116,8 @@ MODEL_STOP = {"am", "pm"}
 # Typed distinctive features. Each cue has one type; the type decides which features can be compared.
 FEATURE_TYPES: dict[str, list[str]] = {
     "accessory": ["keychain", "key chain", "charm", "key ring", "lanyard", "pouch", "cover", "case", "pendant",
-                  "strap", "chabi"],
-    "marking": ["sticker", "name tag", "tag", "initials", "engraved", "engraving", "badge", "label", "logo",
+                  "strap", "chabi", "tag"],
+    "marking": ["sticker", "name tag", "initials", "engraved", "engraving", "badge", "label", "logo",
                 "marker", "pin", "embroidered", "signature", "name written", "name on"],
     "damage": ["scratch", "crack", "dent", "stain", "patch", "torn", "tear", "broken", "worn", "chipped", "faded",
                "burn", "zip broken", "zipper broken"],
@@ -267,20 +267,31 @@ def _tokens(text: str) -> frozenset[str]:
     return frozenset(w for w in words if w not in FEATURE_STOP and len(w) > 1)
 
 
+# A phrase can contain cues of several types ("engraved back cover": marking and accessory). Its type is the
+# most identifying one, so marking and damage win over accessory and other.
+TYPE_PRIORITY = ("marking", "damage", "accessory", "other")
+
+
 def extract_typed_features(text: str) -> list[TypedFeature]:
-    """Phrases around feature cues, each tagged with a feature type (accessory, marking, damage)."""
+    """Phrases around feature cues, each tagged with a feature type (accessory, marking, damage, other).
+
+    When a phrase has cues of several types, the most identifying type wins (see TYPE_PRIORITY)."""
     t = text.lower()
     out: list[TypedFeature] = []
     seen: set[str] = set()
     for sentence in re.split(r"[.;,\n]|\band\b", t):
+        hits = []
         for cue, ftype in FEATURE_CUES:
             m = re.search(rf"(?<![a-z0-9]){re.escape(cue)}(?![a-z0-9])", sentence)
             if m:
-                phrase = sentence.strip()
-                if 3 <= len(phrase) <= 120 and phrase not in seen:
-                    seen.add(phrase)
-                    out.append(TypedFeature(ftype, phrase, _tokens(phrase), _feature_colors(sentence[:m.start()])))
-                break
+                hits.append((TYPE_PRIORITY.index(ftype), m.start(), ftype, m))
+        if not hits:
+            continue
+        _, _, ftype, m = min(hits, key=lambda h: (h[0], h[1]))
+        phrase = sentence.strip()
+        if 3 <= len(phrase) <= 120 and phrase not in seen:
+            seen.add(phrase)
+            out.append(TypedFeature(ftype, phrase, _tokens(phrase), _feature_colors(sentence[:m.start()])))
     return out[:6]
 
 

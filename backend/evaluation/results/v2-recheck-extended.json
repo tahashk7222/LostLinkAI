@@ -1,0 +1,698 @@
+{
+  "queries": 50,
+  "found_reports": 680,
+  "true_pairs": 50,
+  "hard_negative_pairs": 600,
+  "metrics": {
+    "precision_at_1": 0.12,
+    "recall_retrieved": 1.0,
+    "recall_at_threshold": 0.22,
+    "false_positive_rate_all_negatives": 0.001,
+    "false_positive_rate_hard_negatives": 0.018,
+    "precision_of_notifications": 0.367,
+    "notifications_per_query": 0.6,
+    "weak_leads_per_query": 21.56,
+    "queries_with_false_notification": 0.18
+  },
+  "fpr_by_hard_type": {
+    "hn-before-loss": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-brand": {
+      "population": 40,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-category": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-colour": {
+      "population": 50,
+      "notified": 3,
+      "rate": 0.06
+    },
+    "hn-lookalike": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-nearby": {
+      "population": 10,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hx-brand": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hx-feature": {
+      "population": 50,
+      "notified": 3,
+      "rate": 0.06
+    },
+    "hx-missing-brand": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hx-missing-feature": {
+      "population": 50,
+      "notified": 5,
+      "rate": 0.1
+    },
+    "hx-nearby-same": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hx-same-place-other": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hx-visual": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    }
+  },
+  "recall_by_case": {},
+  "true_pair_outcomes": [
+    {
+      "query": "L001",
+      "found": "F001",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.683,
+      "notified": true
+    },
+    {
+      "query": "L002",
+      "found": "F007",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.538,
+      "notified": false
+    },
+    {
+      "query": "L003",
+      "found": "F013",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.649,
+      "notified": true
+    },
+    {
+      "query": "L004",
+      "found": "F019",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.68,
+      "notified": true
+    },
+    {
+      "query": "L005",
+      "found": "F025",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.55,
+      "notified": false
+    },
+    {
+      "query": "L006",
+      "found": "F031",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.705,
+      "notified": true
+    },
+    {
+      "query": "L007",
+      "found": "F037",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.585,
+      "notified": false
+    },
+    {
+      "query": "L008",
+      "found": "F043",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.531,
+      "notified": false
+    },
+    {
+      "query": "L009",
+      "found": "F049",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.523,
+      "notified": false
+    },
+    {
+      "query": "L010",
+      "found": "F055",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.594,
+      "notified": false
+    },
+    {
+      "query": "L011",
+      "found": "F061",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.565,
+      "notified": false
+    },
+    {
+      "query": "L012",
+      "found": "F067",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.666,
+      "notified": false
+    },
+    {
+      "query": "L013",
+      "found": "F073",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.589,
+      "notified": false
+    },
+    {
+      "query": "L014",
+      "found": "F079",
+      "case": null,
+      "lead": "STRONG",
+      "score": 0.787,
+      "notified": true
+    },
+    {
+      "query": "L015",
+      "found": "F085",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.617,
+      "notified": false
+    },
+    {
+      "query": "L016",
+      "found": "F091",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.586,
+      "notified": false
+    },
+    {
+      "query": "L017",
+      "found": "F097",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.683,
+      "notified": false
+    },
+    {
+      "query": "L018",
+      "found": "F103",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.545,
+      "notified": false
+    },
+    {
+      "query": "L019",
+      "found": "F109",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.519,
+      "notified": false
+    },
+    {
+      "query": "L020",
+      "found": "F115",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.553,
+      "notified": false
+    },
+    {
+      "query": "L021",
+      "found": "F121",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.586,
+      "notified": false
+    },
+    {
+      "query": "L022",
+      "found": "F127",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.662,
+      "notified": false
+    },
+    {
+      "query": "L023",
+      "found": "F133",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.485,
+      "notified": false
+    },
+    {
+      "query": "L024",
+      "found": "F139",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.505,
+      "notified": false
+    },
+    {
+      "query": "L025",
+      "found": "F145",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.687,
+      "notified": true
+    },
+    {
+      "query": "L026",
+      "found": "F151",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.58,
+      "notified": false
+    },
+    {
+      "query": "L027",
+      "found": "F157",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.641,
+      "notified": false
+    },
+    {
+      "query": "L028",
+      "found": "F163",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.649,
+      "notified": false
+    },
+    {
+      "query": "L029",
+      "found": "F169",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.665,
+      "notified": true
+    },
+    {
+      "query": "L030",
+      "found": "F175",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.686,
+      "notified": false
+    },
+    {
+      "query": "L031",
+      "found": "F181",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.673,
+      "notified": false
+    },
+    {
+      "query": "L032",
+      "found": "F187",
+      "case": null,
+      "lead": null,
+      "score": 0.494,
+      "notified": false
+    },
+    {
+      "query": "L033",
+      "found": "F193",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.521,
+      "notified": false
+    },
+    {
+      "query": "L034",
+      "found": "F199",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.692,
+      "notified": true
+    },
+    {
+      "query": "L035",
+      "found": "F205",
+      "case": null,
+      "lead": null,
+      "score": 0.385,
+      "notified": false
+    },
+    {
+      "query": "L036",
+      "found": "F211",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.577,
+      "notified": false
+    },
+    {
+      "query": "L037",
+      "found": "F217",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.587,
+      "notified": false
+    },
+    {
+      "query": "L038",
+      "found": "F223",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.508,
+      "notified": false
+    },
+    {
+      "query": "L039",
+      "found": "F229",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.543,
+      "notified": false
+    },
+    {
+      "query": "L040",
+      "found": "F235",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.667,
+      "notified": false
+    },
+    {
+      "query": "L041",
+      "found": "F241",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.657,
+      "notified": false
+    },
+    {
+      "query": "L042",
+      "found": "F247",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.558,
+      "notified": false
+    },
+    {
+      "query": "L043",
+      "found": "F253",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.686,
+      "notified": true
+    },
+    {
+      "query": "L044",
+      "found": "F259",
+      "case": null,
+      "lead": "STRONG",
+      "score": 0.84,
+      "notified": true
+    },
+    {
+      "query": "L045",
+      "found": "F265",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.539,
+      "notified": false
+    },
+    {
+      "query": "L046",
+      "found": "F271",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.652,
+      "notified": false
+    },
+    {
+      "query": "L047",
+      "found": "F277",
+      "case": null,
+      "lead": "STRONG",
+      "score": 0.798,
+      "notified": true
+    },
+    {
+      "query": "L048",
+      "found": "F283",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.554,
+      "notified": false
+    },
+    {
+      "query": "L049",
+      "found": "F289",
+      "case": null,
+      "lead": null,
+      "score": 0.461,
+      "notified": false
+    },
+    {
+      "query": "L050",
+      "found": "F295",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.56,
+      "notified": false
+    }
+  ],
+  "counts": {
+    "true_notified": 11,
+    "notified_total": 30,
+    "false_notified": 19,
+    "false_notified_hard": 11,
+    "false_notified_by_type": {
+      "hard:hx-missing-feature": 5,
+      "hard:hx-feature": 3,
+      "other_query_hard_negative": 6,
+      "other_query_true_match": 2,
+      "hard:hn-colour": 3
+    }
+  },
+  "false_positive_examples": [
+    {
+      "query": "L024",
+      "found": "F498",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.88,
+      "lead": "STRONG",
+      "explanation": [
+        "Same item category (keys)",
+        "Descriptions are very similar",
+        "Compatible colour (gray)",
+        "Same brand (Honda)",
+        "Photos look visually similar (colour and shape)",
+        "Found at practically the same spot",
+        "Both on UET Lahore campus",
+        "Found approximately 2 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L024",
+      "found": "F494",
+      "negative_type": "hard:hx-feature",
+      "score": 0.868,
+      "lead": "STRONG",
+      "explanation": [
+        "Same item category (keys)",
+        "Descriptions are very similar",
+        "Compatible colour (gray)",
+        "Same brand (Honda)",
+        "Photos look visually similar (colour and shape)",
+        "Found at practically the same spot",
+        "Both on UET Lahore campus",
+        "Found approximately 7 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L014",
+      "found": "F428",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.859,
+      "lead": "STRONG",
+      "explanation": [
+        "Same item category (keys)",
+        "Descriptions are very similar",
+        "Compatible colour (gray)",
+        "Same brand (Toyota)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 100 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 3 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L044",
+      "found": "F634",
+      "negative_type": "hard:hx-feature",
+      "score": 0.853,
+      "lead": "STRONG",
+      "explanation": [
+        "Same item category (keys)",
+        "Descriptions are very similar",
+        "Compatible colour (gray)",
+        "Same brand (Honda)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 60 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 7 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L044",
+      "found": "F638",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.851,
+      "lead": "STRONG",
+      "explanation": [
+        "Same item category (keys)",
+        "Descriptions are very similar",
+        "Compatible colour (gray)",
+        "Same brand (Honda)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 100 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 6 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L014",
+      "found": "F082",
+      "negative_type": "hard:hn-colour",
+      "score": 0.804,
+      "lead": "STRONG",
+      "explanation": [
+        "Same item category (keys)",
+        "Descriptions are very similar",
+        "Similar colour (gray / black)",
+        "Same brand (Toyota)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 70 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 4 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L024",
+      "found": "F142",
+      "negative_type": "hard:hn-colour",
+      "score": 0.802,
+      "lead": "STRONG",
+      "explanation": [
+        "Same item category (keys)",
+        "Descriptions are very similar",
+        "Similar colour (gray / black)",
+        "Same brand (Honda)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 90 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 4 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L034",
+      "found": "F568",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.72,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (keys)",
+        "Descriptions share several details",
+        "Compatible colour (black)",
+        "Same brand (Honda)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 140 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 3 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L004",
+      "found": "F358",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.719,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (keys)",
+        "Descriptions share several details",
+        "Compatible colour (black)",
+        "Same brand (Honda)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 80 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 5 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L004",
+      "found": "F354",
+      "negative_type": "hard:hx-feature",
+      "score": 0.716,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (keys)",
+        "Descriptions share several details",
+        "Compatible colour (black)",
+        "Same brand (Honda)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 90 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 6 hours after the reported loss"
+      ]
+    }
+  ],
+  "runtime_seconds": 121.23,
+  "label": "v2-recheck-extended",
+  "dataset": {
+    "file": "synthetic_pairs_extended.json",
+    "name": "SYNTHETIC",
+    "generator": "backend/evaluation/generate_dataset.py::extend",
+    "seed": 20261003,
+    "notice": "Invented for offline evaluation. Not real user reports, people or locations history. Coordinates are campus place points from app/geo/uet_lahore.json. Photos are rendered from simple synthetic shapes, not real photographs."
+  },
+  "config": {
+    "threshold": 0.55,
+    "max_candidates": 10,
+    "max_notifications": 3,
+    "scorer": "v2",
+    "text_method": "bm25",
+    "weights": {
+      "category": 0.15,
+      "text": 0.2,
+      "color": 0.12,
+      "brand": 0.08,
+      "features": 0.1,
+      "image": 0.1,
+      "location": 0.15,
+      "time": 0.1
+    }
+  }
+}

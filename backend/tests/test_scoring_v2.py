@@ -18,7 +18,8 @@ from tests.helpers import FOUND_BACKPACK, LOST_BACKPACK
 from tests.test_ai_units import report
 
 WHEN = datetime(2026, 10, 1, 15, tzinfo=timezone.utc)
-cfg = get_matching_config()
+# These tests pin the v2 rules. The default scorer is v3, which has its own tests in test_scoring_v3.py.
+cfg = dataclasses.replace(get_matching_config(), scorer="v2")
 
 
 def _score(lost, found, text_sim=None):
@@ -113,13 +114,14 @@ def test_missing_identity_evidence_lowers_the_score():
 
 def test_notifications_are_capped_per_report():
     cfg3 = dataclasses.replace(cfg, max_notifications=3)
-    results = [(None, None, SimpleNamespace(lead="POSSIBLE", score=0.9 - i * 0.01)) for i in range(6)]
+    results = [(None, None, SimpleNamespace(lead="POSSIBLE", notify_eligible=True, score=0.9 - i * 0.01))
+               for i in range(6)]
     assert len(select_notifiable(results, cfg3)) == 3
 
 
 def test_weak_leads_are_never_notifiable():
-    results = [(None, None, SimpleNamespace(lead="WEAK", score=0.5)),
-               (None, None, SimpleNamespace(lead=None, score=0.9))]
+    results = [(None, None, SimpleNamespace(lead="WEAK", notify_eligible=False, score=0.5)),
+               (None, None, SimpleNamespace(lead=None, notify_eligible=False, score=0.9))]
     assert select_notifiable(results, cfg) == []
 
 
@@ -137,7 +139,7 @@ def test_weak_lead_is_stored_but_does_not_notify_or_change_status(client, monkey
         results = real(db, report_obj, cfg_)
         for _, _, res in results:
             if res.lead is not None:
-                res.lead = "WEAK"
+                res.lead, res.notify_eligible = "WEAK", False
         return results
 
     monkeypatch.setattr(orchestrator, "score_candidates", weak_only)

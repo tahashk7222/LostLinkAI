@@ -54,6 +54,8 @@ def dismiss(match_id: int, user: CurrentUser, db: DB):
 def start_verification(match_id: int, user: CurrentUser, db: DB):
     """Owner requests to verify ownership; the Verification Agent picks private questions."""
     m, _ = get_match_for(db, user, match_id, roles=("owner",))
+    if m.lead_label == "WEAK":  # shown for reference only: general details do not identify the item
+        raise conflict("A Weak lead cannot start ownership verification. You can mark it as not yours.")
     if m.found_report.status not in (ReportStatus.ACTIVE, ReportStatus.POTENTIAL_MATCH):
         raise conflict("This found item is no longer available for verification")
     transition(m, MatchStatus.VERIFICATION_PENDING)

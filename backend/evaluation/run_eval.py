@@ -37,7 +37,8 @@ from app.models import ItemImage, ItemReport, User  # noqa: F401  (registers tab
 from app.models.enums import ReportStatus, ReportType
 
 HERE = Path(__file__).resolve().parent
-DATASETS = {"base": HERE / "data" / "synthetic_pairs.json", "extended": HERE / "data" / "synthetic_pairs_extended.json"}
+DATASETS = {"base": HERE / "data" / "synthetic_pairs.json", "extended": HERE / "data" / "synthetic_pairs_extended.json",
+            "targeted": HERE / "data" / "synthetic_pairs_targeted.json"}
 RESULTS = HERE / "results"
 
 REPORT_COLUMNS = ("name", "category", "description", "color", "brand", "distinctive_features",
@@ -130,6 +131,9 @@ def evaluate(data: dict, db: Session, cfg: MatchingConfig | None = None) -> dict
     fp_by_type: Counter = Counter()
     notified_hard_by_type: Counter = Counter()
     examples = []
+    true_outcomes = []  # every true pair: its lead, score and whether it notified (recovered and missed pairs)
+    case_total: Counter = Counter()
+    case_notified: Counter = Counter()
 
     for lrow in data["lost"]:
         lid = lrow["id"]
@@ -146,6 +150,18 @@ def evaluate(data: dict, db: Session, cfg: MatchingConfig | None = None) -> dict
                 p1_hits += 1
             retrieved_true += len(true_f & {e for e, _ in ranked})
             notified_true += len(true_f & notified_ids)
+            res_of = dict(ranked)
+            case = lrow.get("case")
+            for f in sorted(true_f):
+                res = res_of.get(f)
+                notified_now = f in notified_ids
+                true_outcomes.append({"query": lid, "found": f, "case": case, "lead": res.lead if res else None,
+                                      "score": res.score if res else None, "notified": notified_now,
+                                      "identity_groups": res.identity_groups if res else [],
+                                      "corroborating": res.corroborating if res else []})
+                if case:
+                    case_total[case] += 1
+                    case_notified[case] += notified_now
 
         notified_total += len(notified_ids)
         false_notes = notified_ids - true_f
@@ -194,6 +210,11 @@ def evaluate(data: dict, db: Session, cfg: MatchingConfig | None = None) -> dict
                 "rate": ratio(notified_hard_by_type[t], hard_population[t])}
             for t in sorted(hard_population)
         },
+        "recall_by_case": {
+            c: {"true_pairs": case_total[c], "notified": case_notified[c], "rate": ratio(case_notified[c], case_total[c])}
+            for c in sorted(case_total)
+        },
+        "true_pair_outcomes": true_outcomes,
         "counts": {
             "true_notified": notified_true,
             "notified_total": notified_total,
@@ -267,6 +288,8 @@ def main() -> None:
     print(f"  weak leads per query (not notified)  {m['weak_leads_per_query']}")
     for t, v in result["fpr_by_hard_type"].items():
         print(f"    hard {t:<20} {v['notified']:>4}/{v['population']:<4} {_pct(v['rate'])}")
+    for c, v in result["recall_by_case"].items():
+        print(f"    case {c:<28} {v['notified']:>3}/{v['true_pairs']:<3} {_pct(v['rate'])}")
     print(f"wrote {out}")
 
 
