@@ -1,0 +1,1046 @@
+{
+  "queries": 50,
+  "found_reports": 365,
+  "true_pairs": 50,
+  "hard_negative_pairs": 285,
+  "metrics": {
+    "precision_at_1": 0.9,
+    "recall_retrieved": 1.0,
+    "recall_at_threshold": 0.7,
+    "false_positive_rate_all_negatives": 0.004,
+    "false_positive_rate_hard_negatives": 0.225,
+    "precision_of_notifications": 0.333,
+    "notifications_per_query": 2.1,
+    "weak_leads_per_query": 23.1,
+    "queries_with_false_notification": 0.7
+  },
+  "fpr_by_hard_type": {
+    "tg-common-brand-other": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "tg-different-brand-same-feature": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "tg-same-attrs-other": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "tg-same-feature-far": {
+      "population": 45,
+      "notified": 29,
+      "rate": 0.644
+    },
+    "tg-same-feature-other-category": {
+      "population": 45,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "tg-same-feature-same-cat-loc": {
+      "population": 45,
+      "notified": 35,
+      "rate": 0.778
+    }
+  },
+  "recall_by_case": {
+    "tc-common-brand": {
+      "true_pairs": 5,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "tc-common-brand-unique-feature": {
+      "true_pairs": 5,
+      "notified": 5,
+      "rate": 1.0
+    },
+    "tc-custom-accessory": {
+      "true_pairs": 5,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "tc-damage": {
+      "true_pairs": 5,
+      "notified": 5,
+      "rate": 1.0
+    },
+    "tc-engraving": {
+      "true_pairs": 5,
+      "notified": 5,
+      "rate": 1.0
+    },
+    "tc-generic-accessory": {
+      "true_pairs": 5,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "tc-generic-sticker": {
+      "true_pairs": 5,
+      "notified": 5,
+      "rate": 1.0
+    },
+    "tc-initials": {
+      "true_pairs": 5,
+      "notified": 5,
+      "rate": 1.0
+    },
+    "tc-unique-number": {
+      "true_pairs": 5,
+      "notified": 5,
+      "rate": 1.0
+    },
+    "tc-unique-sticker": {
+      "true_pairs": 5,
+      "notified": 5,
+      "rate": 1.0
+    }
+  },
+  "true_pair_outcomes": [
+    {
+      "query": "L001",
+      "found": "F001",
+      "case": "tc-unique-number",
+      "lead": "STRONG",
+      "score": 0.798,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L002",
+      "found": "F008",
+      "case": "tc-unique-number",
+      "lead": "STRONG",
+      "score": 0.792,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L003",
+      "found": "F015",
+      "case": "tc-unique-number",
+      "lead": "STRONG",
+      "score": 0.795,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L004",
+      "found": "F022",
+      "case": "tc-unique-number",
+      "lead": "STRONG",
+      "score": 0.792,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L005",
+      "found": "F029",
+      "case": "tc-unique-number",
+      "lead": "STRONG",
+      "score": 0.774,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L006",
+      "found": "F036",
+      "case": "tc-engraving",
+      "lead": "STRONG",
+      "score": 0.798,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L007",
+      "found": "F043",
+      "case": "tc-engraving",
+      "lead": "STRONG",
+      "score": 0.774,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L008",
+      "found": "F050",
+      "case": "tc-engraving",
+      "lead": "STRONG",
+      "score": 0.789,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L009",
+      "found": "F057",
+      "case": "tc-engraving",
+      "lead": "STRONG",
+      "score": 0.798,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L010",
+      "found": "F064",
+      "case": "tc-engraving",
+      "lead": "STRONG",
+      "score": 0.786,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L011",
+      "found": "F071",
+      "case": "tc-initials",
+      "lead": "STRONG",
+      "score": 0.776,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L012",
+      "found": "F078",
+      "case": "tc-initials",
+      "lead": "STRONG",
+      "score": 0.789,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L013",
+      "found": "F085",
+      "case": "tc-initials",
+      "lead": "STRONG",
+      "score": 0.776,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L014",
+      "found": "F092",
+      "case": "tc-initials",
+      "lead": "STRONG",
+      "score": 0.774,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L015",
+      "found": "F099",
+      "case": "tc-initials",
+      "lead": "STRONG",
+      "score": 0.798,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L016",
+      "found": "F106",
+      "case": "tc-unique-sticker",
+      "lead": "STRONG",
+      "score": 0.804,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L017",
+      "found": "F113",
+      "case": "tc-unique-sticker",
+      "lead": "STRONG",
+      "score": 0.779,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L018",
+      "found": "F120",
+      "case": "tc-unique-sticker",
+      "lead": "STRONG",
+      "score": 0.801,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L019",
+      "found": "F127",
+      "case": "tc-unique-sticker",
+      "lead": "STRONG",
+      "score": 0.798,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L020",
+      "found": "F134",
+      "case": "tc-unique-sticker",
+      "lead": "STRONG",
+      "score": 0.795,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L021",
+      "found": "F141",
+      "case": "tc-generic-sticker",
+      "lead": "STRONG",
+      "score": 0.795,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L022",
+      "found": "F148",
+      "case": "tc-generic-sticker",
+      "lead": "STRONG",
+      "score": 0.795,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L023",
+      "found": "F155",
+      "case": "tc-generic-sticker",
+      "lead": "STRONG",
+      "score": 0.794,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L024",
+      "found": "F162",
+      "case": "tc-generic-sticker",
+      "lead": "STRONG",
+      "score": 0.789,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L025",
+      "found": "F169",
+      "case": "tc-generic-sticker",
+      "lead": "STRONG",
+      "score": 0.774,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L026",
+      "found": "F176",
+      "case": "tc-damage",
+      "lead": "STRONG",
+      "score": 0.801,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L027",
+      "found": "F183",
+      "case": "tc-damage",
+      "lead": "STRONG",
+      "score": 0.804,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L028",
+      "found": "F190",
+      "case": "tc-damage",
+      "lead": "STRONG",
+      "score": 0.792,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L029",
+      "found": "F197",
+      "case": "tc-damage",
+      "lead": "STRONG",
+      "score": 0.798,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L030",
+      "found": "F204",
+      "case": "tc-damage",
+      "lead": "STRONG",
+      "score": 0.801,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L031",
+      "found": "F211",
+      "case": "tc-custom-accessory",
+      "lead": "WEAK",
+      "score": 0.955,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L032",
+      "found": "F218",
+      "case": "tc-custom-accessory",
+      "lead": "WEAK",
+      "score": 0.956,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L033",
+      "found": "F225",
+      "case": "tc-custom-accessory",
+      "lead": "WEAK",
+      "score": 0.935,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L034",
+      "found": "F232",
+      "case": "tc-custom-accessory",
+      "lead": "WEAK",
+      "score": 0.964,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L035",
+      "found": "F239",
+      "case": "tc-custom-accessory",
+      "lead": "WEAK",
+      "score": 0.97,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L036",
+      "found": "F246",
+      "case": "tc-generic-accessory",
+      "lead": "WEAK",
+      "score": 0.781,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L037",
+      "found": "F253",
+      "case": "tc-generic-accessory",
+      "lead": "WEAK",
+      "score": 0.801,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L038",
+      "found": "F260",
+      "case": "tc-generic-accessory",
+      "lead": "WEAK",
+      "score": 0.798,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L039",
+      "found": "F267",
+      "case": "tc-generic-accessory",
+      "lead": "WEAK",
+      "score": 0.763,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L040",
+      "found": "F274",
+      "case": "tc-generic-accessory",
+      "lead": "WEAK",
+      "score": 0.786,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L041",
+      "found": "F281",
+      "case": "tc-common-brand",
+      "lead": "WEAK",
+      "score": 0.843,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L042",
+      "found": "F285",
+      "case": "tc-common-brand",
+      "lead": "WEAK",
+      "score": 0.859,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L043",
+      "found": "F289",
+      "case": "tc-common-brand",
+      "lead": "WEAK",
+      "score": 0.848,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L044",
+      "found": "F293",
+      "case": "tc-common-brand",
+      "lead": "WEAK",
+      "score": 0.853,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L045",
+      "found": "F297",
+      "case": "tc-common-brand",
+      "lead": "WEAK",
+      "score": 0.859,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L046",
+      "found": "F301",
+      "case": "tc-common-brand-unique-feature",
+      "lead": "STRONG",
+      "score": 0.786,
+      "notified": true,
+      "identity_groups": [
+        "model",
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L047",
+      "found": "F308",
+      "case": "tc-common-brand-unique-feature",
+      "lead": "STRONG",
+      "score": 0.789,
+      "notified": true,
+      "identity_groups": [
+        "model",
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L048",
+      "found": "F315",
+      "case": "tc-common-brand-unique-feature",
+      "lead": "STRONG",
+      "score": 0.798,
+      "notified": true,
+      "identity_groups": [
+        "model",
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L049",
+      "found": "F322",
+      "case": "tc-common-brand-unique-feature",
+      "lead": "STRONG",
+      "score": 0.792,
+      "notified": true,
+      "identity_groups": [
+        "model",
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L050",
+      "found": "F329",
+      "case": "tc-common-brand-unique-feature",
+      "lead": "STRONG",
+      "score": 0.798,
+      "notified": true,
+      "identity_groups": [
+        "model",
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    }
+  ],
+  "counts": {
+    "true_notified": 35,
+    "notified_total": 105,
+    "false_notified": 70,
+    "false_notified_hard": 64,
+    "false_notified_by_type": {
+      "other_query_true_match": 6,
+      "hard:tg-same-feature-same-cat-loc": 35,
+      "hard:tg-same-feature-far": 29
+    }
+  },
+  "false_positive_examples": [
+    {
+      "query": "L048",
+      "found": "F321",
+      "negative_type": "hard:tg-same-feature-same-cat-loc",
+      "score": 0.8,
+      "lead": "STRONG",
+      "explanation": [
+        "Same item category (watch)",
+        "Compatible colour (yellow)",
+        "Same or similar model (xr33)",
+        "Similar marking described: 'engraved xr-33 on the back cover'",
+        "Photos look visually similar (colour and shape)",
+        "Found about 40 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 6 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L047",
+      "found": "F314",
+      "negative_type": "hard:tg-same-feature-same-cat-loc",
+      "score": 0.798,
+      "lead": "STRONG",
+      "explanation": [
+        "Same item category (watch)",
+        "Compatible colour (gray)",
+        "Same or similar model (bt07)",
+        "Similar marking described: 'engraved bt-07 on the back cover'",
+        "Photos look visually similar (colour and shape)",
+        "Found about 90 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 3 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L049",
+      "found": "F328",
+      "negative_type": "hard:tg-same-feature-same-cat-loc",
+      "score": 0.792,
+      "lead": "STRONG",
+      "explanation": [
+        "Same item category (watch)",
+        "Compatible colour (gray)",
+        "Same or similar model (lm52)",
+        "Similar marking described: 'engraved lm-52 on the back cover'",
+        "Photos look visually similar (colour and shape)",
+        "Found about 120 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 5 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L050",
+      "found": "F335",
+      "negative_type": "hard:tg-same-feature-same-cat-loc",
+      "score": 0.792,
+      "lead": "STRONG",
+      "explanation": [
+        "Same item category (watch)",
+        "Compatible colour (gray)",
+        "Same or similar model (qz18)",
+        "Similar marking described: 'engraved qz-18 on the back cover'",
+        "Photos look visually similar (colour and shape)",
+        "Found about 110 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 5 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L046",
+      "found": "F307",
+      "negative_type": "hard:tg-same-feature-same-cat-loc",
+      "score": 0.789,
+      "lead": "STRONG",
+      "explanation": [
+        "Same item category (watch)",
+        "Compatible colour (black)",
+        "Same or similar model (ak19)",
+        "Similar marking described: 'engraved ak-19 on the back cover'",
+        "Photos look visually similar (colour and shape)",
+        "Found about 100 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 6 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L005",
+      "found": "F022",
+      "negative_type": "other_query_true_match",
+      "score": 0.74,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (phone)",
+        "Compatible colour (gray)",
+        "Same brand (Infinix)",
+        "Similar marking described: 'label with serial 6643 under the back cover'",
+        "Photos look visually similar (colour and shape)",
+        "Found about 80 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 6 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L047",
+      "found": "F313",
+      "negative_type": "hard:tg-same-feature-far",
+      "score": 0.727,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (watch)",
+        "Compatible colour (gray)",
+        "Same or similar model (bt07)",
+        "Similar marking described: 'engraved bt-07 on the back cover'",
+        "Photos look visually similar (colour and shape)",
+        "Found about 490 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 3 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L004",
+      "found": "F029",
+      "negative_type": "other_query_true_match",
+      "score": 0.726,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (phone)",
+        "Compatible colour (gray)",
+        "Same brand (Infinix)",
+        "Similar marking described: 'label with serial 2216 under the back cover'",
+        "Photos look visually similar (colour and shape)",
+        "Found about 120 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 11 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L048",
+      "found": "F320",
+      "negative_type": "hard:tg-same-feature-far",
+      "score": 0.722,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (watch)",
+        "Compatible colour (yellow)",
+        "Same or similar model (xr33)",
+        "Similar marking described: 'engraved xr-33 on the back cover'",
+        "Photos look visually similar (colour and shape)",
+        "Found about 540 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 3 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L012",
+      "found": "F084",
+      "negative_type": "hard:tg-same-feature-same-cat-loc",
+      "score": 0.701,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (backpack)",
+        "Compatible colour (gray)",
+        "Similar marking described: 'initials mr inside the front pocket'",
+        "Photos look visually similar (colour and shape)",
+        "Found about 30 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 4 hours after the reported loss"
+      ]
+    }
+  ],
+  "runtime_seconds": 28.39,
+  "label": "v3-cases",
+  "dataset": {
+    "file": "synthetic_pairs_cases.json",
+    "name": "SYNTHETIC",
+    "generator": "backend/evaluation/generate_cases.py",
+    "seed": 20261005,
+    "notice": "Invented for offline evaluation. Not real user reports, people or locations history. Coordinates are campus place points from app/geo/uet_lahore.json. Photos are rendered from simple synthetic shapes. Designed identity cases, not a random sample."
+  },
+  "config": {
+    "threshold": 0.55,
+    "max_candidates": 10,
+    "max_notifications": 3,
+    "scorer": "v3",
+    "text_method": "bm25",
+    "weights": {
+      "category": 0.15,
+      "text": 0.2,
+      "color": 0.12,
+      "brand": 0.08,
+      "features": 0.1,
+      "image": 0.1,
+      "location": 0.15,
+      "time": 0.1
+    }
+  }
+}

@@ -38,7 +38,8 @@ from app.models.enums import ReportStatus, ReportType
 
 HERE = Path(__file__).resolve().parent
 DATASETS = {"base": HERE / "data" / "synthetic_pairs.json", "extended": HERE / "data" / "synthetic_pairs_extended.json",
-            "targeted": HERE / "data" / "synthetic_pairs_targeted.json"}
+            "targeted": HERE / "data" / "synthetic_pairs_targeted.json",
+            "cases": HERE / "data" / "synthetic_pairs_cases.json"}
 RESULTS = HERE / "results"
 
 REPORT_COLUMNS = ("name", "category", "description", "color", "brand", "distinctive_features",
