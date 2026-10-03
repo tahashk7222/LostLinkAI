@@ -33,7 +33,9 @@ class MatchingConfig:
     time_slack_hours: float = 12
     max_days_after_loss: int = 60
     max_distance_km: float = 30
-    location_scale_km: float = 1.5  # distance at which location score falls to ~37%
+    # Campus scale: score ~0.75 at 100 m, ~0.24 at 500 m (falls to ~37% at this distance)
+    location_scale_km: float = 0.35
+    same_area_score: float = 0.8  # floor when both points are in the same campus area (e.g. sports grounds)
     time_scale_hours: float = 24
 
 

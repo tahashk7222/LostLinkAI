@@ -5,8 +5,12 @@ import { Suspense, useCallback, useEffect, useState } from "react";
 import { api, imageUrl } from "@/lib/api";
 import { formatDate } from "@/lib/format";
 import type { Match, Report } from "@/lib/types";
+import dynamic from "next/dynamic";
+import { loadGeoConfig, type GeoConfig } from "@/lib/geo";
 import { MatchCard } from "@/components/MatchCard";
-import { Empty, ErrorBox, InfoBox, Protected, Spinner, StatusBadge, TypeBadge } from "@/components/ui";
+import { Empty, ErrorBox, InfoBox, Protected, Spinner, StatusBadge, TypeBadge, ZoneBadge } from "@/components/ui";
+
+const CampusMap = dynamic(() => import("@/components/CampusMap").then((m) => m.CampusMap), { ssr: false });
 
 function Field({ label, value }: { label: string; value?: string | null }) {
   if (!value) return null;
@@ -29,13 +33,18 @@ function ReportDetails() {
   const [flagging, setFlagging] = useState(false);
   const [flagReason, setFlagReason] = useState("");
   const [notice, setNotice] = useState(params.get("created") ? "Report saved." : "");
+  const photoErrors = Number(params.get("photo_errors") ?? 0);
+  const [geo, setGeo] = useState<GeoConfig | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const load = useCallback(async () => {
     try {
       const r = await api<Report>(`/reports/${id}`);
       setReport(r);
-      if (r.is_owner) setMatches((await api<{ matches: Match[] }>(`/reports/${id}/matches`)).matches);
+      if (r.is_owner) {
+        setMatches((await api<{ matches: Match[] }>(`/reports/${id}/matches`)).matches);
+        if (r.latitude != null && r.zone) loadGeoConfig().then(setGeo).catch(() => {});
+      }
     } catch (e) {
       setError((e as Error).message);
     }
@@ -111,6 +120,9 @@ function ReportDetails() {
     <div className="grid gap-8 lg:grid-cols-5">
       <div className="space-y-4 lg:col-span-3">
         {notice && <InfoBox tone="success">{notice}</InfoBox>}
+        {photoErrors > 0 && (
+          <InfoBox tone="warn">{photoErrors} photo{photoErrors > 1 ? "s" : ""} failed to upload. You can add photos again below.</InfoBox>
+        )}
         {error && <ErrorBox message={error} />}
         <div className="card space-y-4">
           <div className="flex flex-wrap items-center gap-2">
@@ -133,13 +145,22 @@ function ReportDetails() {
           <dl className="grid gap-3 sm:grid-cols-2">
             <Field label="Category" value={report.category} />
             <Field label={report.report_type === "LOST" ? "Lost around" : "Found around"} value={formatDate(report.date_time)} />
-            <Field label="Location" value={report.location} />
+            <div>
+              <dt className="text-xs uppercase tracking-wide text-slate-500">Location</dt>
+              <dd className="flex flex-wrap items-center gap-2 text-sm text-slate-800">{report.location} <ZoneBadge zone={report.zone} /></dd>
+            </div>
             <Field label="Colour" value={report.color} />
             <Field label="Brand" value={report.brand} />
             <Field label="Model" value={report.model} />
             <Field label="Distinctive features" value={report.distinctive_features} />
             <Field label="Reported by" value={report.is_owner ? "You" : report.reporter_name} />
           </dl>
+          {report.is_owner && geo && report.latitude != null && report.longitude != null && (
+            <div>
+              <p className="mb-1 text-xs text-slate-500">🔒 Exact pin (only you see this; others see &ldquo;{report.location}&rdquo;)</p>
+              <CampusMap config={geo} point={{ lat: report.latitude, lng: report.longitude }} height={200} label="Map showing where you reported the item" />
+            </div>
+          )}
           {report.is_owner && report.private_details && (
             <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm">
               <p className="font-medium text-amber-900">🔒 Private details (only you)</p>

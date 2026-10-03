@@ -14,6 +14,7 @@ from app.models.enums import AIStatus, MatchStatus, ReportStatus, ReportType
 from app.schemas.reports import ImageOut, ReportCreate, ReportUpdate
 from app.services import storage
 from app.services.audit import audit
+from app.services.location import resolve_location
 from app.services.matches import match_summary
 from app.services.reports import PUBLIC_STATUSES, get_owned, get_viewable, image_url, load_report, serialize
 from app.services.state_machine import transition
@@ -24,9 +25,14 @@ MAX_IMAGES = 4
 EDITABLE_STATUSES = (ReportStatus.DRAFT, ReportStatus.ACTIVE, ReportStatus.POTENTIAL_MATCH)
 
 
+LOCATION_FIELDS = ("location", "place_key", "location_type", "latitude", "longitude")
+
+
 @router.post("", status_code=201)
 def create_report(body: ReportCreate, user: CurrentUser, db: DB, bg: BackgroundTasks):
-    r = ItemReport(user_id=user.id, **body.model_dump())
+    data = body.model_dump(exclude=set(LOCATION_FIELDS))
+    loc = resolve_location(body.location, body.place_key, body.latitude, body.longitude, body.location_type)
+    r = ItemReport(user_id=user.id, **data, **loc.as_fields())
     db.add(r)
     db.flush()
     audit(db, "report.create", user.id, "report", r.id, type=r.report_type.value)
@@ -82,6 +88,21 @@ def update_report(report_id: int, body: ReportUpdate, user: CurrentUser, db: DB,
     if data:
         if r.status not in EDITABLE_STATUSES:
             raise AppError(409, "This report can no longer be edited")
+        loc_changes = {k: data.pop(k) for k in LOCATION_FIELDS if k in data}
+        if loc_changes:
+            if set(loc_changes) == {"location"} and r.zone is not None:
+                # Relabel only: keep the already-validated point.
+                data["location"] = loc_changes["location"] or r.location
+            else:
+                new_point = {"place_key", "latitude", "longitude"} & set(loc_changes)
+                loc = resolve_location(
+                    loc_changes.get("location", r.location),
+                    loc_changes.get("place_key") if new_point else r.place_key,
+                    loc_changes.get("latitude") if new_point else r.latitude,
+                    loc_changes.get("longitude") if new_point else r.longitude,
+                    loc_changes.get("location_type") if new_point else r.location_type,
+                )
+                data.update(loc.as_fields())
         for k, v in data.items():
             setattr(r, k, v)
         r.ai_status = AIStatus.PENDING

@@ -1,15 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { api } from "@/lib/api";
+import { useRef, useState } from "react";
+import { api, uploadFile } from "@/lib/api";
 import { toLocalInput } from "@/lib/format";
-import { CATEGORIES, LANDMARKS } from "@/lib/region";
+import type { LocationValue } from "@/lib/geo";
+import { CATEGORIES } from "@/lib/region";
 import type { Report, ReportType } from "@/lib/types";
+import { LocationPicker } from "./LocationPicker";
+import { PhotoDropzone, type PhotoItem } from "./PhotoDropzone";
 import { ErrorBox } from "./ui";
-
-const MAX_MB = 5;
-const TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 export function ReportForm({ type }: { type: ReportType }) {
   const router = useRouter();
@@ -24,79 +24,68 @@ export function ReportForm({ type }: { type: ReportType }) {
     distinctive_features: "",
     private_details: "",
     date_time: toLocalInput(new Date()),
-    location: "",
   });
-  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
-  const [files, setFiles] = useState<File[]>([]);
+  const [location, setLocation] = useState<LocationValue | null>(null);
+  const [locationError, setLocationError] = useState("");
+  const [photos, setPhotos] = useState<PhotoItem[]>([]);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState("");
   const [more, setMore] = useState(false);
+  const locationRef = useRef<HTMLDivElement>(null);
 
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setF({ ...f, [k]: e.target.value });
 
-  function pickLandmark(name: string) {
-    const l = LANDMARKS.find((x) => x.name === name);
-    if (l) {
-      setF({ ...f, location: l.name });
-      setCoords({ lat: l.lat, lng: l.lng });
-    }
-  }
-
-  function useMyLocation() {
-    if (!navigator.geolocation) return setError("Location is not available in this browser.");
-    navigator.geolocation.getCurrentPosition(
-      (p) => {
-        setCoords({ lat: p.coords.latitude, lng: p.coords.longitude });
-        if (!f.location) setF({ ...f, location: "Near my current location" });
-      },
-      () => setError("Could not get your location. You can type it instead."),
-    );
-  }
-
-  function onFiles(list: FileList | null) {
-    if (!list) return;
-    const picked = Array.from(list).slice(0, 4);
-    const bad = picked.find((x) => !TYPES.includes(x.type) || x.size > MAX_MB * 1024 * 1024);
-    if (bad) {
-      setError(`"${bad.name}" must be a JPEG, PNG or WebP image under ${MAX_MB} MB.`);
-      return;
-    }
-    setError("");
-    setFiles(picked);
-  }
+  const patchPhoto = (id: string, patch: Partial<PhotoItem>) =>
+    setPhotos((list) => list.map((p) => (p.id === id ? { ...p, ...patch } : p)));
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    if (!location) {
+      setLocationError("Please choose a UET Lahore location, use your location, or pick a spot on the map.");
+      locationRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    setLocationError("");
     setBusy("Saving report…");
     try {
+      const fields = Object.fromEntries(Object.entries(f).map(([k, v]) => [k, v.trim() === "" ? null : v.trim()]));
       const payload = {
         report_type: type,
-        ...Object.fromEntries(Object.entries(f).map(([k, v]) => [k, v.trim() === "" ? null : v.trim()])),
+        ...fields,
         category: f.category || f.name,
         date_time: new Date(f.date_time).toISOString(),
-        latitude: coords?.lat ?? null,
-        longitude: coords?.lng ?? null,
+        location: location.label.trim() || null,
+        location_type: location.type,
+        place_key: location.placeKey,
+        // Coordinates are sent for GPS/map picks; for predefined places the server uses its own.
+        latitude: location.type === "predefined" ? null : location.lat,
+        longitude: location.type === "predefined" ? null : location.lng,
       };
       const report = await api<Report>("/reports", { method: "POST", json: payload });
-      for (let i = 0; i < files.length; i++) {
-        setBusy(`Uploading photo ${i + 1} of ${files.length}…`);
-        const body = new FormData();
-        body.append("file", files[i]);
+
+      let failed = 0;
+      for (let i = 0; i < photos.length; i++) {
+        const p = photos[i];
+        setBusy(`Uploading photo ${i + 1} of ${photos.length}…`);
+        patchPhoto(p.id, { status: "uploading", progress: 0 });
         try {
-          await api(`/reports/${report.id}/images`, { method: "POST", body });
+          await uploadFile(`/reports/${report.id}/images`, p.file, (progress) => patchPhoto(p.id, { progress }));
+          patchPhoto(p.id, { status: "done", progress: 1 });
         } catch (err) {
-          setError(`Report saved, but a photo failed to upload: ${(err as Error).message}`);
+          failed++;
+          patchPhoto(p.id, { status: "error", error: (err as Error).message });
         }
       }
+
       setBusy("Looking for matches…");
       try {
         await api(`/reports/${report.id}/match`, { method: "POST" });
       } catch {
         /* report is saved; the details page shows AI status and a retry button */
       }
-      router.push(`/reports/${report.id}?created=1`);
+      router.push(`/reports/${report.id}?created=1${failed ? `&photo_errors=${failed}` : ""}`);
     } catch (err) {
       setError((err as Error).message);
       setBusy("");
@@ -125,45 +114,24 @@ export function ReportForm({ type }: { type: ReportType }) {
         <div>
           <label className="label" htmlFor="description">Description *</label>
           <textarea id="description" required minLength={5} rows={3} className="input" value={f.description} onChange={set("description")}
-            placeholder={lost ? "e.g. I lost my black backpack near the library at around 3 PM." : "e.g. Found a black backpack on a bench outside the library."} />
+            placeholder={lost ? "e.g. I lost my black backpack near the Lecture Theatre at around 3 PM." : "e.g. Found a black backpack on a bench near Allah Wala Chowk."} />
         </div>
-        <div>
-          <label className="label">Photos (recommended)</label>
-          <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => onFiles(e.target.files)} className="block text-sm" />
-          <p className="hint">Up to 4 photos, {MAX_MB} MB each. Location metadata is removed from photos automatically.</p>
-          {files.length > 0 && <p className="mt-1 text-xs text-slate-600">{files.map((x) => x.name).join(", ")}</p>}
-        </div>
+        <PhotoDropzone photos={photos} onChange={setPhotos} disabled={!!busy} />
       </section>
 
-      <section className="card space-y-4">
+      <section className="card space-y-5">
         <h2 className="font-semibold text-slate-900">Where and when? <span className="font-normal text-slate-500">(approximate is fine)</span></h2>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label className="label" htmlFor="location">{lost ? "Where you lost it" : "Where you found it"} *</label>
-            <input id="location" required minLength={2} className="input" placeholder="e.g. Main library entrance" value={f.location}
-              onChange={(e) => { setF({ ...f, location: e.target.value }); setCoords(null); }} />
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {LANDMARKS.map((l) => (
-                <button type="button" key={l.name} onClick={() => pickLandmark(l.name)}
-                  className={`rounded-full border px-2.5 py-0.5 text-xs ${f.location === l.name ? "border-brand-500 bg-brand-50 text-brand-700" : "border-slate-300 text-slate-600 hover:bg-slate-50"}`}>
-                  {l.name}
-                </button>
-              ))}
-              <button type="button" onClick={useMyLocation} className="rounded-full border border-slate-300 px-2.5 py-0.5 text-xs text-slate-600 hover:bg-slate-50">
-                📍 Use my location
-              </button>
-            </div>
-            {coords && <p className="hint">Location pinned. Only an approximate area is shown to others.</p>}
-          </div>
-          <div>
-            <label className="label" htmlFor="dt">{lost ? "When (approximately)" : "When you found it"} *</label>
-            <input id="dt" type="datetime-local" required className="input" value={f.date_time} onChange={set("date_time")} max={toLocalInput(new Date())} />
-          </div>
+        <div ref={locationRef}>
+          <LocationPicker mode={type} value={location} onChange={(v) => { setLocation(v); if (v) setLocationError(""); }} error={locationError} />
+        </div>
+        <div className="sm:max-w-xs">
+          <label className="label" htmlFor="dt">{lost ? "When (approximately)" : "When you found it"} *</label>
+          <input id="dt" type="datetime-local" required className="input" value={f.date_time} onChange={set("date_time")} max={toLocalInput(new Date())} />
         </div>
       </section>
 
       <section className="card space-y-4">
-        <button type="button" onClick={() => setMore(!more)} className="flex w-full items-center justify-between text-left font-semibold text-slate-900">
+        <button type="button" onClick={() => setMore(!more)} aria-expanded={more} className="flex w-full items-center justify-between text-left font-semibold text-slate-900">
           More details (helps matching)
           <span className="text-sm text-brand-600">{more ? "Hide" : "Add"}</span>
         </button>

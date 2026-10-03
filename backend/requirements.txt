@@ -8,6 +8,7 @@ python-multipart==0.0.20
 bcrypt==4.3.0
 PyJWT==2.10.1
 Pillow==11.2.1
+alembic==1.16.1
 
 # testing
 pytest==8.3.5

@@ -24,9 +24,8 @@ LOST_BACKPACK = {
     "distinctive_features": "Red keychain on the front zipper",
     "private_details": "Inside: blue calculus notebook, Casio calculator and a green water bottle",
     "date_time": "2026-10-01T15:00:00Z",
-    "location": "Main Library entrance",
-    "latitude": 33.6425,
-    "longitude": 72.9930,
+    "location": "Outside the Lecture Theatre",
+    "place_key": "lecture-theatre",
 }
 
 FOUND_BACKPACK = {
@@ -39,9 +38,10 @@ FOUND_BACKPACK = {
     "distinctive_features": "Has a red keychain attached to the zipper",
     "private_details": "Contains a blue notebook with calculus notes and a calculator",
     "date_time": "2026-10-01T15:30:00Z",
-    "location": "Library courtyard bench",
-    "latitude": 33.6431,
-    "longitude": 72.9941,
+    "location": "Bench near Allah Wala Chowk",
+    "location_type": "gps",
+    "latitude": 31.578850,  # ~60 m from the Lecture Theatre
+    "longitude": 74.356760,
 }
 
 FOUND_UNRELATED = {
@@ -52,7 +52,10 @@ FOUND_UNRELATED = {
     "color": "silver",
     "brand": "Samsung",
     "date_time": "2026-10-01T16:00:00Z",
-    "location": "Cafeteria",
-    "latitude": 33.6500,
-    "longitude": 73.0100,
+    "place_key": "sports-grounds",
 }
+
+# Reference points for geofence tests (WGS84)
+CAMPUS_POINT = (31.579303, 74.357127)  # Department of Civil Engineering (OSM)
+NEARBY_POINT = (31.5745, 74.3560)  # G.T. Road, ~250 m south of the campus boundary
+OUTSIDE_POINT = (31.5925, 74.3095)  # Minar-e-Pakistan, ~4 km away

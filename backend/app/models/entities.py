@@ -52,9 +52,14 @@ class ItemReport(TimestampMixin, Base):
     # Never shown to other users; used only to build/evaluate ownership verification.
     private_details: Mapped[str | None] = mapped_column(Text)
     date_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
-    location: Mapped[str] = mapped_column(String(200))
+    location: Mapped[str] = mapped_column(String(200))  # human-readable label (location_text)
+    # Precise point: used internally for geofence validation and matching, never shown to other users.
     latitude: Mapped[float | None] = mapped_column(Float)
     longitude: Mapped[float | None] = mapped_column(Float)
+    # Structured location (NULL for reports created before the UET geofence existed)
+    zone: Mapped[str | None] = mapped_column(String(20))  # campus / nearby
+    location_type: Mapped[str | None] = mapped_column(String(20))  # predefined / gps / map
+    place_key: Mapped[str | None] = mapped_column(String(50))  # key of a predefined place
     status: Mapped[ReportStatus] = mapped_column(Enum(ReportStatus), default=ReportStatus.ACTIVE, index=True)
     ai_status: Mapped[AIStatus] = mapped_column(Enum(AIStatus), default=AIStatus.PENDING)
     ai_error: Mapped[str | None] = mapped_column(String(255))

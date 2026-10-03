@@ -33,8 +33,13 @@ def test_create_and_list_reports(client):
 
 def test_missing_fields_rejected(client):
     a = register(client)
-    bad = {k: v for k, v in LOST_BACKPACK.items() if k != "location"}
-    assert client.post("/reports", json=bad, headers=a).status_code == 422
+    no_location = {k: v for k, v in LOST_BACKPACK.items() if k not in ("location", "place_key")}
+    assert client.post("/reports", json=no_location, headers=a).status_code == 422
+    no_description = {k: v for k, v in LOST_BACKPACK.items() if k != "description"}
+    assert client.post("/reports", json=no_description, headers=a).status_code == 422
+    # The label is optional: it is filled in from the chosen place
+    no_label = {k: v for k, v in LOST_BACKPACK.items() if k != "location"}
+    assert client.post("/reports", json=no_label, headers=a).json()["location"] == "Lecture Theatre"
 
 
 def test_other_user_sees_public_view_only(client):
@@ -43,7 +48,9 @@ def test_other_user_sees_public_view_only(client):
     rid = client.post("/reports", json=LOST_BACKPACK, headers=a).json()["id"]
     view = client.get(f"/reports/{rid}", headers=b).json()
     assert "private_details" not in view
-    assert "latitude" not in view and view["approx_latitude"] == round(LOST_BACKPACK["latitude"], 2)
+    # No coordinates of any precision for other users; only label + zone
+    assert not any(k in view for k in ("latitude", "longitude", "approx_latitude", "approx_longitude"))
+    assert view["location"] == "Outside the Lecture Theatre" and view["zone"] == "campus"
     assert "email" not in str(view)
     assert view["reporter_name"] == "Alice"
 

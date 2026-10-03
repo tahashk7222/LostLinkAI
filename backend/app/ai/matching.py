@@ -11,6 +11,7 @@ from app.ai.config import MatchingConfig
 from app.ai.providers import cosine, get_image_embedder, get_text_embedder
 from app.ai.providers.text import tokenize
 from app.ai.understanding import Understanding
+from app.geo.geofence import area_of, get_geofence
 
 
 def as_utc(dt: datetime) -> datetime:
@@ -117,12 +118,28 @@ def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingC
         elif best >= 0.55:
             reasons.append("Photos are somewhat visually similar")
 
-    # Location
+    # Location: campus-scale distance, plus same place / same campus area / zone
     if None not in (lost.latitude, lost.longitude, found.latitude, found.longitude):
         km = haversine_km(lost.latitude, lost.longitude, found.latitude, found.longitude)
-        signals["location"] = round(math.exp(-km / cfg.location_scale_km), 3)
-        reasons.append(f"Found about {km:.1f} km from the reported loss location" if km >= 0.1
-                       else "Found at practically the same location")
+        loc = math.exp(-km / cfg.location_scale_km)
+        lost_place, found_place = getattr(lost, "place_key", None), getattr(found, "place_key", None)
+        lost_area = area_of(lost.latitude, lost.longitude, lost_place)
+        if lost_place and lost_place == found_place:
+            loc = 1.0
+            place = get_geofence().place(lost_place)
+            reasons.append(f"Both reported at {place.name if place else found.location}")
+        else:
+            if lost_area and lost_area == area_of(found.latitude, found.longitude, found_place):
+                loc = max(loc, cfg.same_area_score)
+            if km < 0.03:
+                reasons.append("Found at practically the same spot")
+            elif km < 1:
+                reasons.append(f"Found about {round(km * 1000, -1):.0f} m from where it was lost")
+            else:
+                reasons.append(f"Found about {km:.1f} km from the reported loss location")
+        if getattr(lost, "zone", None) == getattr(found, "zone", None) == "campus":
+            reasons.append("Both on UET Lahore campus")
+        signals["location"] = round(loc, 3)
     else:
         sim = _jaccard(lost.location, found.location)
         signals["location"] = round(min(1.0, sim * 1.5), 3)

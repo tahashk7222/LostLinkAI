@@ -1,0 +1,472 @@
+{
+ "id": "uet-lahore",
+ "name": "UET Lahore",
+ "description": "University of Engineering and Technology, Lahore - Main Campus (G.T. Road) and its immediate surroundings.",
+ "zones": {
+  "campus": "UET Lahore Campus",
+  "nearby": "Nearby UET Area"
+ },
+ "nearby_buffer_m": 500,
+ "campus_polygon": [
+  [
+   31.5834738,
+   74.3509966
+  ],
+  [
+   31.58346,
+   74.3516178
+  ],
+  [
+   31.5835152,
+   74.3524725
+  ],
+  [
+   31.5835455,
+   74.3524695
+  ],
+  [
+   31.5836335,
+   74.353612
+  ],
+  [
+   31.5836526,
+   74.3536119
+  ],
+  [
+   31.5836703,
+   74.3540206
+  ],
+  [
+   31.5836014,
+   74.3540244
+  ],
+  [
+   31.5836585,
+   74.3548865
+  ],
+  [
+   31.5837325,
+   74.3548809
+  ],
+  [
+   31.5838806,
+   74.3570706
+  ],
+  [
+   31.5838557,
+   74.3570729
+  ],
+  [
+   31.5838594,
+   74.3571376
+  ],
+  [
+   31.5839119,
+   74.3580604
+  ],
+  [
+   31.583553,
+   74.3584187
+  ],
+  [
+   31.5835127,
+   74.3585017
+  ],
+  [
+   31.5833002,
+   74.3586766
+  ],
+  [
+   31.5833301,
+   74.3590758
+  ],
+  [
+   31.5831769,
+   74.3589747
+  ],
+  [
+   31.5831009,
+   74.3592266
+  ],
+  [
+   31.5819823,
+   74.3593798
+  ],
+  [
+   31.5818673,
+   74.35767
+  ],
+  [
+   31.5793112,
+   74.3578858
+  ],
+  [
+   31.579338,
+   74.3581069
+  ],
+  [
+   31.5793482,
+   74.3581044
+  ],
+  [
+   31.5793691,
+   74.3582214
+  ],
+  [
+   31.5794165,
+   74.3584868
+  ],
+  [
+   31.5794509,
+   74.3586792
+  ],
+  [
+   31.5794703,
+   74.3587875
+  ],
+  [
+   31.5795124,
+   74.3590236
+  ],
+  [
+   31.5795154,
+   74.3590427
+  ],
+  [
+   31.5795518,
+   74.3592482
+  ],
+  [
+   31.5797118,
+   74.360172
+  ],
+  [
+   31.5798088,
+   74.3606944
+  ],
+  [
+   31.5800065,
+   74.3606496
+  ],
+  [
+   31.580063,
+   74.3612501
+  ],
+  [
+   31.5801665,
+   74.3616241
+  ],
+  [
+   31.5801322,
+   74.3617151
+  ],
+  [
+   31.5798687,
+   74.3615892
+  ],
+  [
+   31.5796239,
+   74.3624202
+  ],
+  [
+   31.5786605,
+   74.3626763
+  ],
+  [
+   31.5786548,
+   74.362647
+  ],
+  [
+   31.578605,
+   74.3626605
+  ],
+  [
+   31.5786115,
+   74.3626919
+  ],
+  [
+   31.5779591,
+   74.3628515
+  ],
+  [
+   31.5775197,
+   74.3606133
+  ],
+  [
+   31.5773772,
+   74.3598183
+  ],
+  [
+   31.5770753,
+   74.3579203
+  ],
+  [
+   31.5769251,
+   74.3569742
+  ],
+  [
+   31.576997,
+   74.3568246
+  ],
+  [
+   31.5769855,
+   74.35676
+  ],
+  [
+   31.5769709,
+   74.3566765
+  ],
+  [
+   31.5769623,
+   74.3566292
+  ],
+  [
+   31.5769599,
+   74.3566161
+  ],
+  [
+   31.5768519,
+   74.3565145
+  ],
+  [
+   31.5768146,
+   74.3562796
+  ],
+  [
+   31.5765473,
+   74.3545971
+  ],
+  [
+   31.5765215,
+   74.3546057
+  ],
+  [
+   31.5765003,
+   74.3544653
+  ],
+  [
+   31.5764923,
+   74.3544122
+  ],
+  [
+   31.5774528,
+   74.3542431
+  ],
+  [
+   31.5774409,
+   74.3541395
+  ],
+  [
+   31.5772625,
+   74.3540018
+  ],
+  [
+   31.5771839,
+   74.3533656
+  ],
+  [
+   31.5770858,
+   74.3526957
+  ],
+  [
+   31.5762706,
+   74.3528258
+  ],
+  [
+   31.5761112,
+   74.3514713
+  ],
+  [
+   31.5761432,
+   74.351466
+  ],
+  [
+   31.5760381,
+   74.3505621
+  ],
+  [
+   31.5759947,
+   74.3505681
+  ],
+  [
+   31.5759847,
+   74.350468
+  ],
+  [
+   31.5760216,
+   74.3504629
+  ],
+  [
+   31.5759533,
+   74.3498018
+  ],
+  [
+   31.5764323,
+   74.3497321
+  ],
+  [
+   31.5771494,
+   74.3496161
+  ],
+  [
+   31.5776527,
+   74.3495406
+  ],
+  [
+   31.5776483,
+   74.3494961
+  ],
+  [
+   31.5790011,
+   74.3492774
+  ],
+  [
+   31.5792003,
+   74.3510448
+  ],
+  [
+   31.5793359,
+   74.3515445
+  ],
+  [
+   31.5799999,
+   74.3514562
+  ],
+  [
+   31.5807738,
+   74.3513591
+  ],
+  [
+   31.5807718,
+   74.351207
+  ],
+  [
+   31.580769,
+   74.3507133
+  ],
+  [
+   31.5825125,
+   74.3504476
+  ],
+  [
+   31.5825218,
+   74.351134
+  ],
+  [
+   31.5826997,
+   74.3511076
+  ],
+  [
+   31.5830964,
+   74.3510488
+  ]
+ ],
+ "places": [
+  {
+   "key": "civil-engineering",
+   "name": "Department of Civil Engineering",
+   "lat": 31.579303,
+   "lng": 74.357127,
+   "area": "academic-core",
+   "source": "OpenStreetMap relation/12275014"
+  },
+  {
+   "key": "planning-architecture",
+   "name": "Department of Planning & Architecture",
+   "lat": 31.579261,
+   "lng": 74.355801,
+   "area": "academic-core",
+   "source": "OpenStreetMap relation/16698678"
+  },
+  {
+   "key": "lecture-theatre",
+   "name": "Lecture Theatre",
+   "lat": 31.578404,
+   "lng": 74.357002,
+   "area": "academic-core",
+   "source": "OpenStreetMap way/670477457"
+  },
+  {
+   "key": "allah-wala-chowk",
+   "name": "Allah Wala Chowk",
+   "lat": 31.578789,
+   "lng": 74.356737,
+   "area": "academic-core",
+   "source": "OpenStreetMap named junction"
+  },
+  {
+   "key": "transportation-roundabout",
+   "name": "Transportation Dept Roundabout",
+   "lat": 31.578905,
+   "lng": 74.357823,
+   "area": "academic-core",
+   "source": "OpenStreetMap named junction"
+  },
+  {
+   "key": "central-parking",
+   "name": "Central Car Park",
+   "lat": 31.578073,
+   "lng": 74.357206,
+   "area": "academic-core",
+   "source": "OpenStreetMap way/994823985 (amenity=parking)"
+  },
+  {
+   "key": "science-museum",
+   "name": "National Museum of Science & Technology",
+   "lat": 31.576767,
+   "lng": 74.35353,
+   "area": "south-side",
+   "source": "OpenStreetMap way/1531004727"
+  },
+  {
+   "key": "sports-grounds",
+   "name": "Sports Grounds (courts & pitches)",
+   "lat": 31.581206,
+   "lng": 74.353343,
+   "area": "sports",
+   "source": "OpenStreetMap centre of mapped pitches/courts (ways 1486999187, 1486999194, 1486999195, 1487031761, 1487031762)"
+  },
+  {
+   "key": "swimming-pool",
+   "name": "Swimming Pool",
+   "lat": 31.581056,
+   "lng": 74.354056,
+   "area": "sports",
+   "source": "OpenStreetMap way/1486999192 (leisure=swimming_pool)"
+  },
+  {
+   "key": "gate-2",
+   "name": "Gate 2",
+   "lat": 31.5765,
+   "lng": 74.354465,
+   "area": "south-side",
+   "source": "OpenStreetMap node/13624170999 (barrier=gate) at Gate-2 Road"
+  },
+  {
+   "key": "gate-3",
+   "name": "Gate 3",
+   "lat": 31.576971,
+   "lng": 74.356677,
+   "area": "south-side",
+   "source": "OpenStreetMap node/3230757207 (barrier=gate) at Gate-3 Road"
+  },
+  {
+   "key": "main-block",
+   "name": "Main Block area",
+   "lat": 31.578121,
+   "lng": 74.359713,
+   "area": "east-side",
+   "source": "OpenStreetMap 'Main Block Road' (inferred area)"
+  },
+  {
+   "key": "halls-of-residence",
+   "name": "Hostels (Ayesha Hall / C-Hall area)",
+   "lat": 31.578343,
+   "lng": 74.36128,
+   "area": "east-side",
+   "source": "OpenStreetMap 'Ayesha Hall Road' and 'C-Hall Road' (inferred area)"
+  }
+ ],
+ "attribution": "Campus boundary and places: (c) OpenStreetMap contributors, ODbL (way/302283434, check_date 2026-07-09).",
+ "todo": "Add verified pins for Main Library, Library Courtyard and Cafeteria (not mapped in OpenStreetMap)."
+}

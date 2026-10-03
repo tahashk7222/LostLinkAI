@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useAuth } from "@/lib/auth";
 
 const steps = [
-  ["1. Report", "Tell us what you lost or found: a photo, a few details, roughly where and when."],
+  ["1. Report", "Tell us what you lost or found on or around UET Lahore campus: a photo, a few details, where and when."],
   ["2. AI matching", "LostLink AI compares appearance, description, colour, brand, place and time across reports."],
   ["3. Verify", "Possible owners answer private questions. The finder, who holds the item, confirms."],
   ["4. Recover", "Only then can you chat in the app to arrange the handover. No phone numbers or emails shared."],
@@ -17,7 +17,7 @@ export default function Landing() {
       <section className="grid items-center gap-10 pt-6 md:grid-cols-2">
         <div>
           <p className="mb-3 inline-block rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
-            Regional lost &amp; found, assisted by AI
+            Lost &amp; found for the UET Lahore community, assisted by AI
           </p>
           <h1 className="text-4xl font-extrabold leading-tight text-slate-900 md:text-5xl">
             Lost something? <br />
@@ -45,7 +45,7 @@ export default function Landing() {
           <ul className="space-y-1 text-sm text-slate-600">
             <li>✓ Same item category</li>
             <li>✓ Compatible colour (black)</li>
-            <li>✓ Found about 0.1 km from where it was lost</li>
+            <li>✓ Found about 60 m from where it was lost, on UET campus</li>
             <li>✓ Found approximately 30 minutes later</li>
             <li>✓ Similar distinctive feature (red keychain)</li>
           </ul>

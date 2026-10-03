@@ -67,7 +67,7 @@ def test_matching_ranks_true_match_higher():
     b = score_pair(lost, bad, understand(lost), understand(bad), cfg)
     assert g.score >= cfg.threshold > b.score
     assert any("Same item category" in r for r in g.reasons)
-    assert any("km" in r for r in g.reasons)
+    assert any(" m from where it was lost" in r for r in g.reasons)
     assert any("minutes" in r for r in g.reasons)
     assert b.score <= 0.4  # category contradiction caps the score
 

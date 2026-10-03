@@ -19,6 +19,8 @@ class Settings(BaseSettings):
     max_upload_mb: int = 5
 
     match_threshold: float = 0.55
+    # Optional path to a different geographic boundary file (default: app/geo/uet_lahore.json)
+    geofence_file: str = ""
     admin_email: str = ""
     admin_password: str = ""
 

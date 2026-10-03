@@ -70,6 +70,21 @@ export function TypeBadge({ type }: { type: "LOST" | "FOUND" }) {
   );
 }
 
+export function ZoneBadge({ zone }: { zone: Report["zone"] }) {
+  if (!zone) {
+    return (
+      <span className="inline-block rounded-full bg-slate-100 px-2.5 py-0.5 text-xs text-slate-500" title="Reported before LostLink was limited to UET Lahore">
+        Location not verified
+      </span>
+    );
+  }
+  return (
+    <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${zone === "campus" ? "bg-brand-50 text-brand-700" : "bg-slate-100 text-slate-700"}`}>
+      {zone === "campus" ? "UET Lahore Campus" : "Nearby UET Area"}
+    </span>
+  );
+}
+
 export function ConfidenceBadge({ confidence, percent }: { confidence: string; percent: number }) {
   const c = { HIGH: "bg-emerald-600", MEDIUM: "bg-amber-500", LOW: "bg-slate-400" }[confidence] ?? "bg-slate-400";
   return (
@@ -102,6 +117,7 @@ export function ReportCard({ report }: { report: Report }) {
       <p className="mt-2 text-xs text-slate-500">
         📍 {report.location} · {new Date(report.date_time).toLocaleDateString()}
       </p>
+      <div className="mt-1.5"><ZoneBadge zone={report.zone} /></div>
     </Link>
   );
 }

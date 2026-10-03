@@ -1,8 +1,11 @@
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from app.models.enums import AIStatus, AttributeSource, ReportStatus, ReportType
+
+LocationType = Literal["predefined", "gps", "map"]
 
 
 class ReportBase(BaseModel):
@@ -15,7 +18,11 @@ class ReportBase(BaseModel):
     distinctive_features: str | None = Field(default=None, max_length=1000)
     private_details: str | None = Field(default=None, max_length=1000)
     date_time: datetime
-    location: str = Field(min_length=2, max_length=200)
+    # Location: a predefined place_key, or a lat/lng point inside the UET geofence.
+    # `location` is the human-readable label (auto-filled when omitted).
+    location: str | None = Field(default=None, max_length=200)
+    place_key: str | None = Field(default=None, max_length=50)
+    location_type: LocationType | None = None
     latitude: float | None = Field(default=None, ge=-90, le=90)
     longitude: float | None = Field(default=None, ge=-180, le=180)
 
@@ -39,7 +46,9 @@ class ReportUpdate(BaseModel):
     distinctive_features: str | None = Field(default=None, max_length=1000)
     private_details: str | None = Field(default=None, max_length=1000)
     date_time: datetime | None = None
-    location: str | None = Field(default=None, min_length=2, max_length=200)
+    location: str | None = Field(default=None, max_length=200)
+    place_key: str | None = Field(default=None, max_length=50)
+    location_type: LocationType | None = None
     latitude: float | None = Field(default=None, ge=-90, le=90)
     longitude: float | None = Field(default=None, ge=-180, le=180)
     status: ReportStatus | None = None  # only CLOSED allowed for owners
@@ -60,7 +69,9 @@ class AttributeOut(BaseModel):
 
 
 class ReportPublic(BaseModel):
-    """What any signed-in user may see. No private details, no exact coordinates, no contact info."""
+    """What any signed-in user may see. No private details, no coordinates, no contact info.
+
+    Location is exposed only as a human-readable label plus zone / place key."""
 
     id: int
     report_type: ReportType
@@ -73,8 +84,9 @@ class ReportPublic(BaseModel):
     distinctive_features: str | None
     date_time: datetime
     location: str
-    approx_latitude: float | None
-    approx_longitude: float | None
+    zone: str | None  # campus / nearby; None = created before the UET geofence
+    location_type: str | None
+    place_key: str | None
     status: ReportStatus
     created_at: datetime
     reporter_name: str

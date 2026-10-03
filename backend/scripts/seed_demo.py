@@ -18,6 +18,7 @@ from app.db.session import SessionLocal
 from app.main import init_db
 from app.models import ItemReport, User
 from app.models.enums import ReportType, Role
+from app.services.location import resolve_location
 
 DEMO_PASSWORD = "demo-pass-123"
 ACCOUNTS = [
@@ -44,18 +45,22 @@ def main() -> None:
 
         if "--reports" in sys.argv:
             t = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0) - timedelta(hours=3)
+            lost_loc = resolve_location("Outside the Lecture Theatre", "lecture-theatre", None, None, None)
+            found_loc = resolve_location("Bench near Allah Wala Chowk", None, 31.578850, 74.356760, "gps")
             lost = ItemReport(
                 user_id=users["ayesha@lostlink.demo"].id, report_type=ReportType.LOST, category="Backpack",
-                name="Black backpack", description="I lost my black backpack near the library at around 3 PM.",
+                name="Black backpack",
+                description="I lost my black backpack near the Lecture Theatre at around 3 PM.",
                 color="Black", brand="JanSport", distinctive_features="Red keychain on the front zipper",
                 private_details="Blue calculus notebook, Casio calculator, green water bottle",
-                date_time=t, location="Main Library", latitude=33.6425, longitude=72.993)
+                date_time=t, **lost_loc.as_fields())
             found = ItemReport(
                 user_id=users["bilal@lostlink.demo"].id, report_type=ReportType.FOUND, category="Backpack",
-                name="Black backpack", description="I found a black backpack near the library around 3:30 PM.",
+                name="Black backpack",
+                description="I found a black backpack near the Lecture Theatre around 3:30 PM.",
                 color="Black", brand="JanSport", distinctive_features="Red keychain attached to the zipper",
                 private_details="Has a blue notebook with calculus notes and a calculator inside",
-                date_time=t + timedelta(minutes=30), location="Library Courtyard", latitude=33.6431, longitude=72.9941)
+                date_time=t + timedelta(minutes=30), **found_loc.as_fields())
             db.add_all([lost, found])
             db.commit()
             process_report(lost.id)

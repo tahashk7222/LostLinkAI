@@ -7,6 +7,8 @@ COPY requirements.txt requirements-prod.txt ./
 RUN pip install --no-cache-dir -r requirements-prod.txt
 
 COPY app ./app
+COPY alembic.ini ./
+COPY migrations ./migrations
 RUN useradd --create-home appuser && mkdir -p /data/storage && chown -R appuser /data
 USER appuser
 

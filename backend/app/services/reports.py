@@ -69,9 +69,8 @@ def to_public(r: ItemReport, viewer: User | None = None) -> ReportPublic:
         id=r.id, report_type=r.report_type, category=r.category, name=r.name, description=r.description,
         color=r.color, brand=r.brand, model=r.model, distinctive_features=r.distinctive_features,
         date_time=r.date_time, location=r.location,
-        # ~1 km precision for everyone except the author
-        approx_latitude=round(r.latitude, 2) if r.latitude is not None else None,
-        approx_longitude=round(r.longitude, 2) if r.longitude is not None else None,
+        # Coordinates are internal (geofence + matching); others see only the label and zone.
+        zone=r.zone, location_type=r.location_type, place_key=r.place_key,
         status=r.status, created_at=r.created_at, reporter_name=r.owner.name.split(" ")[0],
         images=_images(r), is_owner=bool(viewer and viewer.id == r.user_id),
     )

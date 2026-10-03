@@ -20,8 +20,9 @@ export interface Report {
   distinctive_features: string | null;
   date_time: string;
   location: string;
-  approx_latitude: number | null;
-  approx_longitude: number | null;
+  zone: "campus" | "nearby" | null; // null = reported before the UET geofence
+  location_type: "predefined" | "gps" | "map" | null;
+  place_key: string | null;
   status: string;
   created_at: string;
   reporter_name: string;

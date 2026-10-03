@@ -13,14 +13,20 @@ os.environ["ADMIN_PASSWORD"] = ""
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
 
+from sqlalchemy import text  # noqa: E402
+
+from app.db.migrate import run_migrations  # noqa: E402
 from app.db.session import Base, engine  # noqa: E402
 from app.main import app  # noqa: E402
 
 
 @pytest.fixture(autouse=True)
 def _fresh_db():
+    # Build the schema through the real Alembic migrations, as production does.
     Base.metadata.drop_all(bind=engine)
-    Base.metadata.create_all(bind=engine)
+    with engine.begin() as conn:
+        conn.execute(text("DROP TABLE IF EXISTS alembic_version"))
+    run_migrations(engine)
     yield
 
 

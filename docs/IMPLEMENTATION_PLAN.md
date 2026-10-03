@@ -13,10 +13,12 @@ _Last updated: 2026-10-03_
 | 4 Verification, notifications, state machines, messaging | ✅ Done |
 | 5 Admin (moderation, flags, cases, audit, health) | ✅ Done |
 | 6–7 Integration & tests | ✅ 31 pytest tests passing; live HTTP smoke test of full demo passed; `next build` clean |
-| 8 Deployment | 🟡 Dockerfiles + compose written but **not yet run** (no Docker on dev machine); Alembic migrations pending |
+| 8 Deployment | 🟡 Dockerfiles + compose written but **not yet run** (no Docker on dev machine); Alembic migrations in place |
+| UX: upload + UET location | ✅ Custom photo dropzone; UET Lahore geofence (OSM campus polygon + 500 m nearby zone), backend-enforced |
 
-Open follow-ups: rate limiting, httpOnly-cookie auth, email delivery, Alembic, pgvector-backed
-retrieval, frontend automated tests, learned vision/text providers from the AI and vision teams.
+Open follow-ups: rate limiting, httpOnly-cookie auth, email delivery, pgvector-backed retrieval, frontend
+automated tests, learned vision/text providers from the AI and vision teams, verified pins for unmapped UET
+places (Main Library, Library Courtyard, Cafeteria, Main Gate).
 
 ## 1. Environment findings (Phase 0 inspection)
 
@@ -140,7 +142,11 @@ abuse). Per the spec, with these additions:
 4. **Local file storage** behind a `StorageService` interface (S3 later).
 5. **In-app notifications** first; the email sender is an interface with a
    console/log implementation.
-6. **Tables created at startup** for the MVP; Alembic migrations added in Phase 8.
+6. **Alembic migrations** run at startup (baseline `0001` + `0002` structured location); pre-migration
+   databases are stamped at the baseline and upgraded automatically.
+7. **Geographic scope = UET Lahore.** The campus polygon comes from OpenStreetMap; the nearby zone is a 500 m
+   buffer. No coordinates are invented: unmapped places are left out until verified. The backend is the
+   authoritative geofence check.
 
 ## 8. Risks
 

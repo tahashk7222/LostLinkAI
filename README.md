@@ -1,6 +1,7 @@
 # LostLink AI
 
-AI-assisted regional lost & found. People report lost or found items; LostLink AI
+AI-assisted lost & found for the **UET Lahore** community (Main Campus and its immediate surroundings).
+People report lost or found items; LostLink AI
 understands the reports, finds and ranks potential matches with an explanation,
 runs a privacy-preserving ownership verification, and opens controlled in-app
 communication once a **human** (the finder) confirms ownership.
@@ -36,7 +37,7 @@ frontend/src/
   app/             pages (landing, auth, dashboard, report lost/found, browse, details,
                    matches, verify, notifications, cases, chat, profile, admin)
   components/      Nav, ReportForm, MatchCard, shared UI
-  lib/             api client, auth context, types, region config
+  lib/             api client, auth context, types, geofence mirror (geo.ts), categories
 docs/              IMPLEMENTATION_PLAN.md (architecture, decisions, risks)
 ```
 
@@ -93,13 +94,15 @@ docker compose up --build
 
 1. `python -m scripts.seed_demo` creates `ayesha@lostlink.demo` (owner), `bilal@lostlink.demo` (finder) and
    `admin@lostlink.demo`, all with password `demo-pass-123`.
-2. **Ayesha** → *Report lost item*: "I lost my black backpack near the library at around 3 PM." Add a photo,
-   pick **Main Library**, colour *Black*, feature *Red keychain*, private details *what was inside*.
-3. **Bilal** (another browser/incognito) → *Report found item*: "I found a black backpack near the library
-   around 3:30 PM." Add a photo, pick **Library Courtyard**, private notes *what's inside*.
+2. **Ayesha** → *Report lost item*: "I lost my black backpack near the Lecture Theatre at around 3 PM." Drop a
+   photo in the upload box, pick the **Lecture Theatre** chip (optionally describe the exact spot), colour
+   *Black*, feature *Red keychain*, private details *what was inside*.
+3. **Bilal** (another browser/incognito) → *Report found item*: "I found a black backpack near the Lecture
+   Theatre around 3:30 PM." Add a photo, pick **Allah Wala Chowk** (or *Use my location* / *Pick on map*),
+   private notes *what's inside*.
 4. LostLink AI matches automatically → Ayesha gets a notification: *"LostLink AI found a potential match for
-   your lost item."* The match page shows the relevance %, reasons (same category, colour, ~0.1 km, ~30 min,
-   similar feature) and per-signal bars.
+   your lost item."* The match page shows the relevance %, reasons (same category, colour, distance in metres,
+   "Both on UET Lahore campus", ~30 min, similar feature) and per-signal bars.
 5. Ayesha clicks **Verify ownership** and answers the private questions (bag contents, hidden mark).
 6. Bilal is notified, sees her answers plus an **advisory** consistency score, and confirms the owner.
 7. A case opens with in-app chat (first names only, no emails or phones). They arrange the handover.
@@ -107,6 +110,26 @@ docker compose up --build
 9. `admin@lostlink.demo` → **Admin** shows stats, health, reports, flags, users, cases and audit log.
 
 `python -m scripts.seed_demo --reports` pre-creates the backpack pair if you want to skip steps 2–3.
+
+## Geographic scope (UET Lahore geofence)
+
+LostLink is limited to **UET Lahore Main Campus** and a **Nearby UET Area** (500 m around the campus boundary).
+
+- Boundary and quick-select places: `backend/app/geo/uet_lahore.json`, one config file shared by backend and
+  frontend via `GET /geo/config`. Override the file with `GEOFENCE_FILE`.
+  - `campus_polygon`: the campus outline from OpenStreetMap (way 302283434, © OpenStreetMap contributors, ODbL).
+  - `nearby_buffer_m`: radius of the nearby zone (500).
+  - `places`: only locations whose coordinates come from OpenStreetMap. Each entry records its `source`.
+    Some are inferred from mapped road names and are labelled as such. Main Library, Library Courtyard,
+    Cafeteria and a "Main Gate" are not mapped in OpenStreetMap, so they are deliberately absent until
+    verified pins are added.
+- **The backend is authoritative** (`app/services/location.py`). A report needs a predefined place (the server
+  uses its own coordinates) or a GPS/map point inside the boundary. The server computes the zone (`campus` /
+  `nearby`). Out-of-area points, free text only, and unknown places are rejected with HTTP 422. The frontend
+  (`lib/geo.ts`) mirrors the check for instant feedback only.
+- Users can describe the exact spot (e.g. "Bench outside the Lecture Theatre") after choosing a place.
+- Precise coordinates are used only for validation and matching. Other users see the description and zone.
+- Reports created before the geofence keep working and are shown as "Location not verified".
 
 ## How matching works
 
@@ -159,7 +182,8 @@ State machines (`app/services/state_machine.py`), with invalid transitions retur
 
 - Passwords: bcrypt. Tokens: JWT (`JWT_SECRET` required and checked in production).
 - Other users see first names only. Emails are never returned except to their owner, and are masked for admins.
-- `private_details` and exact coordinates are only returned to the report author. Others get ~1 km precision.
+- `private_details` and coordinates are only returned to the report author. Others see a location
+  description and zone, never coordinates.
 - Uploads: type allow-list, 5 MB limit, decoded by Pillow, re-encoded (strips EXIF/GPS), stored outside any
   public folder, served only via 60-minute signed URLs issued to authorised viewers.
 - Object-level authorisation on every report/match/case/message endpoint (404 for non-participants).
@@ -170,8 +194,20 @@ State machines (`app/services/state_machine.py`), with invalid transitions retur
 - User data is not used for model training.
 
 Known MVP limitations: JWT stored in `localStorage` (consider httpOnly cookies), no rate limiting yet, email
-notifications are logged rather than sent (`services/notifications.py::send_email`), tables are created on
-startup (add Alembic before schema changes in production), and image similarity is a heuristic.
+notifications are logged rather than sent (`services/notifications.py::send_email`), map tiles come from the
+public OpenStreetMap tile server (use a tile provider for heavy production use), and image similarity is a
+heuristic.
+
+## Database migrations
+
+Schema changes use **Alembic** (`backend/migrations/`). Migrations run automatically on startup
+(`app/db/migrate.py`). A database created before migrations existed is detected, stamped at the baseline and
+upgraded. To add a migration after changing models:
+
+```powershell
+cd backend
+.\.venv\Scripts\alembic revision --autogenerate -m "describe change"
+```
 
 ## API overview
 
