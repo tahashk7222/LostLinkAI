@@ -185,6 +185,94 @@ Hard-negative types on the targeted set: `tg-same-attrs-other`, `tg-common-brand
 | `phase2-bm25.json` | After BM25 description similarity. Base set. |
 | `after-steps-1-7.json` | After the lifecycle and evidence steps. Base set, same numbers as the original scorer. |
 
+## Identity analysis (scoring v3, synthetic only)
+
+This section analyses the v3 precision and recall trade-off. It does not change the scorer, and it is not a
+measure of real-world accuracy. `evaluation/diagnose.py` stores each candidate's score, lead, identity groups and
+feature matches. It then replays notification rules offline on the same candidates. The "v3 (recorded)" replay
+reproduces the recorded v3 results exactly. The `cases` dataset (`generate_cases.py`) is a designed set of ten
+identity cases, with five queries each. Its hard negatives include feature controls: the same feature text on a
+different item, far away or in the same place (see the generator docstring).
+
+**Cross-query false positives under v3 (after the 3-per-query cap).** base 1, extended 8, targeted 12.
+
+- base: L007→F097. A generic damage ("leather strap with a scratch") and the brand (Titan) match. The colours
+  contradict (gold and black), and the contradiction still notifies (score 0.57, cap 0.6).
+- extended, 3 pairs: "name written on the lid" on two blue containers, colour only. The generic marking text is
+  shared, and nothing else matches. Not meaningful.
+- extended, 2 pairs: "one earbud has a green sticker" plus the same brand, with white and black colours (a colour
+  contradiction that still notifies). Generic marking.
+- extended, 1 pair: "photo partly torn" and the same colour. Generic damage, not meaningful.
+- extended, 2 pairs: L007→F655 (the same generic scratch and brand, silver against gold) and L007→F097 above. A
+  colour contradiction still notifies.
+- targeted, 12 pairs. Most share identical attributes (brand, colour, category, feature text) with another item:
+  L014→F167 and L014→F103 are controls of other queries that are identical to L014. The targeted set has few
+  distinct values per item type, so these are collisions the synthetic data creates, not evidence of a policy bug.
+  The rest are generic markings ("blue case with a sticker", "engraved back cover", "cricket team sticker") with a
+  shared brand and colour, and one rare word ("calculus") with a colour. Three of the twelve, L014→F072, L016→F080
+  and L016→F175, also carry a colour contradiction and still notify.
+
+**v2 → v3 lost true positives (notified by v2, not by v3).**
+
+| Pair | Set | Why v3 rejects it | Classification |
+|---|---|---|---|
+| L004→F019 | base, extended | Shared "football shaped keychain" is an accessory, so it is generic | Rule: accessory is generic (policy trade-off) |
+| L015→F057 | targeted | Same football keychain, accessory | Rule: accessory is generic (policy trade-off) |
+| L011→F041 | targeted | "blue plastic tag with a number": "tag" is an accessory, and "a number" names no number | Feature typing decision; the case label calls it distinctive, but the text has no number |
+| L014→F079, L034→F199, L044→F259 | base, extended | Only brand and colour are shared | Desirable to reject under the policy (no identity evidence) |
+| L023→F089 | targeted | Missing feature on the found side; brand and colour only | Desirable to reject (designed as a miss) |
+| L039→F153 | targeted | Templated text, brand and colour only | Desirable to reject |
+
+The two-group rule caused no loss in these lists. It affects only single uncorroborated markings, and the
+single-marking replay below shows at most one true pair per set.
+
+**Controlled experiments (replayed on the same candidates, cap 3 per query).**
+
+| Rule (added to or restricting v3) | Set | Notified | True | Same-query FP | Cross-query FP |
+|---|---|---|---|---|---|
+| v3 (recorded) | cases | 105 | 35 | 64 | 6 |
+| Marking-only needs location | cases | 81 | 35 | 40 | 6 |
+| Marking-only needs brand or accessory (not colour alone) | cases | 54 | 35 | 10 | 9 |
+| Marking-only needs a specific marking | cases | 60 | 20 | 34 | 6 |
+| Marking-only needs location and brand or accessory | cases | 52 | 35 | 10 | 7 |
+| Additive: a specific accessory counts as identity (two-group rule) | cases | 120 | 40 | 73 | 7 |
+| Additive: uncorroborated single marking, score ≥ threshold | base | 9 | 8 | 0 | 1 |
+| Additive: uncorroborated single marking, score ≥ threshold | extended | 15 | 8 | 0 | 7 |
+| Marking-only needs location | base / extended / targeted | 8 / 13 / 27 | 7 / 7 / 22 | 0 / 0 / 0 | 1 / 6 / 5 |
+| Marking-only needs brand or accessory | base / extended / targeted | 3 / 6 / 29 | 2 / 2 / 18 | 0 / 0 / 0 | 1 / 4 / 11 |
+
+Reading the table:
+
+- **Same-query false positives come only from the feature controls** (the same feature on another item, far away or
+  in the same place). Every such false positive is a marking, or a specific accessory with identical text.
+- **A location condition on marking-only identity** removes most same-query false positives on the cases set
+  (64 → 40), and leaves the true positives unchanged on every set. The restriction is not free for brand or accessory
+  alone (the other row). On base and extended it costs five true pairs.
+- **Requiring a second attribute beyond colour** removes more false positives (64 → 10) but costs recall on the
+  base, extended and targeted sets (7 → 2, 7 → 2, 22 → 18).
+- **A specific accessory as identity does not pass the controls** (73 same-query false positives). The controls
+  repeat the exact text of the query's accessory on another item. Real identical customised text would be rare, but
+  the synthetic set cannot measure that, so this rule should not be adopted yet.
+- **A single uncorroborated marking** adds at most one true pair on base or extended, so the two-group rule is not
+  the lever that matters for recall.
+
+**Colour contradictions.** Ten notifications across the four sets carry a reported colour conflict. All ten are
+false positives (base 1, extended 4, targeted 4, cases 1). The contradiction cap (0.6) sits just above the
+threshold (0.55), so it does not block a notification.
+
+**Recommendations (not implemented; for review).**
+
+1. Block notification when a colour conflict is reported, unless another identity group is present. The data gives
+   no true positive that this removes.
+2. Require the same place or a close location (`location` ≥ 0.5) for identity that rests on a marking or damage
+   alone. On these sets it keeps every true positive and removes the largest share of same-query false positives.
+3. Keep accessories generic by default. Do not adopt "specific accessory = identity" until a control set with distinct
+   specific texts exists. The current control is the adversarial case.
+4. Keep "tag" as an accessory. Do not treat "with a number" as a specific identifier, because it names no number.
+   The targeted case "tc-common-brand-feature" should be relabelled, since its feature is generic under the current
+   rule.
+5. Do not lower the threshold, and do not remove the two-group rule. Neither is the binding constraint on recall.
+
 ## Limits
 
 - Templated text is easier than real descriptions. Recall here is likely optimistic for description signals
