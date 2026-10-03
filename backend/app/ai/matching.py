@@ -84,9 +84,16 @@ class _Evidence:
                            "strength": strength, "value": value})
 
 
+_NO_TEXT_SIGNAL = object()  # callers that omit text_sim get the hashed-vector similarity (fallback path)
+
+
 def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingConfig,
-               text_sim: float | None = None) -> MatchResult:
-    """Score one lost/found pair. `text_sim` is the description similarity in [0, 1] (BM25 by default)."""
+               text_sim=_NO_TEXT_SIGNAL) -> MatchResult:
+    """Score one lost/found pair.
+
+    `text_sim` is the description similarity in [0, 1], or None when it cannot be computed (the signal is
+    then absent, not zero). Omitting it uses the hashed-vector similarity.
+    """
     signals: dict[str, float] = {}
     ev = _Evidence()
 
@@ -102,13 +109,14 @@ def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingC
         ev.contradict("category", "Item categories differ", "STRONG")
 
     # Text (lexical similarity of public descriptions)
-    if text_sim is None:
+    if text_sim is _NO_TEXT_SIGNAL:
         text_sim = cosine(lost.text_embedding, found.text_embedding)
-    signals["text"] = round(text_sim, 3)
-    if signals["text"] >= 0.5:
-        ev.support("text", "Descriptions are very similar", "STRONG", signals["text"])
-    elif signals["text"] >= 0.3:
-        ev.support("text", "Descriptions share several details", "MODERATE", signals["text"])
+    if text_sim is not None:
+        signals["text"] = round(text_sim, 3)
+        if signals["text"] >= 0.5:
+            ev.support("text", "Descriptions are very similar", "STRONG", signals["text"])
+        elif signals["text"] >= 0.3:
+            ev.support("text", "Descriptions share several details", "MODERATE", signals["text"])
 
     # Colour (shared by many items, so moderate)
     if lu.colors and fu.colors:

@@ -223,10 +223,12 @@ def run(label: str, dataset: str) -> dict:
     data = load_dataset(path)
     with tempfile.TemporaryDirectory(prefix="lostlink-eval-") as tmp:
         engine = create_engine(f"sqlite:///{Path(tmp) / 'eval.db'}")
-        Base.metadata.create_all(engine)
-        with Session(engine) as db:
-            result = evaluate(data, db, cfg)
-        engine.dispose()
+        try:
+            Base.metadata.create_all(engine)
+            with Session(engine) as db:
+                result = evaluate(data, db, cfg)
+        finally:
+            engine.dispose()  # release the file before the temporary directory is removed
     result.update(
         label=label,
         dataset={"file": path.name, "name": data["dataset"], "generator": data["generator"], "seed": data["seed"],

@@ -26,7 +26,12 @@ def report_group(r) -> str:
     return normalize_category(f"{r.category} {r.name}")[1]
 
 
-def retrieve_candidates(db: Session, report: ItemReport, cfg: MatchingConfig, limit: int = 50) -> list[ItemReport]:
+def retrieve_candidates(db: Session, report: ItemReport, cfg: MatchingConfig) -> list[ItemReport]:
+    """Every open opposite-type report that passes the structured filters.
+
+    No top-k cut here: ranking by description alone dropped true matches with little shared wording.
+    The filters already bound the pool, and scoring is the only place that decides who is a lead.
+    """
     opposite = ReportType.FOUND if report.report_type == ReportType.LOST else ReportType.LOST
     rows = db.scalars(
         select(ItemReport)
@@ -61,9 +66,9 @@ def retrieve_candidates(db: Session, report: ItemReport, cfg: MatchingConfig, li
 
         def rank(c):
             lost, found = (report, c) if report.report_type == ReportType.LOST else (c, report)
-            return pair_similarity(index, lost, found)
+            return pair_similarity(index, lost, found) or 0.0  # no description terms: rank last
 
         out.sort(key=rank, reverse=True)
     else:
         out.sort(key=lambda c: cosine(report.text_embedding, c.text_embedding), reverse=True)
-    return out[:limit]
+    return out

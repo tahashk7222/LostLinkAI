@@ -14,6 +14,7 @@ distinctive features have their own signals, so their words are removed from the
 
 import math
 from collections import Counter
+from functools import lru_cache
 
 from app.ai.providers.text import tokenize
 
@@ -63,14 +64,47 @@ class BM25Index:
         return round(min(1.0, self._raw(query, doc) / best), 3)
 
 
-def pair_similarity(index: BM25Index, lost, found) -> float:
-    """Description similarity for one pair. The lost description is the query (the owner's wording)."""
-    return index.normalized(description_terms(lost), description_terms(found))
+def pair_similarity(index: BM25Index, lost, found) -> float | None:
+    """Description similarity for one pair. The lost description is the query (the owner's wording).
+
+    Returns None when either description has no identity terms: nothing was compared, so the signal is
+    absent. That is different from 0, which means the descriptions were compared and share nothing.
+    """
+    q, d = description_terms(lost), description_terms(found)
+    if not q or not d:
+        return None
+    return index.normalized(q, d)
+
+
+# Report boilerplate and time words: they say how the item was reported, not what the item is.
+BOILERPLATE = {
+    "lost", "found", "please", "contact", "somewhere", "around", "time", "could", "find", "again", "left",
+    "picked", "kept", "safe", "looking", "owner", "gave", "near", "about", "at", "item", "report", "reported",
+    "notice", "noticed", "seen", "saw", "today", "yesterday", "morning", "evening", "afternoon", "night",
+    "pm", "am", "thanks", "thank", "kindly", "dear", "hi", "outside", "bench", "from", "there", "this", "was",
+    "have", "had", "will", "photo", "pic", "me", "my", "it", "if", "is", "the", "one",
+}
+
+
+@lru_cache(maxsize=1)
+def location_terms() -> frozenset[str]:
+    """Words from campus place names. Location is a context signal, so it is not repeated in the description."""
+    from app.geo.geofence import get_geofence
+
+    terms: set[str] = set()
+    for place in get_geofence().places:
+        terms.update(tokenize(place.name))
+    return frozenset(terms)
 
 
 def description_terms(report) -> list[str]:
-    """Content terms of the free-text description, minus words covered by structured signals."""
+    """Identity terms of the free-text description.
+
+    Removes words covered by other signals (category, colour, brand, model, feature cues, distinctive
+    features), place names (context), and report boilerplate. Digits are dropped as time or number noise.
+    """
     from app.ai.understanding import structured_terms
 
-    excluded = structured_terms() | set(tokenize(report.distinctive_features or ""))
-    return [t for t in tokenize(report.description or "") if t not in excluded]
+    excluded = (structured_terms() | location_terms() | BOILERPLATE
+                | set(tokenize(report.distinctive_features or "")))
+    return [t for t in tokenize(report.description or "") if t not in excluded and not t.isdigit()]

@@ -17,7 +17,7 @@ from sqlalchemy.orm import Session, selectinload
 
 from app.ai.config import get_matching_config
 from app.ai.lexical import BM25Index, description_terms, pair_similarity
-from app.ai.matching import score_pair
+from app.ai.matching import _NO_TEXT_SIGNAL, score_pair
 from app.ai.providers import get_text_embedder
 from app.ai.retrieval import retrieve_candidates
 from app.ai.understanding import embedding_text, understand
@@ -70,7 +70,7 @@ def score_candidates(db: Session, report: ItemReport, cfg=None) -> list[tuple[It
             lost, found, lu, fu = report, cand, ru, cu
         else:
             lost, found, lu, fu = cand, report, cu, ru
-        text_sim = pair_similarity(index, lost, found) if index else None
+        text_sim = pair_similarity(index, lost, found) if index else _NO_TEXT_SIGNAL
         results.append((lost, found, score_pair(lost, found, lu, fu, cfg, text_sim=text_sim)))
 
     results.sort(key=lambda r: r[2].score, reverse=True)
