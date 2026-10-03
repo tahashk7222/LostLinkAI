@@ -178,9 +178,14 @@ def build() -> dict:
             ("hn-lookalike", dict(color=color, brand=brand, noun=noun, feature=None,
                                   when=lost_when + timedelta(days=rng.randint(2, 6)),
                                   place=rng.choice(other_places), gps=True)),
-            # Same type and colour, different brand.
+            # Same type and colour, different brand. Items without a brand list get a same-type
+            # look-alike at a nearby spot instead, so no "brand" negative is mislabelled.
             ("hn-brand", dict(color=color, brand=_other_brand(rng, item, brand), noun=noun, feature=None,
-                              when=lost_when + timedelta(hours=rng.randint(1, 10)), place=place, gps=True)),
+                              when=lost_when + timedelta(hours=rng.randint(1, 10)), place=place, gps=True))
+            if item["brands"] else
+            ("hn-nearby", dict(color=color, brand=None, noun=noun, feature=None,
+                               when=lost_when + timedelta(hours=rng.randint(4, 8)),
+                               place=rng.choice(other_places), gps=True)),
             # Same type and brand, different colour.
             ("hn-colour", dict(color=_other_color(rng, item, color), brand=brand, noun=noun, feature=None,
                                when=lost_when + timedelta(hours=rng.randint(1, 5)), place=place, gps=True)),
