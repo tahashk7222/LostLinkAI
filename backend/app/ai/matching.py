@@ -47,7 +47,7 @@ from app.ai.config import MatchingConfig
 from app.ai.providers import cosine, get_image_embedder
 from app.ai.providers.text import tokenize
 from app.ai.understanding import Understanding, color_compatibility
-from app.geo.geofence import area_of, get_geofence
+from app.geo.geofence import NEAR_M, area_of, distance_m, get_geofence
 
 # Scoring v2 weights. Identity signals are IDENTITY_V2; context and category make up the rest.
 W_V2 = {"category": 0.14, "text": 0.22, "features": 0.14, "brand": 0.14, "color": 0.08, "image": 0.08,
@@ -136,7 +136,11 @@ class _Evidence:
 _NO_TEXT_SIGNAL = object()  # callers that omit text_sim get the hashed-vector similarity (fallback path)
 
 
-def _feature_signal(lf, ff, ev: _Evidence, caps: dict[str, float]) -> tuple[float | None, frozenset[str]]:
+IDENTIFIER_CONFLICT_CAP = 0.45  # a conflicting identifier (serial, initials, name) keeps the pair below threshold
+
+
+def _feature_signal(lf, ff, ev: _Evidence, caps: dict[str, float], identifiers: bool = False
+                    ) -> tuple[float | None, frozenset[str], bool]:
     """Compare typed distinctive features. Only features of the same type are compared.
 
     Returns (similarity, kinds). The similarity is None when either side has no typed features (absent,
@@ -145,35 +149,54 @@ def _feature_signal(lf, ff, ev: _Evidence, caps: dict[str, float]) -> tuple[floa
     conflicting colours (a red and a blue keychain) is a contradiction that caps the score.
     """
     if not lf or not ff:
-        return None, frozenset()
-    best, best_pair, conflict = 0.0, None, None
+        return None, frozenset(), False
+    best, best_pair, conflict, id_conflict, id_match = 0.0, None, None, None, False
     matched: set[str] = set()
     for a in lf:
         for b in ff:
             if a.kind != b.kind or not a.tokens or not b.tokens:
                 continue
             jac = len(a.tokens & b.tokens) / len(a.tokens | b.tokens)
+            identical = False
+            if identifiers and a.identifiers and b.identifiers:
+                only_a, only_b = a.identifiers - b.identifiers, b.identifiers - a.identifiers
+                if only_a and only_b:
+                    # Each side states an identifier the other does not (serial 4821 vs 9075, initials AK vs MR).
+                    # Such a pair is never a match, whatever the word overlap. A side that states fewer identifiers
+                    # is not a contradiction.
+                    id_conflict = id_conflict or (a, b)
+                    continue
+                if not only_a and not only_b:
+                    jac = max(jac, FEATURE_IDENTITY)  # identical identifiers match, whatever the wording
+                    identical = True
             if jac < FEATURE_IDENTITY:
                 continue
             if a.colors and b.colors and not (a.colors & b.colors):
                 conflict = conflict or (a, b)
             else:
                 matched.add(a.kind)
+                id_match = id_match or identical
                 if jac > best:
                     best, best_pair = jac, (a, b)
+    if id_conflict:
+        a, b = id_conflict
+        ev.contradict("features", f"Different identifiers ('{a.phrase}' vs '{b.phrase}')", "STRONG")
+        caps["features"] = IDENTIFIER_CONFLICT_CAP
     if best_pair:
         a, _ = best_pair
         strength = "STRONG" if best >= 0.75 and a.kind != "other" else "MODERATE"
         ev.support("features", f"Similar {a.kind} described: '{a.phrase}'", strength, round(best, 3))
-        return round(best, 3), frozenset(matched)
+        return round(best, 3), frozenset(matched), id_match
+    if id_conflict:
+        return 0.0, frozenset(), False
     if conflict:
         a, b = conflict
         ev.contradict("features", f"Different {a.kind} colour ('{a.phrase}' vs '{b.phrase}')", "STRONG")
         caps["features"] = 0.6
-        return 0.0, frozenset()
+        return 0.0, frozenset(), False
     ev.contradict("features", "Distinctive features differ", "MODERATE")
     caps["features"] = 0.7
-    return 0.0, frozenset()
+    return 0.0, frozenset(), False
 
 
 def generic_identity_terms(report, u: Understanding) -> frozenset[str]:
@@ -265,7 +288,8 @@ def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingC
         signals["brand"] = brand_sig
 
     # Typed distinctive features (identity)
-    feat, feat_kinds = _feature_signal(lu.typed_features, fu.typed_features, ev, caps)
+    feat, feat_kinds, feat_id_match = _feature_signal(lu.typed_features, fu.typed_features, ev, caps,
+                                                      identifiers=cfg.scorer == "v3")
     if feat is not None:
         signals["features"] = feat
 
@@ -330,7 +354,19 @@ def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingC
     if cfg.scorer == "v2":
         return _combine_v2(signals, ev, caps, cfg)
     return _combine_v3(signals, ev, caps, cfg, feat_kinds=feat_kinds, model_shared=bool(shared_models),
-                       identity_sim=identity_sim)
+                       identity_sim=identity_sim, colour_conflict="color" in caps,
+                       strong_identity=bool(shared_models) or feat_id_match, close=_is_close(lost, found))
+
+
+def _is_close(lost, found) -> bool:
+    """Same place, or within the existing 250 m "near" distance. Missing coordinates are not close."""
+    lp, fp = getattr(lost, "place_key", None), getattr(found, "place_key", None)
+    if lp and lp == fp:
+        return True
+    pts = [(getattr(r, "latitude", None), getattr(r, "longitude", None)) for r in (lost, found)]
+    if any(v is None for pt in pts for v in pt):
+        return False
+    return distance_m(*pts[0], *pts[1]) <= NEAR_M
 
 
 def _identity_groups(signals: dict[str, float]) -> list[str]:
@@ -382,7 +418,8 @@ NOTIFY_LEADS = ("STRONG", "POSSIBLE")
 
 
 def _combine_v3(signals: dict[str, float], ev: _Evidence, caps: dict[str, float], cfg: MatchingConfig, *,
-                feat_kinds: frozenset[str], model_shared: bool, identity_sim: float | None) -> MatchResult:
+                feat_kinds: frozenset[str], model_shared: bool, identity_sim: float | None,
+                colour_conflict: bool = False, strong_identity: bool = False, close: bool = True) -> MatchResult:
     """Scoring v3: identity-bearing groups qualify a lead; generic attributes only corroborate.
 
     The relevance score is the same weighted mean as v2 (with the coverage factor and caps). The lead
@@ -397,9 +434,15 @@ def _combine_v3(signals: dict[str, float], ev: _Evidence, caps: dict[str, float]
     score = round(max(0.0, min(1.0, score)), 3)
 
     identity, corroborating = _v3_groups(signals, feat_kinds, model_shared, identity_sim)
+    # Marking or damage alone, with the two reports not close: the relevance score stays, but this identity does not
+    # qualify for notification. The lead is at most Weak.
+    qualifying = [] if identity == ["features"] and not close else identity
     visual = signals.get("image", 0.0) >= VISUAL_CORROBORATION and bool(identity)  # corroborates, never creates
     total = len(identity) + len(corroborating) + (1 if visual else 0)
-    qualifies = bool(identity) and len(identity) + len(corroborating) >= 2
+    qualifies = bool(qualifying) and len(qualifying) + len(corroborating) >= 2
+    # A reported colour conflict blocks notification unless a strong identity (model code or matched identifier) exists.
+    if colour_conflict and not strong_identity:
+        qualifies = False
     strong_contradiction = any(e["direction"] == "contradicts" and e["strength"] == "STRONG" for e in ev.items)
 
     if qualifies and score >= cfg.strong_score and total >= 3 and not strong_contradiction:

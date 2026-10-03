@@ -25,6 +25,8 @@ OUT_OF_AREA_MESSAGE = "LostLink is currently limited to UET Lahore and its nearb
 _EARTH_M = 6371000.0
 # Points this close to the campus outline (gates sit on the wall) count as campus.
 EDGE_TOLERANCE_M = 15.0
+# "Near" a place: used for the display label and as the close-location limit for matching.
+NEAR_M = 250.0
 
 
 @dataclass(frozen=True)
@@ -150,6 +152,6 @@ def describe(lat: float, lng: float, fence: Geofence | None = None) -> str:
     fence = fence or get_geofence()
     near = nearest_place(lat, lng, fence)
     zone = classify(lat, lng, fence)
-    if near and near[1] <= 250:
+    if near and near[1] <= NEAR_M:
         return f"Near {near[0].name}"
     return fence.zones.get(zone, fence.name) if zone else fence.name

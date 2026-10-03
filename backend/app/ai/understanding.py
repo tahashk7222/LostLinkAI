@@ -149,9 +149,24 @@ class TypedFeature:
     # Specific: the phrase carries an identifier that a generic item would not have (a number, a serial, initials,
     # or a word that marks it as customised). Recorded for analysis; the scorer does not read it yet.
     specific: bool = False
+    # Explicit identifiers: numbers, quoted names, and initials. Two features with conflicting identifiers
+    # are a contradiction, not a match (scoring v3). Empty when the phrase names none.
+    identifiers: frozenset[str] = frozenset()
 
 
 SPECIFIC_RE = re.compile(r"\d|\b(custom|customi[sz]ed|personali[sz]ed|handmade|unique|numbered|serial|initials)\b")
+_ID_NUMBER_RE = re.compile(r"\b[a-z]*\d[a-z0-9-]*\b")  # 4821, 2019, ak-19
+_ID_QUOTED_RE = re.compile(r"'([^']+)'|\"([^\"]+)\"")  # 'ayesha 2019'
+_ID_INITIALS_RE = re.compile(r"\binitials\s+([a-z]{1,3})\b")  # initials ak (not "initials inside")
+
+
+def _identifiers(phrase: str) -> frozenset[str]:
+    """Explicit identifiers in a feature phrase (lowercased text)."""
+    ids = set(_ID_NUMBER_RE.findall(phrase))
+    for m in _ID_QUOTED_RE.finditer(phrase):
+        ids.update(_tokens(m.group(1) or m.group(2)))
+    ids.update(_ID_INITIALS_RE.findall(phrase))
+    return frozenset(ids)
 
 
 @dataclass
@@ -298,7 +313,7 @@ def extract_typed_features(text: str) -> list[TypedFeature]:
         if 3 <= len(phrase) <= 120 and phrase not in seen:
             seen.add(phrase)
             out.append(TypedFeature(ftype, phrase, _tokens(phrase), _feature_colors(sentence[:m.start()]),
-                                    bool(SPECIFIC_RE.search(phrase))))
+                                    bool(SPECIFIC_RE.search(phrase)), _identifiers(phrase)))
     return out[:6]
 
 
