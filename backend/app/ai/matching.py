@@ -69,7 +69,8 @@ def _fmt_hours(h: float) -> str:
     if h < 1:
         return f"{max(1, round(h * 60))} minutes"
     if h < 48:
-        return f"{h:.1f} hours".replace(".0 ", " ")
+        value = f"{h:.1f}".rstrip("0").rstrip(".")
+        return f"{value} hour" if value == "1" else f"{value} hours"
     return f"{round(h / 24)} days"
 
 
