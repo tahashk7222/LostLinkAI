@@ -1,0 +1,329 @@
+{
+  "dataset": "base",
+  "scorer": "v3",
+  "threshold": 0.55,
+  "cap": 3,
+  "candidate_rows": 2961,
+  "true_pairs": 50,
+  "rules": {
+    "v3 (recorded)": {
+      "notified": 8,
+      "true_notified": 7,
+      "recall": 0.14,
+      "precision": 0.875,
+      "notified_per_query": 0.16,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 1,
+      "recall_by_case": {
+        "null": "7/50"
+      },
+      "false_positives": [
+        {
+          "query": "L007",
+          "found": "F097",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.57,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs location": {
+      "notified": 8,
+      "true_notified": 7,
+      "recall": 0.14,
+      "precision": 0.875,
+      "notified_per_query": 0.16,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 1,
+      "recall_by_case": {
+        "null": "7/50"
+      },
+      "false_positives": [
+        {
+          "query": "L007",
+          "found": "F097",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.57,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs brand or accessory (not colour alone)": {
+      "notified": 3,
+      "true_notified": 2,
+      "recall": 0.04,
+      "precision": 0.667,
+      "notified_per_query": 0.06,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 1,
+      "recall_by_case": {
+        "null": "2/50"
+      },
+      "false_positives": [
+        {
+          "query": "L007",
+          "found": "F097",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.57,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs a specific marking (digits, initials, customised)": {
+      "notified": 0,
+      "true_notified": 0,
+      "recall": 0.0,
+      "precision": null,
+      "notified_per_query": 0.0,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 0,
+      "recall_by_case": {
+        "null": "0/50"
+      },
+      "false_positives": []
+    },
+    "v3 restricted: marking-only needs location and brand or accessory": {
+      "notified": 3,
+      "true_notified": 2,
+      "recall": 0.04,
+      "precision": 0.667,
+      "notified_per_query": 0.06,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 1,
+      "recall_by_case": {
+        "null": "2/50"
+      },
+      "false_positives": [
+        {
+          "query": "L007",
+          "found": "F097",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.57,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 + specific accessory as identity (two-group rule)": {
+      "notified": 8,
+      "true_notified": 7,
+      "recall": 0.14,
+      "precision": 0.875,
+      "notified_per_query": 0.16,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 1,
+      "recall_by_case": {
+        "null": "7/50"
+      },
+      "false_positives": [
+        {
+          "query": "L007",
+          "found": "F097",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.57,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "recorded_notifications_before_cap": 8
+}

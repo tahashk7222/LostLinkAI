@@ -1,0 +1,922 @@
+{
+  "dataset": "extended",
+  "scorer": "v3",
+  "threshold": 0.55,
+  "cap": 3,
+  "candidate_rows": 6170,
+  "true_pairs": 50,
+  "rules": {
+    "v3 (recorded)": {
+      "notified": 15,
+      "true_notified": 7,
+      "recall": 0.14,
+      "precision": 0.467,
+      "notified_per_query": 0.3,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 8,
+      "recall_by_case": {
+        "null": "7/50"
+      },
+      "false_positives": [
+        {
+          "query": "L007",
+          "found": "F097",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.6,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L007",
+          "found": "F655",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.6,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F501",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.633,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "name written on the lid",
+              "found": "name written on the lid",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F571",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.614,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "name written on the lid",
+              "found": "name written on the lid",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F361",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.609,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "name written on the lid",
+              "found": "name written on the lid",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L018",
+          "found": "F163",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.564,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "one earbud has a green sticker",
+              "found": "one earbud has a green sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L018",
+          "found": "F522",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.561,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "one earbud has a green sticker",
+              "found": "it has one earbud has a green sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "one earbud has a green sticker",
+              "found": "one earbud has a green sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L029",
+          "found": "F389",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.578,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "photo partly torn",
+              "found": "photo partly torn",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs location": {
+      "notified": 13,
+      "true_notified": 7,
+      "recall": 0.14,
+      "precision": 0.538,
+      "notified_per_query": 0.26,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 6,
+      "recall_by_case": {
+        "null": "7/50"
+      },
+      "false_positives": [
+        {
+          "query": "L007",
+          "found": "F097",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.6,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L007",
+          "found": "F655",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.6,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F501",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.633,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "name written on the lid",
+              "found": "name written on the lid",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F571",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.614,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "name written on the lid",
+              "found": "name written on the lid",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F361",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.609,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "name written on the lid",
+              "found": "name written on the lid",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L029",
+          "found": "F389",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.578,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "photo partly torn",
+              "found": "photo partly torn",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs brand or accessory (not colour alone)": {
+      "notified": 6,
+      "true_notified": 2,
+      "recall": 0.04,
+      "precision": 0.333,
+      "notified_per_query": 0.12,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 4,
+      "recall_by_case": {
+        "null": "2/50"
+      },
+      "false_positives": [
+        {
+          "query": "L007",
+          "found": "F097",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.6,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L007",
+          "found": "F655",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.6,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L018",
+          "found": "F163",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.564,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "one earbud has a green sticker",
+              "found": "one earbud has a green sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L018",
+          "found": "F522",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.561,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "one earbud has a green sticker",
+              "found": "it has one earbud has a green sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "one earbud has a green sticker",
+              "found": "one earbud has a green sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 restricted: marking-only needs a specific marking (digits, initials, customised)": {
+      "notified": 0,
+      "true_notified": 0,
+      "recall": 0.0,
+      "precision": null,
+      "notified_per_query": 0.0,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 0,
+      "recall_by_case": {
+        "null": "0/50"
+      },
+      "false_positives": []
+    },
+    "v3 restricted: marking-only needs location and brand or accessory": {
+      "notified": 4,
+      "true_notified": 2,
+      "recall": 0.04,
+      "precision": 0.5,
+      "notified_per_query": 0.08,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 2,
+      "recall_by_case": {
+        "null": "2/50"
+      },
+      "false_positives": [
+        {
+          "query": "L007",
+          "found": "F097",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.6,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L007",
+          "found": "F655",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.6,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    },
+    "v3 + specific accessory as identity (two-group rule)": {
+      "notified": 15,
+      "true_notified": 7,
+      "recall": 0.14,
+      "precision": 0.467,
+      "notified_per_query": 0.3,
+      "fp_same_query_hard": 0,
+      "fp_cross_query": 8,
+      "recall_by_case": {
+        "null": "7/50"
+      },
+      "false_positives": [
+        {
+          "query": "L007",
+          "found": "F097",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.6,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "it has leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L007",
+          "found": "F655",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.6,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "it has leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "leather strap with a scratch",
+              "found": "leather strap with a scratch",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F501",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.633,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "name written on the lid",
+              "found": "name written on the lid",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F571",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.614,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "name written on the lid",
+              "found": "name written on the lid",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L015",
+          "found": "F361",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.609,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "name written on the lid",
+              "found": "name written on the lid",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L018",
+          "found": "F163",
+          "role": "true_match",
+          "negative_type": null,
+          "score": 0.564,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "one earbud has a green sticker",
+              "found": "one earbud has a green sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L018",
+          "found": "F522",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.561,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "brand"
+          ],
+          "matches": [
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "one earbud has a green sticker",
+              "found": "it has one earbud has a green sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            },
+            {
+              "kind": "marking",
+              "specific": false,
+              "lost": "one earbud has a green sticker",
+              "found": "one earbud has a green sticker",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        },
+        {
+          "query": "L029",
+          "found": "F389",
+          "role": "hard_negative",
+          "negative_type": "hx-feature",
+          "score": 0.578,
+          "groups": [
+            "features"
+          ],
+          "corroborating": [
+            "colour"
+          ],
+          "matches": [
+            {
+              "kind": "damage",
+              "specific": false,
+              "lost": "photo partly torn",
+              "found": "photo partly torn",
+              "jac": 1.0,
+              "colour_conflict": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "recorded_notifications_before_cap": 15
+}

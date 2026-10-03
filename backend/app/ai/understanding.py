@@ -146,6 +146,12 @@ class TypedFeature:
     phrase: str
     tokens: frozenset[str]  # content words, colour words included
     colors: frozenset[str]  # colour families mentioned inside the feature phrase
+    # Specific: the phrase carries an identifier that a generic item would not have (a number, a serial, initials,
+    # or a word that marks it as customised). Recorded for analysis; the scorer does not read it yet.
+    specific: bool = False
+
+
+SPECIFIC_RE = re.compile(r"\d|\b(custom|customi[sz]ed|personali[sz]ed|handmade|unique|numbered|serial|initials)\b")
 
 
 @dataclass
@@ -291,7 +297,8 @@ def extract_typed_features(text: str) -> list[TypedFeature]:
         phrase = sentence.strip()
         if 3 <= len(phrase) <= 120 and phrase not in seen:
             seen.add(phrase)
-            out.append(TypedFeature(ftype, phrase, _tokens(phrase), _feature_colors(sentence[:m.start()])))
+            out.append(TypedFeature(ftype, phrase, _tokens(phrase), _feature_colors(sentence[:m.start()]),
+                                    bool(SPECIFIC_RE.search(phrase))))
     return out[:6]
 
 
