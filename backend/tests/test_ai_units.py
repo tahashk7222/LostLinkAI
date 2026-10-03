@@ -36,8 +36,8 @@ def test_understanding_marks_sources():
     u = understand(report(color="Black", description="black bag with a Nike logo and a red keychain"))
     by = {(a.name, a.value): a.source for a in u.attributes}
     assert by[("color", "black")] == AttributeSource.USER
-    assert by[("color", "red")] == AttributeSource.AI
-    assert by[("brand", "nike")] == AttributeSource.AI
+    assert by[("color", "red")] == AttributeSource.RULE
+    assert by[("brand", "nike")] == AttributeSource.RULE
     assert any(a.name == "feature" for a in u.attributes)
 
 

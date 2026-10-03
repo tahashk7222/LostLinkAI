@@ -34,7 +34,7 @@ export interface Report {
   longitude?: number | null;
   ai_status?: "PENDING" | "DONE" | "FAILED";
   ai_error?: string | null;
-  attributes?: { attribute_name: string; attribute_value: string; source: "USER" | "AI"; confidence: number }[];
+  attributes?: { attribute_name: string; attribute_value: string; source: "USER" | "RULE"; confidence: number }[];
 }
 
 export interface Match {

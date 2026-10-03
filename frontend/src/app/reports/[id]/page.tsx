@@ -114,7 +114,7 @@ function ReportDetails() {
   if (error && !report) return <ErrorBox message={error} />;
   if (!report) return <Spinner />;
   const open = ["ACTIVE", "POTENTIAL_MATCH"].includes(report.status);
-  const userAttrs = report.attributes?.filter((a) => a.source === "AI") ?? [];
+  const userAttrs = report.attributes?.filter((a) => a.source === "RULE") ?? [];
 
   return (
     <div className="grid gap-8 lg:grid-cols-5">

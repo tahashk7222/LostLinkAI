@@ -44,8 +44,8 @@ class CaseStatus(str, Enum):
 
 
 class AttributeSource(str, Enum):
-    USER = "USER"
-    AI = "AI"
+    USER = "USER"  # typed by the person in a form field
+    RULE = "RULE"  # inferred from free text by deterministic rules (not a learned model)
 
 
 class FlagStatus(str, Enum):
