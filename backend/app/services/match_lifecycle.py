@@ -24,9 +24,12 @@ def reopen_if_unmatched(db: Session, report: ItemReport) -> None:
     if report.status != ReportStatus.POTENTIAL_MATCH:
         return
     db.flush()  # autoflush is off: make the caller's pending changes visible to the query
+    # Weak leads are visible to the owner but do not keep a report in POTENTIAL_MATCH.
     still_open = db.scalar(select(MatchCandidate.id).where(
         or_(MatchCandidate.lost_report_id == report.id, MatchCandidate.found_report_id == report.id),
-        MatchCandidate.status.in_(OPEN_MATCH)).limit(1))
+        MatchCandidate.status.in_(OPEN_MATCH),
+        or_(MatchCandidate.status != MatchStatus.POTENTIAL_MATCH, MatchCandidate.lead_label.is_(None),
+            MatchCandidate.lead_label != "WEAK")).limit(1))
     if still_open is None:
         transition(report, ReportStatus.ACTIVE)
 

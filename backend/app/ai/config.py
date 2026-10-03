@@ -40,9 +40,12 @@ class MatchingConfig:
     # Description similarity: "bm25" (lexical, IDF-weighted) or "hashing" (the earlier hashed-vector fallback)
     text_method: str = "bm25"
     # Scorer: "v2" (identity-based leads) or "v1" (the earlier weighted score, kept as a fallback)
-    scorer: str = "v1"
+    scorer: str = "v2"
     # Notification cap per report per run (Strong and Possible leads only)
     max_notifications: int = 3
+    # Lead labels (scoring v2): STRONG needs strong_score; POSSIBLE needs threshold; WEAK needs weak_score
+    strong_score: float = 0.75
+    weak_score: float = 0.35
 
 
 def get_matching_config() -> MatchingConfig:
@@ -55,7 +58,7 @@ def get_matching_config() -> MatchingConfig:
             except ValueError:
                 pass
     method = os.environ.get("MATCH_TEXT_METHOD", "bm25").strip().lower()
-    scorer = os.environ.get("MATCH_SCORER", "v1").strip().lower()
+    scorer = os.environ.get("MATCH_SCORER", "v2").strip().lower()
     return MatchingConfig(weights=weights, threshold=get_settings().match_threshold,
                           text_method=method if method in ("bm25", "hashing") else "bm25",
                           scorer=scorer if scorer in ("v1", "v2") else "v1")

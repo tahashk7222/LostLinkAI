@@ -54,6 +54,7 @@ def match_summary(db: Session, m: MatchCandidate, user: User) -> dict:
         "confidence": confidence_label(m.score),
         "explanation": m.explanation,
         "evidence": m.evidence or [],
+        "lead": m.lead_label,  # STRONG | POSSIBLE | WEAK; null for suggestions created before scoring v2
         "signals": m.signals,
         "status": m.status,
         "my_role": role,

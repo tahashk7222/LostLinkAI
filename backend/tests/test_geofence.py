@@ -146,7 +146,7 @@ def test_migration_upgrades_pre_geofence_database():
     with eng.connect() as conn:
         row = conn.execute(text("SELECT location, zone FROM item_reports WHERE id = 1")).one()
         assert row == ("Somewhere", None)
-        assert conn.execute(text("SELECT version_num FROM alembic_version")).scalar() == "0004"  # current head
+        assert conn.execute(text("SELECT version_num FROM alembic_version")).scalar() == "0005"  # current head
     eng.dispose()
 
 

@@ -66,7 +66,8 @@ def test_evaluation_runs_on_a_small_slice(tmp_path):
     engine.dispose()
 
     assert result["queries"] == 4
+    counts_not_rates = {"notifications_per_query", "weak_leads_per_query"}
     for key, value in result["metrics"].items():
-        assert value is None or 0.0 <= value <= 1.0 or key == "notifications_per_query", key
+        assert value is None or 0.0 <= value <= 1.0 or key in counts_not_rates, key
     assert result["counts"]["true_notified"] <= len(data["true_pairs"])
     assert all(e["explanation"] for e in result["false_positive_examples"])

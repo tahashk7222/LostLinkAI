@@ -274,14 +274,23 @@ def extract_typed_features(text: str) -> list[TypedFeature]:
     seen: set[str] = set()
     for sentence in re.split(r"[.;,\n]|\band\b", t):
         for cue, ftype in FEATURE_CUES:
-            if _contains(sentence, cue):
+            m = re.search(rf"(?<![a-z0-9]){re.escape(cue)}(?![a-z0-9])", sentence)
+            if m:
                 phrase = sentence.strip()
                 if 3 <= len(phrase) <= 120 and phrase not in seen:
                     seen.add(phrase)
-                    colors = frozenset(COLORS[w] for w in COLORS if _contains(phrase, w))
-                    out.append(TypedFeature(ftype, phrase, _tokens(phrase), colors))
+                    out.append(TypedFeature(ftype, phrase, _tokens(phrase), _feature_colors(sentence[:m.start()])))
                 break
     return out[:6]
+
+
+def _feature_colors(before_cue: str) -> frozenset[str]:
+    """Colour families that describe the feature itself: the words just before its cue ("red" in "red keychain").
+
+    Colour words elsewhere in the sentence describe the item, not the feature ("black bag with red keychain").
+    """
+    words = re.findall(r"[a-z]+", before_cue)[-2:]
+    return frozenset(COLORS[w] for w in words if w in COLORS)
 
 
 def extract_features(text: str) -> list[str]:

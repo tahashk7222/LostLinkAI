@@ -25,7 +25,7 @@ from app.db.session import SessionLocal
 from app.models import ItemAttribute, ItemReport, MatchCandidate
 from app.models.enums import AIStatus, MatchStatus, ReportStatus, ReportType
 from app.services.audit import audit
-from app.services.match_lifecycle import OPEN_MATCH, withdraw_matches
+from app.services.match_lifecycle import OPEN_MATCH, reopen_if_unmatched, withdraw_matches
 from app.services.notifications import notify
 from app.services.state_machine import transition
 
@@ -116,28 +116,40 @@ def run_matching(db: Session, report: ItemReport) -> list[MatchCandidate]:
             MatchCandidate.lost_report_id == lost_id, MatchCandidate.found_report_id == found_id))
         if existing is not None:
             if existing.status == MatchStatus.POTENTIAL_MATCH:  # refresh only before the workflow starts
+                was_weak = existing.lead_label == "WEAK"
                 existing.score, existing.signals, existing.explanation = res.score, res.signals, res.explanation
-                existing.evidence = res.evidence
-            if existing.status in OPEN_MATCH:
+                existing.evidence, existing.lead_label = res.evidence, res.lead
+                matches.append(existing)
+                if was_weak and res.lead in NOTIFIABLE_LEADS:  # a Weak lead has become notifiable
+                    _notify_new_lead(db, existing, lost, found, res)
+            elif existing.status in OPEN_MATCH:
                 matches.append(existing)
             continue  # dismissed, rejected or verified pairs are never re-suggested or re-notified
         m = MatchCandidate(lost_report_id=lost.id, found_report_id=found.id, score=res.score,
-                           signals=res.signals, explanation=res.explanation, evidence=res.evidence)
+                           signals=res.signals, explanation=res.explanation, evidence=res.evidence,
+                           lead_label=res.lead)
         db.add(m)
         db.flush()
         matches.append(m)
-        if res.lead not in NOTIFIABLE_LEADS:
-            continue  # Weak leads are stored for the owner to see, but do not change report status or notify
-        for r in (lost, found):
-            if r.status == ReportStatus.ACTIVE:
-                transition(r, ReportStatus.POTENTIAL_MATCH)
-        notify(db, lost.user_id, "match_owner", link=f"/matches/{m.id}", item=lost.name)
-        notify(db, found.user_id, "match_finder", link=f"/matches/{m.id}", item=found.name)
-        audit(db, "match.created", None, "match", m.id, score=res.score)
+        if res.lead in NOTIFIABLE_LEADS:  # Weak leads are visible to the owner, but do not notify or change status
+            _notify_new_lead(db, m, lost, found, res)
 
+    counterparts = {r.id: r for lost, found, _ in current.values() for r in (lost, found) if r.id != report.id}
+    reopen_if_unmatched(db, report)
+    for other in counterparts.values():
+        reopen_if_unmatched(db, other)
     report.ai_status = AIStatus.DONE
     report.ai_error = None
     return sorted(matches, key=lambda m: m.score, reverse=True)
+
+
+def _notify_new_lead(db: Session, m: MatchCandidate, lost: ItemReport, found: ItemReport, res) -> None:
+    for r in (lost, found):
+        if r.status == ReportStatus.ACTIVE:
+            transition(r, ReportStatus.POTENTIAL_MATCH)
+    notify(db, lost.user_id, "match_owner", link=f"/matches/{m.id}", item=lost.name)
+    notify(db, found.user_id, "match_finder", link=f"/matches/{m.id}", item=found.name)
+    audit(db, "match.created", None, "match", m.id, score=res.score, lead=res.lead)
 
 
 def process_report(report_id: int) -> None:

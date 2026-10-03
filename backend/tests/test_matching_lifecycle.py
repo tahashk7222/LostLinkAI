@@ -79,8 +79,9 @@ def test_suggestion_below_threshold_is_withdrawn_on_rerun(client, monkeypatch):
     owner, finder, lost, found = _pair(client)
     assert len(_matches(client, owner, lost["id"])) == 1
 
+    # Raise both floors: a pair that still qualifies as a Weak lead is kept, so it must fall below weak too.
     monkeypatch.setattr(orchestrator, "get_matching_config",
-                        lambda: dataclasses.replace(get_matching_config(), threshold=0.99))
+                        lambda: dataclasses.replace(get_matching_config(), threshold=0.99, weak_score=0.99))
     r = client.post(f"/reports/{lost['id']}/match", headers=owner)
     assert r.status_code == 200, r.text
     assert r.json()["matches"] == []
