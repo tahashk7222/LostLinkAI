@@ -27,7 +27,9 @@ export function Nav() {
     };
   }, [user, pathname]);
 
-  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   const links = user
     ? [

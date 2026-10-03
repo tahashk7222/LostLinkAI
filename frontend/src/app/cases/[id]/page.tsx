@@ -38,7 +38,11 @@ function CaseView() {
     return () => clearInterval(t);
   }, [load]);
 
-  useEffect(() => bottom.current?.scrollIntoView({ behavior: "smooth" }), [msgs.length]);
+  useEffect(() => {
+    // Block body on purpose: newer browsers return a Promise from scrollIntoView, and an effect
+    // must not return anything except a cleanup function.
+    bottom.current?.scrollIntoView({ behavior: "smooth" });
+  }, [msgs.length]);
 
   async function send(e: React.FormEvent) {
     e.preventDefault();

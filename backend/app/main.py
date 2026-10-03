@@ -20,6 +20,10 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name
 def init_db() -> None:
     Base.metadata.create_all(bind=engine)
     s = get_settings()
+    if s.jwt_secret == "change-me":
+        logging.getLogger("lostlink").warning(
+            "JWT_SECRET is the placeholder 'change-me'. Set a random value in backend/.env "
+            "before exposing this server to any network.")
     if s.admin_email and s.admin_password:
         with SessionLocal() as db:
             if not db.scalar(select(User).where(User.email == s.admin_email.lower())):

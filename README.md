@@ -44,8 +44,12 @@ docs/              IMPLEMENTATION_PLAN.md (architecture, decisions, risks)
 
 Prerequisites: Python 3.12, Node.js 20+ (24 LTS recommended).
 
-**Quick start** (after the one-time backend setup below): `.\start-dev.ps1` opens the API and web app in two
-windows.
+**Quick start** (after the one-time backend setup below): double-click `start-dev.cmd` (or run it from any
+terminal). It opens the API and web app in two windows and creates `backend/.env` with a random JWT secret
+on first run.
+
+> On Windows with the default *Restricted* execution policy, `npm` inside PowerShell fails ("running scripts is
+> disabled"). Use `npm.cmd` instead, or run commands from `cmd`.
 
 **Backend**
 

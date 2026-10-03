@@ -29,7 +29,9 @@ function MatchDetails() {
   const load = useCallback(() => {
     api<Match>(`/matches/${id}`).then(setM).catch((e) => setError(e.message));
   }, [id]);
-  useEffect(load, [load]);
+  useEffect(() => {
+    load();
+  }, [load]);
 
   async function startVerification() {
     setBusy(true);
