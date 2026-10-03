@@ -136,23 +136,33 @@ LostLink is limited to **UET Lahore Main Campus** and a **Nearby UET Area** (500
 The **orchestrator** (`app/ai/orchestrator.py`) runs whenever a report is created, edited, or gets a photo,
 and on demand via `POST /reports/{id}/match`:
 
-1. **Item understanding** normalises the category (synonym taxonomy) and extracts colours, brand and
-   distinctive features. Each attribute is stored with `source = USER | AI` and a confidence.
-2. **Embeddings**:
-   - Text: hashed word + character-trigram vectors (lexical-semantic similarity, robust to wording).
-   - Images: colour histogram + perceptual hash. This is labelled in the UI as colour/shape similarity, not
-     object recognition.
+1. **Item understanding** (deterministic rules, no learned model): normalises the category (synonyms, including
+   common Roman-Urdu words), extracts colours with shades, brands with aliases, model numbers, and typed
+   distinctive features (accessory, marking, damage). Each attribute records `source = USER | RULE`, where
+   `RULE` means inferred from free text by rules, with a confidence.
+2. **Description similarity**: pure-Python BM25 over the free-text description, with category, colour, brand,
+   model, feature words, place names and report boilerplate removed, so the same evidence is not counted twice.
+   A description with no identity terms gives no signal (absent, not zero). `MATCH_TEXT_METHOD=hashing` restores
+   the earlier hashed-vector matcher.
 3. **Candidate retrieval** filters by opposite type, open status, other users, compatible category group,
-   time window (found ≥ lost − 12 h, ≤ lost + 60 days) and radius (30 km), then ranks by text similarity.
-4. **Matching** scores category, text, colour, brand, features, image, location (distance decay) and time
-   (time decay). Weights live in `app/ai/config.py` and can be overridden by env (`MATCH_WEIGHT_IMAGE=0.2`).
-   Missing signals are excluded and the remaining weights renormalised. Contradictions (different category or
-   brand) cap or discount the score.
-5. Matches ≥ `MATCH_THRESHOLD` (default 0.55) are stored with an explanation, and both parties are notified.
+   time window (found ≥ lost − 12 h, ≤ lost + 60 days) and radius (30 km). Every candidate that passes is scored.
+4. **Scoring v2** (`app/ai/matching.py`). Identity signals are description, typed features, brand/model, colour,
+   and visual similarity (corroboration only). Location and time are context. Category is a gate.
+   - A lead qualifies only with a distinctive identity signal (a typed feature, or brand with a description match)
+     and at least one other identity group. Category, location and time alone never qualify, and a visually
+     similar photo alone never qualifies. Brand plus colour alone is a Weak lead.
+   - Missing identity evidence lowers the score through a coverage factor.
+   - Contradictions cap the score: category, brand, model, colour, features, found before loss.
+   - Labels: **Strong** (≥ 0.75, at least three identity supports, no strong contradiction), **Possible**
+     (≥ `MATCH_THRESHOLD`, default 0.55), **Weak** (some identity support, ≥ 0.35, stored, not notified).
+   - The score is a rule-based relevance value. It is not a probability of ownership.
+   - `MATCH_SCORER=v1` restores the earlier weighted score.
+5. **Notification**: only Strong and Possible leads notify, at most 3 per report per run. Weak leads are visible
+   to the owner in the match list, with a warning, and do not change report status. A Weak lead that later becomes
+   notifiable notifies once.
 
 Each reason and concern is stored as structured **evidence** (`signal`, `text`, `direction`
-`supports`/`contradicts`, and a deterministic `strength` of `STRONG`/`MODERATE`/`WEAK`). The score is a
-fixed weighted rule value, not a probability.
+`supports`/`contradicts`, and a rule-based `strength` of `STRONG`/`MODERATE`/`WEAK`), together with the lead label.
 
 **Stale suggestions.** An uncontested suggestion is withdrawn when it no longer qualifies: the report is
 edited so it is no longer a candidate, the score drops below the threshold, either report is closed or
@@ -162,7 +172,8 @@ within the API process (`MATCHING_LOCK`).
 
 If the pipeline fails, the report is kept, `ai_status = FAILED` is shown, and the user can retry.
 
-Offline evaluation on a labelled **synthetic** dataset lives in `backend/evaluation/` (see its README).
+Offline evaluation on **synthetic** datasets lives in `backend/evaluation/` (see its README for the metrics,
+the limits of the data, and the before/after results).
 
 ### Plugging in real models (vision / LLM teams)
 
