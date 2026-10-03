@@ -107,7 +107,8 @@ class MatchCandidate(TimestampMixin, Base):
     found_report_id: Mapped[int] = mapped_column(ForeignKey("item_reports.id", ondelete="CASCADE"), index=True)
     score: Mapped[float] = mapped_column(Float)
     signals: Mapped[dict] = mapped_column(JSON)  # per-signal scores
-    explanation: Mapped[list] = mapped_column(JSON)  # list of reason strings
+    explanation: Mapped[list] = mapped_column(JSON)  # list of reason strings (display text)
+    evidence: Mapped[list | None] = mapped_column(JSON)  # structured items: signal, text, direction, strength
     status: Mapped[MatchStatus] = mapped_column(Enum(MatchStatus), default=MatchStatus.POTENTIAL_MATCH)
 
     lost_report: Mapped[ItemReport] = relationship(foreign_keys=[lost_report_id])

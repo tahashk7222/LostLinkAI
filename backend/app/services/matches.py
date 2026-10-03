@@ -53,6 +53,7 @@ def match_summary(db: Session, m: MatchCandidate, user: User) -> dict:
         "score_percent": round(m.score * 100),
         "confidence": confidence_label(m.score),
         "explanation": m.explanation,
+        "evidence": m.evidence or [],
         "signals": m.signals,
         "status": m.status,
         "my_role": role,

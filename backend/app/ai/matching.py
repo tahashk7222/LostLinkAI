@@ -1,6 +1,13 @@
-"""Matching Agent: combine evidence signals into a score and an explanation.
+"""Matching Agent: combine deterministic evidence signals into a score and a structured explanation.
 
-The score expresses *relevance of a candidate*, not proof of ownership.
+The score is a fixed weighted relevance value computed by rules. It is not a probability and
+not proof of ownership.
+
+Evidence strength is a rule-based label for how much one signal narrows the candidate:
+- STRONG: distinctive or rarely shared attributes (brand, same place, close time, category)
+- MODERATE: attributes many items share (colour, general description, near spot)
+- WEAK: coarse or heuristic signals (same campus, distant spot, visual heuristic)
+Each evidence item states its direction: "supports" or "contradicts".
 """
 
 import math
@@ -46,56 +53,77 @@ class MatchResult:
     score: float
     confidence: str
     signals: dict[str, float]
-    reasons: list[str] = field(default_factory=list)
-    concerns: list[str] = field(default_factory=list)
+    evidence: list[dict] = field(default_factory=list)
+
+    @property
+    def reasons(self) -> list[str]:
+        return [e["text"] for e in self.evidence if e["direction"] == "supports"]
+
+    @property
+    def concerns(self) -> list[str]:
+        return [e["text"] for e in self.evidence if e["direction"] == "contradicts"]
 
     @property
     def explanation(self) -> list[str]:
         return self.reasons + [f"Note: {c}" for c in self.concerns]
 
 
+class _Evidence:
+    """Collects evidence items. Texts are built from public fields only; private details never reach here."""
+
+    def __init__(self) -> None:
+        self.items: list[dict] = []
+
+    def support(self, signal: str, text: str, strength: str, value=None) -> None:
+        self.items.append({"signal": signal, "text": text, "direction": "supports",
+                           "strength": strength, "value": value})
+
+    def contradict(self, signal: str, text: str, strength: str, value=None) -> None:
+        self.items.append({"signal": signal, "text": text, "direction": "contradicts",
+                           "strength": strength, "value": value})
+
+
 def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingConfig) -> MatchResult:
     signals: dict[str, float] = {}
-    reasons: list[str] = []
-    concerns: list[str] = []
+    ev = _Evidence()
 
     # Category
     if lu.category == fu.category:
         signals["category"] = 1.0
-        reasons.append(f"Same item category ({lu.category})")
+        ev.support("category", f"Same item category ({lu.category})", "STRONG", lu.category)
     elif lu.category_group == fu.category_group and lu.category_group != "other":
         signals["category"] = 0.5
-        reasons.append(f"Related item type ({lu.category} / {fu.category})")
+        ev.support("category", f"Related item type ({lu.category} / {fu.category})", "WEAK")
     else:
         signals["category"] = 0.0
-        concerns.append("Item categories differ")
+        ev.contradict("category", "Item categories differ", "STRONG")
 
-    # Text (semantic-lexical similarity of public descriptions)
+    # Text (lexical similarity of public descriptions)
     signals["text"] = round(cosine(lost.text_embedding, found.text_embedding), 3)
     if signals["text"] >= 0.5:
-        reasons.append("Descriptions are very similar")
+        ev.support("text", "Descriptions are very similar", "STRONG", signals["text"])
     elif signals["text"] >= 0.3:
-        reasons.append("Descriptions share several details")
+        ev.support("text", "Descriptions share several details", "MODERATE", signals["text"])
 
-    # Colour
+    # Colour (shared by many items, so moderate)
     if lu.colors and fu.colors:
         common = lu.colors & fu.colors
         signals["color"] = 1.0 if common else 0.0
         if common:
-            reasons.append(f"Compatible colour ({', '.join(sorted(common))})")
+            ev.support("color", f"Compatible colour ({', '.join(sorted(common))})", "MODERATE", 1.0)
         else:
-            concerns.append("Reported colours differ")
+            ev.contradict("color", "Reported colours differ", "MODERATE")
 
     # Brand / model
     if lu.brand and fu.brand:
         same = lu.brand == fu.brand
         signals["brand"] = 1.0 if same else 0.0
         if same:
-            reasons.append(f"Same brand ({lu.brand.title()})")
+            ev.support("brand", f"Same brand ({lu.brand.title()})", "STRONG", lu.brand)
         else:
-            concerns.append("Reported brands differ")
+            ev.contradict("brand", "Reported brands differ", "STRONG")
         if same and lost.model and found.model and _jaccard(lost.model, found.model) >= 0.5:
-            reasons.append("Same or similar model")
+            ev.support("model", "Same or similar model", "STRONG")
 
     # Distinctive features
     lf = " ".join(lu.features) or (lost.distinctive_features or "")
@@ -104,9 +132,9 @@ def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingC
         embed = get_text_embedder().embed
         signals["features"] = round(cosine(embed(lf), embed(ff)), 3)
         if signals["features"] >= 0.35:
-            reasons.append("Similar distinctive feature described")
+            ev.support("features", "Similar distinctive feature described", "MODERATE", signals["features"])
 
-    # Image (heuristic visual features)
+    # Image (colour and shape heuristic, not object recognition)
     lost_imgs = [i.embedding for i in lost.images if i.embedding]
     found_imgs = [i.embedding for i in found.images if i.embedding]
     if lost_imgs and found_imgs:
@@ -114,9 +142,9 @@ def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingC
         best = max(img.similarity(a, b) for a in lost_imgs for b in found_imgs)
         signals["image"] = round(best, 3)
         if best >= 0.7:
-            reasons.append("Photos look visually similar (colour and shape)")
+            ev.support("image", "Photos look visually similar (colour and shape)", "MODERATE", signals["image"])
         elif best >= 0.55:
-            reasons.append("Photos are somewhat visually similar")
+            ev.support("image", "Photos are somewhat visually similar", "WEAK", signals["image"])
 
     # Location: campus-scale distance, plus same place / same campus area / zone
     if None not in (lost.latitude, lost.longitude, found.latitude, found.longitude):
@@ -127,36 +155,39 @@ def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingC
         if lost_place and lost_place == found_place:
             loc = 1.0
             place = get_geofence().place(lost_place)
-            reasons.append(f"Both reported at {place.name if place else found.location}")
+            ev.support("location", f"Both reported at {place.name if place else found.location}", "STRONG", 1.0)
         else:
             if lost_area and lost_area == area_of(found.latitude, found.longitude, found_place):
                 loc = max(loc, cfg.same_area_score)
             if km < 0.03:
-                reasons.append("Found at practically the same spot")
+                ev.support("location", "Found at practically the same spot", "STRONG", round(km, 3))
             elif km < 1:
-                reasons.append(f"Found about {round(km * 1000, -1):.0f} m from where it was lost")
+                ev.support("location", f"Found about {round(km * 1000, -1):.0f} m from where it was lost",
+                           "STRONG" if km < 0.15 else "MODERATE", round(km, 3))
             else:
-                reasons.append(f"Found about {km:.1f} km from the reported loss location")
+                ev.support("location", f"Found about {km:.1f} km from the reported loss location", "WEAK",
+                           round(km, 3))
         if getattr(lost, "zone", None) == getattr(found, "zone", None) == "campus":
-            reasons.append("Both on UET Lahore campus")
+            ev.support("zone", "Both on UET Lahore campus", "WEAK")
         signals["location"] = round(loc, 3)
     else:
         sim = _jaccard(lost.location, found.location)
         signals["location"] = round(min(1.0, sim * 1.5), 3)
         if sim >= 0.3:
-            reasons.append(f"Similar location described ('{found.location}')")
+            ev.support("location", f"Similar location described ('{found.location}')", "MODERATE", round(sim, 3))
 
     # Time: found should be at/after loss (allowing slack for approximate times)
     delta_h = (as_utc(found.date_time) - as_utc(lost.date_time)).total_seconds() / 3600
     if delta_h < -cfg.time_slack_hours:
         signals["time"] = 0.0
-        concerns.append("Item was reported found before it was reported lost")
+        ev.contradict("time", "Item was reported found before it was reported lost", "STRONG", round(delta_h, 1))
     else:
         signals["time"] = round(math.exp(-max(0.0, delta_h) / cfg.time_scale_hours), 3)
         if delta_h >= 0:
-            reasons.append(f"Found approximately {_fmt_hours(delta_h)} after the reported loss")
+            ev.support("time", f"Found approximately {_fmt_hours(delta_h)} after the reported loss",
+                       "MODERATE" if delta_h <= 6 else "WEAK", round(delta_h, 1))
         else:
-            reasons.append("Reported times overlap (approximate)")
+            ev.support("time", "Reported times overlap (approximate)", "WEAK", round(delta_h, 1))
 
     usable = {k: v for k, v in signals.items() if cfg.weights.get(k, 0) > 0}
     total_w = sum(cfg.weights[k] for k in usable)
@@ -170,4 +201,4 @@ def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingC
 
     score = round(max(0.0, min(1.0, score)), 3)
     confidence = "HIGH" if score >= cfg.high_confidence else "MEDIUM" if score >= cfg.threshold else "LOW"
-    return MatchResult(score, confidence, signals, reasons, concerns)
+    return MatchResult(score, confidence, signals, ev.items)

@@ -103,11 +103,12 @@ def run_matching(db: Session, report: ItemReport) -> list[MatchCandidate]:
         if existing is not None:
             if existing.status == MatchStatus.POTENTIAL_MATCH:  # refresh only before the workflow starts
                 existing.score, existing.signals, existing.explanation = res.score, res.signals, res.explanation
+                existing.evidence = res.evidence
             if existing.status in OPEN_MATCH:
                 matches.append(existing)
             continue  # dismissed, rejected or verified pairs are never re-suggested or re-notified
         m = MatchCandidate(lost_report_id=lost.id, found_report_id=found.id, score=res.score,
-                           signals=res.signals, explanation=res.explanation)
+                           signals=res.signals, explanation=res.explanation, evidence=res.evidence)
         db.add(m)
         db.flush()
         matches.append(m)
