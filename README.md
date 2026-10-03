@@ -44,6 +44,9 @@ docs/              IMPLEMENTATION_PLAN.md (architecture, decisions, risks)
 
 Prerequisites: Python 3.12, Node.js 20+ (24 LTS recommended).
 
+**Quick start** (after the one-time backend setup below): `.\start-dev.ps1` opens the API and web app in two
+windows.
+
 **Backend**
 
 ```powershell

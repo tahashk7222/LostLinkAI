@@ -1,6 +1,22 @@
 # LostLink AI — Implementation Plan
 
-_Last updated: 2026-10-03 (Phase 0)_
+_Last updated: 2026-10-03_
+
+## Status
+
+| Phase | Status |
+|---|---|
+| 0 Inspection & plan | ✅ Done |
+| 1 Foundation (backend, DB, auth, frontend shell) | ✅ Done |
+| 2 Reporting (CRUD, private image upload, browse, details) | ✅ Done |
+| 3 AI (understanding, embeddings, retrieval, matching, explanations) | ✅ Done (local providers) |
+| 4 Verification, notifications, state machines, messaging | ✅ Done |
+| 5 Admin (moderation, flags, cases, audit, health) | ✅ Done |
+| 6–7 Integration & tests | ✅ 31 pytest tests passing; live HTTP smoke test of full demo passed; `next build` clean |
+| 8 Deployment | 🟡 Dockerfiles + compose written but **not yet run** (no Docker on dev machine); Alembic migrations pending |
+
+Open follow-ups: rate limiting, httpOnly-cookie auth, email delivery, Alembic, pgvector-backed
+retrieval, frontend automated tests, learned vision/text providers from the AI and vision teams.
 
 ## 1. Environment findings (Phase 0 inspection)
 
