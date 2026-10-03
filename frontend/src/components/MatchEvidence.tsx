@@ -1,20 +1,24 @@
 import type { Evidence, LeadLabel } from "@/lib/types";
 
-const LEAD: Record<LeadLabel, { label: string; tone: string; text: string }> = {
+// Each label differs in shape, icon and colour, so it reads correctly without colour.
+const LEAD: Record<LeadLabel, { label: string; icon: string; badge: string; text: string }> = {
   STRONG: {
     label: "Strong lead",
-    tone: "bg-emerald-600",
+    icon: "●",
+    badge: "border-emerald-600 bg-emerald-600 text-white",
     text: "Several identifying details match. Check them yourself before you act.",
   },
   POSSIBLE: {
     label: "Possible lead",
-    tone: "bg-amber-500",
+    icon: "◐",
+    badge: "border-amber-500 bg-amber-500 text-white",
     text: "Identifying details match. Check the details below before you act.",
   },
   WEAK: {
     label: "Weak lead",
-    tone: "bg-slate-500",
-    text: "Only general details match, such as colour or brand. This is not enough to notify you, so it is shown for reference.",
+    icon: "○",
+    badge: "border-dashed border-slate-400 bg-white text-slate-700",
+    text: "Only general details match, such as colour, brand or place. This is not enough to notify you. It is shown for reference and cannot be verified as yours.",
   },
 };
 
@@ -35,7 +39,8 @@ export function LeadBadge({ lead, percent }: { lead: LeadLabel | null; percent: 
   }
   return (
     <span className="inline-flex flex-wrap items-center gap-2">
-      <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold text-white ${LEAD[lead].tone}`}>
+      <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-semibold ${LEAD[lead].badge}`}>
+        <span aria-hidden="true">{LEAD[lead].icon}</span>
         {LEAD[lead].label}
       </span>
       <span
@@ -44,6 +49,15 @@ export function LeadBadge({ lead, percent }: { lead: LeadLabel | null; percent: 
       >
         relevance {percent}%
       </span>
+    </span>
+  );
+}
+
+/** A Weak lead is not a potential match, so it does not carry the "Potential match" status. */
+export function ReferenceBadge() {
+  return (
+    <span className="inline-flex items-center rounded-full border border-dashed border-slate-400 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+      For reference
     </span>
   );
 }
@@ -75,7 +89,7 @@ export function MatchEvidence({ evidence, lead }: { evidence: Evidence[]; lead: 
     <div className="space-y-4 text-sm">
       {lead === "WEAK" && (
         <div className="rounded-xl bg-amber-50 p-3 text-amber-900">
-          <strong>Weak lead.</strong> Do not treat this as a match. Shared colour, place or photo style do not identify an item.
+          <strong>Weak lead.</strong> Do not treat this as a match. Shared colour, brand, place or photo style do not identify an item, and ownership cannot be verified from this lead.
         </div>
       )}
       <div>

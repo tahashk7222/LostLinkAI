@@ -15,6 +15,7 @@ import argparse
 import json
 import sys
 import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -41,13 +42,13 @@ def seed(base):
     lost_bag = api(base, "POST", "/reports", {
         "report_type": "LOST", "category": "Backpack", "name": "Black JanSport backpack",
         "description": "Lost my black JanSport backpack with a calculus notebook inside near the Lecture Theatre.",
-        "color": "Black", "brand": "JanSport", "distinctive_features": "Red keychain on the front zipper",
+        "color": "Black", "brand": "JanSport", "distinctive_features": "Name tag with initials inside the front pocket",
         "private_details": f"{CANARY} notebook and calculator", "date_time": when, "location": "Lecture Theatre",
         "place_key": "lecture-theatre"}, owner)
     api(base, "POST", "/reports", {
         "report_type": "FOUND", "category": "Bag", "name": "Black JanSport backpack",
         "description": "Found a black JanSport backpack with a calculus notebook on a bench near the library.",
-        "color": "black", "brand": "Jansport", "distinctive_features": "Has a red keychain attached to the zipper",
+        "color": "black", "brand": "Jansport", "distinctive_features": "Has a name tag with initials inside the front pocket",
         "date_time": "2026-10-01T15:30:00Z", "location": "Bench near Allah Wala Chowk", "location_type": "gps",
         "latitude": 31.578850, "longitude": 74.356760}, finder)
     # Weak lead: only colour and brand match, nothing identifying.
@@ -55,10 +56,12 @@ def seed(base):
         "report_type": "LOST", "category": "Watch", "name": "Black Casio watch",
         "description": "Lost my black watch somewhere in the academic block.", "color": "Black", "brand": "Casio",
         "date_time": when, "location": "Lecture Theatre", "place_key": "lecture-theatre"}, owner)
-    api(base, "POST", "/reports", {
-        "report_type": "FOUND", "category": "Watch", "name": "Watch",
-        "description": "Found a watch on a bench.", "color": "black", "brand": "Casio",
-        "date_time": "2026-10-01T16:00:00Z", "location": "Lecture Theatre", "place_key": "lecture-theatre"}, finder)
+    # Several more found watches: the owner then has more Weak leads than the list shows at first (5).
+    for i in range(7):
+        api(base, "POST", "/reports", {
+            "report_type": "FOUND", "category": "Watch", "name": f"Watch {i + 1}",
+            "description": f"Found a watch on a bench, copy {i + 1}.", "color": "black", "brand": "Casio",
+            "date_time": "2026-10-01T16:00:00Z", "location": "Lecture Theatre", "place_key": "lecture-theatre"}, finder)
     return owner_email, finder_email, owner, lost_bag["id"], lost_watch["id"]
 
 
@@ -66,9 +69,17 @@ def check_api(base, owner_token, bag_id, watch_id):
     bag = api(base, "GET", f"/reports/{bag_id}/matches", token=owner_token)["matches"]
     watch = api(base, "GET", f"/reports/{watch_id}/matches", token=owner_token)["matches"]
     assert bag and bag[0]["lead"] in ("STRONG", "POSSIBLE"), bag
-    assert watch and watch[0]["lead"] == "WEAK", watch
+    assert len(watch) >= 6 and all(m["lead"] == "WEAK" for m in watch), watch
     assert CANARY not in json.dumps(bag) and CANARY not in json.dumps(watch), "private detail leaked by the API"
-    return bag[0]["id"], watch[0]["id"], bag[0]["lead"]
+    # A Weak lead must not start ownership verification, even when called directly.
+    blocked = urllib.request.Request(f"{base}/matches/{watch[0]['id']}/verification", method="POST",
+                                     headers={"Authorization": f"Bearer {owner_token}"})
+    try:
+        urllib.request.urlopen(blocked)
+        raise AssertionError("verification started from a Weak lead")
+    except urllib.error.HTTPError as e:
+        assert e.code == 409, e.code
+    return bag[0]["id"], watch[0]["id"], bag[0]["lead"], len(watch)
 
 
 def login(page, web, email):
@@ -90,10 +101,12 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     owner_email, _, owner_token, bag_id, watch_id = seed(args.api)
-    bag_match, watch_match, lead = check_api(args.api, owner_token, bag_id, watch_id)
-    print(f"API: bag match lead={lead}, watch match lead=WEAK, no private detail in API output")
+    bag_match, watch_match, lead, weak_count = check_api(args.api, owner_token, bag_id, watch_id)
+    print(f"API: bag match lead={lead}, {weak_count} watch matches all WEAK, verification blocked (409), "
+          f"no private detail in API output")
 
     failures = []
+    weak_cards = "a[href^='/matches/']:has-text('Weak lead')"
     with sync_playwright() as p:
         browser = p.chromium.launch(channel=args.channel)
         for width, name in [(1280, "desktop"), (390, "mobile")]:
@@ -101,7 +114,20 @@ def main():
             login(page, args.web, owner_email)
             page.goto(f"{args.web}/matches")
             expect(page.get_by_text("Weak lead").first).to_be_visible(timeout=15000)
-            expect(page.get_by_text("Not enough to notify you").first).to_be_visible()
+            expect(page.get_by_text("cannot be verified as yours").first).to_be_visible()
+            # Only five weak leads are listed at first; "Show more" lists the rest.
+            shown = page.locator(weak_cards).count()
+            if shown != 5:
+                failures.append(f"{shown} weak leads listed at {width}px, expected 5 before Show more")
+            show_more = page.get_by_role("button", name="Show", exact=False).filter(has_text="more weak")
+            expect(show_more.first).to_be_visible()
+            show_more.first.click()
+            if page.locator(weak_cards).count() != weak_count:
+                failures.append(f"Show more did not list all {weak_count} weak leads at {width}px")
+            if page.locator(weak_cards).filter(has_text="Potential match").count():
+                failures.append(f"a Weak lead card shows 'Potential match' at {width}px")
+            if page.evaluate("document.documentElement.scrollWidth > document.documentElement.clientWidth"):
+                failures.append(f"horizontal scroll on matches page at {width}px")
             page.screenshot(path=str(out / f"matches-{name}.png"), full_page=True)
 
             page.goto(f"{args.web}/matches/{bag_match}")
@@ -115,6 +141,8 @@ def main():
                 failures.append("bag match shows neither Strong nor Possible lead")
             if page.get_by_text("Earlier suggestion").count():
                 failures.append("bag match shows 'Earlier suggestion' although it has a lead label")
+            if page.get_by_role("button", name="Verify ownership").count() == 0 and page.get_by_text("Continue verification").count() == 0:
+                failures.append("bag match (not Weak) offers no verification")
             body = page.inner_text("body")
             if CANARY in body.lower():
                 failures.append("private detail visible on match page")
@@ -126,6 +154,11 @@ def main():
             expect(page.get_by_text("Weak lead.").first).to_be_visible(timeout=15000)
             expect(page.get_by_text("Do not treat this as a match").first).to_be_visible()
             expect(page.get_by_text("Shared details (not enough to notify you)")).to_be_visible()
+            if page.get_by_role("button", name="Verify ownership").count():
+                failures.append(f"Verify ownership shown for a Weak lead at {width}px")
+            expect(page.get_by_text("cannot be verified", exact=False).first).to_be_visible()
+            if CANARY in page.inner_text("body").lower():
+                failures.append("private detail visible on Weak lead page")
             page.screenshot(path=str(out / f"match-weak-{name}.png"), full_page=True)
             page.close()
 

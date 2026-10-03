@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { api, imageUrl } from "@/lib/api";
 import { formatDate } from "@/lib/format";
-import { LeadBadge, LeadDescription, MatchEvidence } from "@/components/MatchEvidence";
+import { LeadBadge, LeadDescription, MatchEvidence, ReferenceBadge } from "@/components/MatchEvidence";
 import type { Match } from "@/lib/types";
 import { ErrorBox, InfoBox, Protected, Spinner, StatusBadge, TypeBadge } from "@/components/ui";
 
@@ -68,7 +68,7 @@ function MatchDetails() {
         </div>
         <div className="flex items-center gap-2">
           <LeadBadge lead={m.lead} percent={m.score_percent} />
-          <StatusBadge status={m.status} />
+          {m.lead === "WEAK" ? <ReferenceBadge /> : <StatusBadge status={m.status} />}
         </div>
       </div>
 
@@ -132,7 +132,7 @@ function MatchDetails() {
 
           <div className="card space-y-3">
             <h2 className="font-semibold text-slate-900">Next step</h2>
-            {m.my_role === "owner" && m.status === "POTENTIAL_MATCH" && (
+            {m.my_role === "owner" && m.status === "POTENTIAL_MATCH" && m.lead !== "WEAK" && (
               <>
                 <p className="text-sm text-slate-600">
                   If this looks like yours, verify ownership by answering a few private questions. The finder will compare
@@ -140,6 +140,17 @@ function MatchDetails() {
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <button className="btn-primary" onClick={startVerification} disabled={busy}>Verify ownership</button>
+                  <button className="btn-secondary" onClick={dismiss}>Not mine</button>
+                </div>
+              </>
+            )}
+            {m.my_role === "owner" && m.status === "POTENTIAL_MATCH" && m.lead === "WEAK" && (
+              <>
+                <p className="text-sm text-slate-600">
+                  This is a Weak lead. Shared general details are not enough to show that the item is yours, so ownership
+                  cannot be verified from it. If it is not yours, mark it so it is removed from your list.
+                </p>
+                <div className="flex flex-wrap gap-2">
                   <button className="btn-secondary" onClick={dismiss}>Not mine</button>
                 </div>
               </>
