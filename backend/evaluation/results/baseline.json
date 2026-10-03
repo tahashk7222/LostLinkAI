@@ -1,0 +1,196 @@
+{
+  "queries": 50,
+  "found_reports": 330,
+  "true_pairs": 50,
+  "hard_negative_pairs": 250,
+  "metrics": {
+    "precision_at_1": 0.7,
+    "recall_retrieved": 1.0,
+    "recall_at_threshold": 1.0,
+    "false_positive_rate_all_negatives": 0.021,
+    "false_positive_rate_hard_negatives": 0.588,
+    "precision_of_notifications": 0.126,
+    "notifications_per_query": 7.92,
+    "queries_with_false_notification": 1.0
+  },
+  "counts": {
+    "true_notified": 50,
+    "notified_total": 396,
+    "false_notified": 346,
+    "false_notified_hard": 147,
+    "false_notified_by_type": {
+      "hard:hn-brand": 48,
+      "hard:hn-lookalike": 48,
+      "hard:hn-colour": 48,
+      "other_query_hard_negative": 146,
+      "unrelated": 22,
+      "other_query_true_match": 31,
+      "hard:hn-category": 3
+    }
+  },
+  "false_positive_examples": [
+    {
+      "query": "L039",
+      "found": "F231",
+      "negative_type": "hard:hn-brand",
+      "score": 0.943,
+      "explanation": [
+        "Same item category (id card)",
+        "Descriptions are very similar",
+        "Compatible colour (blue)",
+        "Found at practically the same spot",
+        "Both on UET Lahore campus",
+        "Found approximately 3 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L029",
+      "found": "F171",
+      "negative_type": "hard:hn-brand",
+      "score": 0.923,
+      "explanation": [
+        "Same item category (id card)",
+        "Descriptions are very similar",
+        "Compatible colour (white)",
+        "Found about 30 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 6 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L021",
+      "found": "F123",
+      "negative_type": "hard:hn-brand",
+      "score": 0.918,
+      "explanation": [
+        "Same item category (backpack)",
+        "Descriptions are very similar",
+        "Compatible colour (green)",
+        "Found about 40 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 1 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L042",
+      "found": "F249",
+      "negative_type": "hard:hn-brand",
+      "score": 0.917,
+      "explanation": [
+        "Same item category (wallet)",
+        "Descriptions are very similar",
+        "Compatible colour (black)",
+        "Found at practically the same spot",
+        "Both on UET Lahore campus",
+        "Found approximately 6 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L005",
+      "found": "F027",
+      "negative_type": "hard:hn-brand",
+      "score": 0.916,
+      "explanation": [
+        "Same item category (water bottle)",
+        "Descriptions are very similar",
+        "Compatible colour (blue)",
+        "Found about 90 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 5 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L016",
+      "found": "F093",
+      "negative_type": "hard:hn-brand",
+      "score": 0.896,
+      "explanation": [
+        "Same item category (laptop)",
+        "Descriptions are very similar",
+        "Compatible colour (gray)",
+        "Found about 110 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 1 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L049",
+      "found": "F291",
+      "negative_type": "hard:hn-brand",
+      "score": 0.896,
+      "explanation": [
+        "Same item category (id card)",
+        "Descriptions are very similar",
+        "Compatible colour (blue)",
+        "Found about 140 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 6 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L009",
+      "found": "F051",
+      "negative_type": "hard:hn-brand",
+      "score": 0.894,
+      "explanation": [
+        "Same item category (id card)",
+        "Descriptions are very similar",
+        "Compatible colour (white)",
+        "Found about 130 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 3 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L019",
+      "found": "F111",
+      "negative_type": "hard:hn-brand",
+      "score": 0.887,
+      "explanation": [
+        "Same item category (id card)",
+        "Descriptions are very similar",
+        "Compatible colour (white)",
+        "Found about 130 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 10 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L033",
+      "found": "F195",
+      "negative_type": "hard:hn-brand",
+      "score": 0.885,
+      "explanation": [
+        "Same item category (phone)",
+        "Descriptions are very similar",
+        "Compatible colour (green)",
+        "Found about 110 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 7 hours after the reported loss"
+      ]
+    }
+  ],
+  "runtime_seconds": 24.48,
+  "label": "baseline",
+  "dataset": {
+    "name": "SYNTHETIC",
+    "generator": "backend/evaluation/generate_dataset.py",
+    "seed": 20261003,
+    "notice": "Invented for offline evaluation. Not real user reports, people or locations history. Coordinates are campus place points from app/geo/uet_lahore.json."
+  },
+  "config": {
+    "threshold": 0.55,
+    "max_candidates": 10,
+    "weights": {
+      "category": 0.15,
+      "text": 0.2,
+      "color": 0.12,
+      "brand": 0.08,
+      "features": 0.1,
+      "image": 0.1,
+      "location": 0.15,
+      "time": 0.1
+    },
+    "scorer": "score_pair (rule-based, pre-v2)"
+  }
+}
