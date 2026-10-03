@@ -12,6 +12,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
 from app.ai.config import MatchingConfig
+from app.ai.lexical import BM25Index, description_terms, pair_similarity
 from app.ai.matching import as_utc, haversine_km
 from app.ai.providers import cosine
 from app.ai.understanding import normalize_category
@@ -55,5 +56,14 @@ def retrieve_candidates(db: Session, report: ItemReport, cfg: MatchingConfig, li
                 continue
         out.append(cand)
 
-    out.sort(key=lambda c: cosine(report.text_embedding, c.text_embedding), reverse=True)
+    if cfg.text_method == "bm25":
+        index = BM25Index([description_terms(r) for r in [report, *out]])
+
+        def rank(c):
+            lost, found = (report, c) if report.report_type == ReportType.LOST else (c, report)
+            return pair_similarity(index, lost, found)
+
+        out.sort(key=rank, reverse=True)
+    else:
+        out.sort(key=lambda c: cosine(report.text_embedding, c.text_embedding), reverse=True)
     return out[:limit]

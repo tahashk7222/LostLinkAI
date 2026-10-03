@@ -83,7 +83,9 @@ class _Evidence:
                            "strength": strength, "value": value})
 
 
-def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingConfig) -> MatchResult:
+def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingConfig,
+               text_sim: float | None = None) -> MatchResult:
+    """Score one lost/found pair. `text_sim` is the description similarity in [0, 1] (BM25 by default)."""
     signals: dict[str, float] = {}
     ev = _Evidence()
 
@@ -99,7 +101,9 @@ def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingC
         ev.contradict("category", "Item categories differ", "STRONG")
 
     # Text (lexical similarity of public descriptions)
-    signals["text"] = round(cosine(lost.text_embedding, found.text_embedding), 3)
+    if text_sim is None:
+        text_sim = cosine(lost.text_embedding, found.text_embedding)
+    signals["text"] = round(text_sim, 3)
     if signals["text"] >= 0.5:
         ev.support("text", "Descriptions are very similar", "STRONG", signals["text"])
     elif signals["text"] >= 0.3:

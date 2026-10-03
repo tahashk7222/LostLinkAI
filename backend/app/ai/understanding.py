@@ -12,7 +12,9 @@ Legacy rows that were stored as "AI" before this change are rule-based too; migr
 
 import re
 from dataclasses import dataclass, field
+from functools import lru_cache
 
+from app.ai.providers.text import tokenize
 from app.models.enums import AttributeSource
 
 # canonical category -> (group, synonyms). Roman-Urdu synonyms are included where common.
@@ -123,6 +125,8 @@ FEATURE_TYPES: dict[str, list[str]] = {
 }
 FEATURE_CUES = [(cue, ftype) for ftype, cues in FEATURE_TYPES.items() for cue in cues]
 
+FEATURE_CUES_WORDS = [cue for cue, _ in FEATURE_CUES]
+
 # Roman-Urdu and English function words ignored by similarity comparisons
 FEATURE_STOP = {"on", "the", "a", "an", "with", "and", "has", "have", "it", "its", "of", "in", "at", "is", "was",
                 "ka", "ki", "ke", "hai", "tha", "mein", "par", "aur", "wala", "wali", "se", "back", "front"}
@@ -155,6 +159,22 @@ class Understanding:
     shades: set[tuple[str, str]] = field(default_factory=set)
     models: list[str] = field(default_factory=list)  # normalised, e.g. "iphone13"
     typed_features: list[TypedFeature] = field(default_factory=list)
+
+
+@lru_cache(maxsize=1)
+def structured_terms() -> frozenset[str]:
+    """Words that structured signals already cover (category, colour, brand, model, feature cues).
+
+    The description signal removes these so the same evidence is not counted twice."""
+    phrases: set[str] = set(COLORS) | set(SHADES) | set(BRAND_ALIASES) | set(FEATURE_CUES_WORDS)
+    for canon, (_, synonyms) in CATEGORIES.items():
+        phrases.update(synonyms + [canon])
+    phrases.update({"iphone", "galaxy", "pixel", "redmi", "poco", "macbook", "thinkpad", "ideapad", "inspiron",
+                    "xps", "pavilion", "spectre", "casio"})
+    terms: set[str] = set()
+    for ph in phrases:
+        terms.update(tokenize(ph))
+    return frozenset(terms)
 
 
 def _contains(text: str, phrase: str) -> bool:

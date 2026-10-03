@@ -15,6 +15,9 @@ STOPWORDS = {
     "a", "an", "the", "and", "or", "of", "in", "on", "at", "to", "for", "with", "my", "i", "it",
     "is", "was", "near", "around", "about", "has", "had", "have", "this", "that", "from", "by",
     "lost", "found", "item", "some", "very", "its", "be", "been", "were", "there", "which",
+    # Roman-Urdu function words
+    "mera", "meri", "mere", "ka", "ki", "ke", "hai", "tha", "thi", "mein", "main", "se", "par", "aur", "hua",
+    "hui", "kahin", "paas", "liye", "wala", "wali", "gaya", "gayi", "kar", "ko", "ne", "yeh", "woh",
 }
 
 

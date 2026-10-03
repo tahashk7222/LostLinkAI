@@ -16,6 +16,7 @@ from sqlalchemy import delete, select
 from sqlalchemy.orm import Session, selectinload
 
 from app.ai.config import get_matching_config
+from app.ai.lexical import BM25Index, description_terms, pair_similarity
 from app.ai.matching import score_pair
 from app.ai.providers import get_text_embedder
 from app.ai.retrieval import retrieve_candidates
@@ -57,8 +58,11 @@ def score_candidates(db: Session, report: ItemReport, cfg=None) -> list[tuple[It
     ru = analyze_report(db, report)
     db.flush()
 
+    candidates = retrieve_candidates(db, report, cfg)
+    index = BM25Index([description_terms(r) for r in [report, *candidates]]) if cfg.text_method == "bm25" else None
+
     results = []
-    for cand in retrieve_candidates(db, report, cfg):
+    for cand in candidates:
         if cand.text_embedding is None:
             analyze_report(db, cand)
         cu = understand(cand)
@@ -66,7 +70,8 @@ def score_candidates(db: Session, report: ItemReport, cfg=None) -> list[tuple[It
             lost, found, lu, fu = report, cand, ru, cu
         else:
             lost, found, lu, fu = cand, report, cu, ru
-        results.append((lost, found, score_pair(lost, found, lu, fu, cfg)))
+        text_sim = pair_similarity(index, lost, found) if index else None
+        results.append((lost, found, score_pair(lost, found, lu, fu, cfg, text_sim=text_sim)))
 
     results.sort(key=lambda r: r[2].score, reverse=True)
     return results
