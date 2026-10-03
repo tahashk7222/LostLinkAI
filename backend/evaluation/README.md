@@ -17,8 +17,11 @@ reports.
   either side.
 - 250 hard negatives, five per query, built to look like the query's item:
   `hn-lookalike` (same type, colour and brand, found days later elsewhere),
-  `hn-brand` (different brand), `hn-colour` (different colour), `hn-before-loss`
-  (found before the loss), `hn-category` (same colour, different item type).
+  `hn-brand` (different brand; `hn-nearby` for item types with no brand list), `hn-colour`
+  (different colour), `hn-before-loss` (found before the loss), `hn-category` (same colour,
+  different item type).
+- Brand mismatch is only visible to the scorer when both sides state a brand. About half of the
+  lost queries omit it, so many `hn-brand` negatives cannot be told apart.
 - 30 unrelated found reports.
 - Every lost query is scored against all 330 found reports. Retrieval, scoring and
   notification selection are the production code paths.
@@ -52,3 +55,31 @@ counts and the top false-positive examples with their explanations.
 - No Roman-Urdu or misspelled descriptions are included.
 - Only lost-side queries are evaluated. Found-side queries are not measured.
 - Hard negatives are constructed by rules. They do not represent the full range of real look-alikes.
+
+## Results
+
+Both runs use the same corrected dataset (`synthetic_pairs.json`). The baseline was run with the
+pre-change scorer (commit `69b7240`), in a scratch worktree, before any matching change.
+
+| Metric | Baseline (`results/baseline.json`) | After steps 1–7 (`results/after-steps-1-7.json`) |
+|---|---|---|
+| precision@1 | 80.0% | 80.0% |
+| recall at threshold (0.55) | 100.0% | 100.0% |
+| recall (retrieved, any score) | 100.0% | 100.0% |
+| FPR, all negatives | 2.0% | 2.0% |
+| FPR, hard negatives | 58.4% | 58.4% |
+| precision of notifications | 13.0% | 13.0% |
+| notifications per query | 7.68 | 7.68 |
+
+The scorer is unchanged by steps 1–7, so the metrics are identical by design. Those steps change
+what is stored and shown: evidence strength, stale-match withdrawal, and the locking. The harness
+does not measure them.
+
+**Revision note.** The first baseline (precision@1 70.0%) was measured on a dataset whose hard
+negatives for brandless item types were mislabelled as brand mismatches. The generator was fixed,
+the dataset regenerated, and the baseline re-measured on the corrected dataset. The superseded
+numbers are not used anywhere else.
+
+Main weakness shown by the baseline: the notification threshold admits about 7.7 suggestions per
+lost query, of which about 13% are true matches. The scorer does not separate same-type items
+that differ only in details the lost report does not state.
