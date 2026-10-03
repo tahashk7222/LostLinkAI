@@ -1,0 +1,289 @@
+{
+  "queries": 50,
+  "found_reports": 680,
+  "true_pairs": 50,
+  "hard_negative_pairs": 600,
+  "metrics": {
+    "precision_at_1": 0.18,
+    "recall_retrieved": 1.0,
+    "recall_at_threshold": 0.96,
+    "false_positive_rate_all_negatives": 0.013,
+    "false_positive_rate_hard_negatives": 0.543,
+    "precision_of_notifications": 0.097,
+    "notifications_per_query": 9.9,
+    "weak_leads_per_query": 0.0,
+    "queries_with_false_notification": 1.0
+  },
+  "fpr_by_hard_type": {
+    "hn-before-loss": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-brand": {
+      "population": 40,
+      "notified": 23,
+      "rate": 0.575
+    },
+    "hn-category": {
+      "population": 50,
+      "notified": 2,
+      "rate": 0.04
+    },
+    "hn-colour": {
+      "population": 50,
+      "notified": 27,
+      "rate": 0.54
+    },
+    "hn-lookalike": {
+      "population": 50,
+      "notified": 39,
+      "rate": 0.78
+    },
+    "hn-nearby": {
+      "population": 10,
+      "notified": 8,
+      "rate": 0.8
+    },
+    "hx-brand": {
+      "population": 50,
+      "notified": 32,
+      "rate": 0.64
+    },
+    "hx-feature": {
+      "population": 50,
+      "notified": 47,
+      "rate": 0.94
+    },
+    "hx-missing-brand": {
+      "population": 50,
+      "notified": 49,
+      "rate": 0.98
+    },
+    "hx-missing-feature": {
+      "population": 50,
+      "notified": 50,
+      "rate": 1.0
+    },
+    "hx-nearby-same": {
+      "population": 50,
+      "notified": 49,
+      "rate": 0.98
+    },
+    "hx-same-place-other": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hx-visual": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    }
+  },
+  "counts": {
+    "true_notified": 48,
+    "notified_total": 495,
+    "false_notified": 447,
+    "false_notified_hard": 326,
+    "false_notified_by_type": {
+      "hard:hn-colour": 27,
+      "hard:hn-brand": 23,
+      "hard:hx-nearby-same": 49,
+      "hard:hx-brand": 32,
+      "hard:hx-feature": 47,
+      "hard:hn-lookalike": 39,
+      "hard:hx-missing-brand": 49,
+      "hard:hx-missing-feature": 50,
+      "other_query_hard_negative": 104,
+      "unrelated": 10,
+      "hard:hn-nearby": 8,
+      "other_query_true_match": 7,
+      "hard:hn-category": 2
+    }
+  },
+  "false_positive_examples": [
+    {
+      "query": "L012",
+      "found": "F414",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.95,
+      "explanation": [
+        "Same item category (wallet)",
+        "Descriptions are very similar",
+        "Compatible colour (black)",
+        "Same brand (Gucci)",
+        "Photos look visually similar (colour and shape)",
+        "Found at practically the same spot",
+        "Both on UET Lahore campus",
+        "Found approximately 3 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L032",
+      "found": "F554",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.945,
+      "explanation": [
+        "Same item category (wallet)",
+        "Descriptions are very similar",
+        "Compatible colour (brown)",
+        "Same brand (Gucci)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 80 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 3 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L030",
+      "found": "F540",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.941,
+      "explanation": [
+        "Same item category (clothing)",
+        "Descriptions are very similar",
+        "Compatible colour (red)",
+        "Same brand (Nike)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 60 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 4 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L011",
+      "found": "F407",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.938,
+      "explanation": [
+        "Same item category (backpack)",
+        "Descriptions are very similar",
+        "Compatible colour (green)",
+        "Photos look visually similar (colour and shape)",
+        "Found at practically the same spot",
+        "Both on UET Lahore campus",
+        "Found approximately 4 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L042",
+      "found": "F624",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.938,
+      "explanation": [
+        "Same item category (wallet)",
+        "Descriptions are very similar",
+        "Compatible colour (black)",
+        "Photos look visually similar (colour and shape)",
+        "Found at practically the same spot",
+        "Both on UET Lahore campus",
+        "Found approximately 2 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L024",
+      "found": "F498",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.935,
+      "explanation": [
+        "Same item category (keys)",
+        "Descriptions are very similar",
+        "Compatible colour (gray)",
+        "Same brand (Honda)",
+        "Photos look visually similar (colour and shape)",
+        "Found at practically the same spot",
+        "Both on UET Lahore campus",
+        "Found approximately 2 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L019",
+      "found": "F459",
+      "negative_type": "hard:hx-feature",
+      "score": 0.933,
+      "explanation": [
+        "Same item category (id card)",
+        "Descriptions are very similar",
+        "Compatible colour (white)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 120 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 1 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L005",
+      "found": "F365",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.932,
+      "explanation": [
+        "Same item category (water bottle)",
+        "Descriptions are very similar",
+        "Compatible colour (blue)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 50 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 2 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L040",
+      "found": "F610",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.932,
+      "explanation": [
+        "Same item category (clothing)",
+        "Descriptions are very similar",
+        "Compatible colour (gray)",
+        "Same brand (Puma)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 70 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 2 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L010",
+      "found": "F400",
+      "negative_type": "hard:hx-missing-feature",
+      "score": 0.931,
+      "explanation": [
+        "Same item category (clothing)",
+        "Descriptions are very similar",
+        "Compatible colour (blue)",
+        "Same brand (Adidas)",
+        "Photos look visually similar (colour and shape)",
+        "Found about 100 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 3 hours after the reported loss"
+      ]
+    }
+  ],
+  "runtime_seconds": 45.16,
+  "label": "orig-extended",
+  "dataset": {
+    "file": "synthetic_pairs_extended.json",
+    "name": "SYNTHETIC",
+    "generator": "backend/evaluation/generate_dataset.py::extend",
+    "seed": 20261003,
+    "notice": "Invented for offline evaluation. Not real user reports, people or locations history. Coordinates are campus place points from app/geo/uet_lahore.json. Photos are rendered from simple synthetic shapes, not real photographs."
+  },
+  "config": {
+    "threshold": 0.55,
+    "max_candidates": 10,
+    "max_notifications": null,
+    "scorer": "v1-original",
+    "text_method": "hashing-original",
+    "weights": {
+      "category": 0.15,
+      "text": 0.2,
+      "color": 0.12,
+      "brand": 0.08,
+      "features": 0.1,
+      "image": 0.1,
+      "location": 0.15,
+      "time": 0.1
+    }
+  }
+}

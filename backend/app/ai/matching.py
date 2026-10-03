@@ -54,6 +54,7 @@ class MatchResult:
     confidence: str
     signals: dict[str, float]
     evidence: list[dict] = field(default_factory=list)
+    lead: str | None = None  # STRONG | POSSIBLE | WEAK | None (not a lead)
 
     @property
     def reasons(self) -> list[str]:
@@ -205,4 +206,5 @@ def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingC
 
     score = round(max(0.0, min(1.0, score)), 3)
     confidence = "HIGH" if score >= cfg.high_confidence else "MEDIUM" if score >= cfg.threshold else "LOW"
-    return MatchResult(score, confidence, signals, ev.items)
+    lead = "POSSIBLE" if score >= cfg.threshold else None  # v1: a single weighted score, no identity rules
+    return MatchResult(score, confidence, signals, ev.items, lead)

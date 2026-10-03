@@ -255,3 +255,129 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+# ---------------------------------------------------------------------------
+# Extended set: the original 50-query set plus synthetic photos and targeted hard negatives.
+# Built from the original rows with a separate random stream, so the original file is unchanged.
+# ---------------------------------------------------------------------------
+
+EXTENDED_FILE = HERE / "data" / "synthetic_pairs_extended.json"
+RGB = {
+    "black": (20, 20, 20), "navy blue": (25, 35, 110), "grey": (140, 140, 140), "gray": (140, 140, 140),
+    "maroon": (120, 25, 45), "green": (40, 150, 70), "brown": (120, 70, 30), "tan": (190, 150, 100),
+    "blue": (30, 70, 200), "silver": (190, 190, 195), "gold": (205, 170, 60), "pink": (235, 150, 190),
+    "white": (245, 245, 245), "red": (200, 30, 30),
+}
+# Silhouette per item type. Item types that share a silhouette can look alike in a photo.
+SHAPE = {"backpack": "rounded", "jacket": "rounded", "wallet": "rect", "laptop": "rect", "id-card": "rect",
+         "phone": "tall", "bottle": "tall", "watch": "ellipse", "earbuds": "ellipse", "keys": "ellipse"}
+LOOKALIKE_SHAPE = {s: [k for k in SHAPE if SHAPE[k] == s] for s in set(SHAPE.values())}
+EXTRA_TYPES = ["hx-nearby-same", "hx-brand", "hx-feature", "hx-same-place-other", "hx-visual",
+               "hx-missing-brand", "hx-missing-feature"]
+
+
+def _nearest_other_place(places, place_key):
+    here = next(p for p in places if p["key"] == place_key)
+    others = [p for p in places if p["key"] != place_key]
+    return min(others, key=lambda p: (p["lat"] - here["lat"]) ** 2 + (p["lng"] - here["lng"]) ** 2)
+
+
+def extend(base: dict) -> dict:
+    rng = random.Random(SEED + 1)
+    places = load_places()
+    lost_rows = base["lost"]
+    found_rows = list(base["found"])
+    by_lost = {r["id"]: r for r in lost_rows}
+    items = {it["key"]: it for it in ITEMS}
+
+    for row in lost_rows + found_rows:
+        row["image"] = {"fill": list(RGB[row["color"]]) if row.get("color") in RGB else [120, 120, 120],
+                        "shape": SHAPE[row["item_type"]]}
+
+    for q in lost_rows:
+        item = items[q["item_type"]]
+        base_when = datetime.fromisoformat(q["date_time"].replace("Z", "+00:00"))
+        q_place = next(p for p in places if p["key"] == q["place_key"])
+        near = _nearest_other_place(places, q["place_key"])
+        fill = q["color"]
+        brands = item["brands"]
+        q_feature = q.get("distinctive_features")
+
+        def add(kind, *, noun=None, color=fill, brand=None, feature=None, when, place, gps=True, it=item,
+                shape_key=None):
+            row = make_report(rng, "FOUND", it, color=color, brand=brand, noun=noun or rng.choice(it["nouns"]),
+                              feature=feature, when=when, place=place, gps=gps,
+                              desc_place_name=place["name"], template=rng.choice(FOUND_TEMPLATES))
+            row.update(role="hard_negative", origin=q["id"], negative_type=kind, item_type=it["key"],
+                       image={"fill": list(RGB.get(color, (120, 120, 120))), "shape": SHAPE[it["key"]]}
+                       if shape_key is None else {"fill": list(RGB.get(color, (120, 120, 120))),
+                                                   "shape": SHAPE[shape_key]})
+            found_rows.append(row)
+
+        # 1. Same colour, same category, nearby spot, a few hours later. No brand, no feature.
+        add("hx-nearby-same", color=fill, brand=None, feature=None,
+            when=base_when + timedelta(hours=rng.randint(3, 8)), place=near)
+        # 2. Different brand (only possible when the item type has a brand list).
+        other_brands = [b for b in brands if b != q.get("brand")]
+        if other_brands:
+            add("hx-brand", color=fill, brand=rng.choice(other_brands), feature=None,
+                when=base_when + timedelta(hours=rng.randint(1, 10)), place=q_place)
+        else:
+            add("hx-brand", color=fill, brand=None, feature=None,
+                when=base_when + timedelta(hours=rng.randint(1, 10)), place=q_place)
+        # 3. Different distinctive feature (a different feature from the same item type).
+        alt = [f for f in item["features"] if f != q_feature]
+        add("hx-feature", color=fill, brand=q.get("brand"), feature=rng.choice(alt),
+            when=base_when + timedelta(hours=rng.randint(1, 10)), place=q_place)
+        # 4. Same place, different item type (different category), similar time.
+        other_item = rng.choice([x for x in ITEMS if x["key"] != q["item_type"]])
+        add("hx-same-place-other", color=rng.choice(other_item["colors"]), brand=None, feature=None,
+            noun=rng.choice(other_item["nouns"]), it=other_item,
+            when=base_when + timedelta(hours=rng.randint(1, 6)), place=q_place)
+        # 5. Visually similar (same silhouette and colour), different item type.
+        twin = [k for k in LOOKALIKE_SHAPE[SHAPE[q["item_type"]]] if k != q["item_type"]]
+        if twin:
+            tw = items[rng.choice(twin)]
+            add("hx-visual", color=fill, brand=None, feature=None, noun=rng.choice(tw["nouns"]), it=tw,
+                when=base_when + timedelta(hours=rng.randint(2, 8)), place=rng.choice(places),
+                shape_key=tw["key"])
+        else:
+            add("hx-visual", color=fill, brand=None, feature=None,
+                when=base_when + timedelta(hours=rng.randint(2, 8)), place=rng.choice(places))
+        # 6. Missing brand on the found side; same type, colour and place, a different item.
+        add("hx-missing-brand", color=fill, brand=None, feature=None,
+            when=base_when + timedelta(hours=rng.randint(2, 6)), place=q_place)
+        # 7. Missing distinctive features on the found side (the query may have one).
+        add("hx-missing-feature", color=fill, brand=q.get("brand"), feature=None,
+            when=base_when + timedelta(hours=rng.randint(2, 6)), place=q_place)
+
+    # Renumber found reports and rebuild the true pairs from the rows themselves.
+    for n, row in enumerate(found_rows, 1):
+        row["id"] = f"F{n:03d}"
+    true_pairs = [[r["origin"], r["id"]] for r in found_rows if r["role"] == "true_match"]
+    counts = {"lost": len(lost_rows), "found": len(found_rows), "true_pairs": len(true_pairs)}
+    return {
+        "dataset": "SYNTHETIC",
+        "notice": ("Invented for offline evaluation. Not real user reports, people or locations history. "
+                   "Coordinates are campus place points from app/geo/uet_lahore.json. Photos are rendered "
+                   "from simple synthetic shapes, not real photographs."),
+        "generator": "backend/evaluation/generate_dataset.py::extend",
+        "seed": SEED,
+        "base": "synthetic_pairs.json",
+        "counts": counts,
+        "lost": lost_rows,
+        "found": found_rows,
+        "true_pairs": true_pairs,
+    }
+
+
+def main_extended() -> None:
+    base = json.loads(OUT_FILE.read_text(encoding="utf-8"))
+    data = extend(base)
+    EXTENDED_FILE.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"wrote {EXTENDED_FILE} {data['counts']}")
+
+
+if __name__ == "__main__" and "--extended" in __import__("sys").argv:
+    main_extended()

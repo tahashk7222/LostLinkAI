@@ -77,10 +77,19 @@ def score_candidates(db: Session, report: ItemReport, cfg=None) -> list[tuple[It
     return results
 
 
-def select_new_matches(results, cfg=None):
-    """Which scored pairs would become (notified) match candidates in a fresh database."""
+NOTIFIABLE_LEADS = ("STRONG", "POSSIBLE")
+
+
+def select_notifiable(results, cfg=None):
+    """Pairs that would notify their owners in a fresh database: Strong or Possible leads, capped per report."""
     cfg = cfg or get_matching_config()
-    return [r for r in results[: cfg.max_candidates] if r[2].score >= cfg.threshold]
+    return [r for r in results if r[2].lead in NOTIFIABLE_LEADS][: cfg.max_notifications]
+
+
+def select_stored(results, cfg=None):
+    """Pairs stored as match candidates (notifiable leads and Weak leads), capped per report."""
+    cfg = cfg or get_matching_config()
+    return [r for r in results if r[2].lead is not None][: cfg.max_candidates]
 
 
 def run_matching(db: Session, report: ItemReport) -> list[MatchCandidate]:
@@ -98,7 +107,7 @@ def run_matching(db: Session, report: ItemReport) -> list[MatchCandidate]:
         return []
 
     results = score_candidates(db, report, cfg)
-    current = {(lost.id, found.id): (lost, found, res) for lost, found, res in select_new_matches(results, cfg)}
+    current = {(lost.id, found.id): (lost, found, res) for lost, found, res in select_stored(results, cfg)}
     withdraw_matches(db, report, keep=set(current), reason="no longer a candidate")
 
     matches: list[MatchCandidate] = []
@@ -117,6 +126,8 @@ def run_matching(db: Session, report: ItemReport) -> list[MatchCandidate]:
         db.add(m)
         db.flush()
         matches.append(m)
+        if res.lead not in NOTIFIABLE_LEADS:
+            continue  # Weak leads are stored for the owner to see, but do not change report status or notify
         for r in (lost, found):
             if r.status == ReportStatus.ACTIVE:
                 transition(r, ReportStatus.POTENTIAL_MATCH)

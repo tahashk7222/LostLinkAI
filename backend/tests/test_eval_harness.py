@@ -7,8 +7,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 from app.db.session import Base
-from evaluation.generate_dataset import OUT_FILE, build
-from evaluation.run_eval import _fp_type, evaluate, load_dataset
+from evaluation.generate_dataset import EXTENDED_FILE, OUT_FILE, build, extend
+from evaluation.run_eval import DATASETS, _fp_type, evaluate, load_dataset
 
 
 def test_committed_dataset_is_reproducible_and_labelled_synthetic():
@@ -18,8 +18,13 @@ def test_committed_dataset_is_reproducible_and_labelled_synthetic():
     assert "Invented for offline evaluation" in committed["notice"]
 
 
+def test_committed_extended_dataset_is_reproducible():
+    committed = json.loads(EXTENDED_FILE.read_text(encoding="utf-8"))
+    assert committed == json.loads(json.dumps(extend(json.loads(OUT_FILE.read_text(encoding="utf-8")))))
+
+
 def test_dataset_shape():
-    data = load_dataset()
+    data = load_dataset(DATASETS["base"])
     assert data["counts"]["true_pairs"] >= 50
     assert len(data["true_pairs"]) == len(set(map(tuple, data["true_pairs"])))
     ids = [r["id"] for r in data["lost"] + data["found"]]
@@ -44,7 +49,7 @@ def test_false_positive_labels_are_relative_to_the_query():
 
 
 def test_evaluation_runs_on_a_small_slice(tmp_path):
-    full = load_dataset()
+    full = load_dataset(DATASETS["base"])
     keep_lost = {r["id"] for r in full["lost"][:4]}
     found = [f for f in full["found"] if f.get("origin") in keep_lost or f["role"] == "easy_negative"][:120]
     keep_found = {f["id"] for f in found}
