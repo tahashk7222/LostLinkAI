@@ -80,7 +80,28 @@ Open http://localhost:3000
 
 ```powershell
 cd backend
-.\.venv\Scripts\python -m pytest -q
+.\.venv\Scripts\python -m pytest -q                       # full backend suite (about 70 s)
+
+cd ..\frontend
+npm.cmd run typecheck                                     # frontend type check (tsc --noEmit)
+```
+
+**Browser checks** (need the API on port 8000 and the web app on port 3000 running; `pip install playwright`
+into any Python, and the installed Google Chrome):
+
+```powershell
+python frontend\e2e\report_flow.py --api http://localhost:8000 --web http://localhost:3000   # two users, lost → found → match
+python frontend\e2e\matching_ui.py --api http://localhost:8000 --web http://localhost:3000   # lead labels, Weak rules, layout
+```
+
+Both scripts create their own accounts and reports with a unique suffix. Screenshots go to `frontend/e2e/screenshots`.
+Run them against a scratch database, not your working one, because they add test rows.
+
+**Matching evaluation** (synthetic data only; the numbers are not real-world accuracy):
+
+```powershell
+cd backend
+.\.venv\Scripts\python -m evaluation.run_eval --label my-run --dataset base      # also: extended, targeted, cases
 ```
 
 ## Run with Docker (PostgreSQL)
@@ -160,6 +181,14 @@ and on demand via `POST /reports/{id}/match`:
      ≥ `MATCH_THRESHOLD`, default 0.55), **Weak** (any identity or generic match, ≥ 0.35: stored and shown, never
      notified, and it cannot start ownership verification).
    - The relevance score is a rule-based value. It is not a probability of ownership.
+   - Final safeguards (v3 only; the score is unchanged by them, only the lead and notification):
+     - **Identifier conflicts.** When each report states an identifier (a serial, initials, a quoted name) that the other
+       does not, the pair is a contradiction and is capped below the threshold. Identical identifiers match.
+     - **Colour contradiction.** If both reports state a colour and the colours conflict, the pair does not notify
+       unless it has a shared model code or an identifier-matched feature.
+     - **Close location for marking or damage.** A marking or damage match alone qualifies for notification only when
+       the reports are at the same place or within 250 m (`NEAR_M`, the same "near" distance the app uses for
+       labels). Model-code identity is not limited by distance (a documented limitation).
    - `MATCH_SCORER=v2` restores the earlier identity rule (brand plus a description match qualified, and accessory
      features counted as identity). `MATCH_SCORER=v1` restores the earlier weighted score.
 5. **Notification**: only Strong and Possible leads (`notify_eligible`) notify, at most 3 per report per run. Weak leads
@@ -253,8 +282,11 @@ Full interactive docs at `/docs`.
 
 ## Team integration
 
-- Branches: `main` (always runnable), `develop`, `feature/ai`, `feature/vision`, `feature/frontend`,
-  `feature/verification`, `feature/backend`.
-- AI and vision: work inside `backend/app/ai/` against the provider interfaces. Keep
-  `tests/test_ai_units.py` and `tests/test_e2e_workflow.py` green.
-- Frontend: API types live in `frontend/src/lib/types.ts`.
+Start with **[DEVELOPER_HANDOFF.md](DEVELOPER_HANDOFF.md)**: architecture, entry points, the matching pipeline, what not
+to change, and the module boundaries for each teammate.
+
+- The current complete state is on `main`. It must be pushed to `origin` before a fresh clone has it.
+- Suggested branches for each module: `feature/vision`, `feature/frontend`, `feature/verification`, `feature/qa`.
+  Branch from `main` once it is pushed, and keep commits focused.
+- Keep `backend/tests/test_ai_units.py` and `backend/tests/test_e2e_workflow.py` green. Run the full suite before each merge.
+- Frontend: API types live in `frontend/src/lib/types.ts`. HTTP calls go through `frontend/src/lib/api.ts`.
