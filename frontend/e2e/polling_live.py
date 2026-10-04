@@ -37,11 +37,19 @@ def run(browser, web, api, scenario, token, window):
         page.evaluate("t => localStorage.setItem('lostlink_token', t)", token)
     page.goto(web + "/dashboard")
     if scenario == "D":
-        page.wait_for_timeout(window * 1000)  # Playwright's wait lets response events be recorded; time.sleep would not
+        page.wait_for_timeout(window * 1000)  # no session: nothing should poll
         page.close()
         return len(responses) == 0, f"{len(responses)} notification responses with no token (expected 0)"
     page.get_by_role("button", name="Log out").first.wait_for(timeout=240000)  # the signed-in view has mounted
     t_mount = time.time()
+    if scenario == "E":
+        page.get_by_role("button", name="Log out").first.click()
+        page.wait_for_load_state("load")
+        t_event = time.time()
+        page.wait_for_timeout(window * 1000)
+        after = [s for t, s in responses if t >= t_event]
+        page.close()
+        return len(after) == 0, f"{len(after)} notification responses after logout (expected 0)"
     if scenario == "B":
         page.wait_for_timeout(3000)
         page.evaluate("localStorage.removeItem('lostlink_token')")
@@ -76,7 +84,8 @@ def main():
     with sync_playwright() as p:
         browser = p.chromium.launch(channel="chrome", headless=True)
         for scenario, name, tok in (("A", "valid session polls", token), ("B", "token removed mid-session stops polling", token),
-                                    ("C", "expiry redirects to sign-in and stops", token), ("D", "no token, no notification request", None)):
+                                    ("C", "expiry redirects to sign-in and stops", token), ("D", "no token, no notification request", None),
+                                    ("E", "logout stops polling", token)):
             ok, detail = run(browser, args.web, args.api, scenario, tok, 45)
             failures += 0 if ok else 1
             print(("PASS " if ok else "FAIL ") + scenario + " " + name + " - " + detail)
