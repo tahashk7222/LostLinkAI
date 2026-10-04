@@ -64,8 +64,15 @@ class ItemReport(TimestampMixin, Base):
     ai_status: Mapped[AIStatus] = mapped_column(Enum(AIStatus), default=AIStatus.PENDING)
     ai_error: Mapped[str | None] = mapped_column(String(255))
     text_embedding: Mapped[list | None] = mapped_column(JSON)
+    # Moderation (admin decisions). Rejection reuses DEACTIVATED; these fields say why and by whom.
+    moderation_reason: Mapped[str | None] = mapped_column(String(40))
+    moderation_note: Mapped[str | None] = mapped_column(Text)
+    moderated_by: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
+    moderated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # Set when the item leaves circulation (recovered or case closed). The record is kept, never deleted.
+    archived_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
-    owner: Mapped[User] = relationship()
+    owner: Mapped[User] = relationship(foreign_keys=[user_id])  # moderated_by is a second FK to users
     images: Mapped[list["ItemImage"]] = relationship(back_populates="report", cascade="all, delete-orphan")
     attributes: Mapped[list["ItemAttribute"]] = relationship(back_populates="report", cascade="all, delete-orphan")
 

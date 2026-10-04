@@ -22,6 +22,18 @@ class ReportStatus(str, Enum):
     DEACTIVATED = "DEACTIVATED"  # moderation
 
 
+class ModerationReason(str, Enum):
+    """Why an admin rejected a report. Stored on the report and shown to admins, never to other users."""
+    FAKE_OR_JOKE = "FAKE_OR_JOKE"
+    OUTSIDE_UET_AREA = "OUTSIDE_UET_AREA"
+    INVALID_ITEM = "INVALID_ITEM"
+    INAPPROPRIATE_CONTENT = "INAPPROPRIATE_CONTENT"
+    DUPLICATE_REPORT = "DUPLICATE_REPORT"
+    INSUFFICIENT_INFORMATION = "INSUFFICIENT_INFORMATION"
+    SUSPICIOUS_ACTIVITY = "SUSPICIOUS_ACTIVITY"
+    OTHER = "OTHER"
+
+
 class AIStatus(str, Enum):
     PENDING = "PENDING"
     DONE = "DONE"

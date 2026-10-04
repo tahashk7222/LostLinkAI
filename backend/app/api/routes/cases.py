@@ -13,6 +13,7 @@ from app.models import Case, ItemReport, MatchCandidate, Message, User
 from app.models.enums import CaseStatus, ReportStatus, Role
 from app.schemas.workflow import CaseStatusIn, MessageIn
 from app.services.audit import audit
+from app.services.case_lifecycle import set_case_status
 from app.services.notifications import notify
 from app.services.reports import load_report, to_public
 from app.services.state_machine import transition
@@ -69,22 +70,9 @@ def get_case(case_id: int, user: CurrentUser, db: DB):
 @router.put("/{case_id}/status")
 def update_case_status(case_id: int, body: CaseStatusIn, user: CurrentUser, db: DB):
     case, role = _get_case(db, user, case_id, allow_admin=False)
-    transition(case, body.status)
     m = case.match
-    lost, found = m.lost_report, m.found_report
-    other_id = found.user_id if role == "owner" else lost.user_id
-    if body.status == CaseStatus.RECOVERED:
-        for r in (lost, found):
-            transition(r, ReportStatus.RECOVERED)
-        notify(db, other_id, "case_recovered", link=f"/cases/{case.id}", item=lost.name)
-    elif body.status == CaseStatus.CLOSED:
-        for r in (lost, found):
-            if r.status == ReportStatus.CONNECTED:  # closed without recovery: reports reopen
-                transition(r, ReportStatus.ACTIVE)
-            elif r.status == ReportStatus.RECOVERED:
-                transition(r, ReportStatus.CLOSED)
-        notify(db, other_id, "case_closed", link=f"/cases/{case.id}", item=lost.name)
-    audit(db, "case.status", user.id, "case", case.id, status=body.status.value)
+    other_id = m.found_report.user_id if role == "owner" else m.lost_report.user_id
+    set_case_status(db, case, body.status, user.id, notify_ids=(other_id,))
     db.commit()
     return _case_out(db, case, role, user)
 
