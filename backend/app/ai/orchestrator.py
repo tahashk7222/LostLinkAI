@@ -17,7 +17,7 @@ from sqlalchemy.orm import Session, selectinload
 
 from app.ai.config import get_matching_config
 from app.ai.lexical import BM25Index, description_terms, pair_similarity
-from app.ai.matching import _NO_TEXT_SIGNAL, generic_identity_terms, score_pair
+from app.ai.matching import _NO_TEXT_SIGNAL, describe_candidate, format_candidate, generic_identity_terms, score_pair
 from app.ai.providers import get_text_embedder
 from app.ai.retrieval import retrieve_candidates
 from app.ai.understanding import embedding_text, understand
@@ -76,8 +76,13 @@ def score_candidates(db: Session, report: ItemReport, cfg=None) -> list[tuple[It
         if index:
             generic = generic_identity_terms(lost, lu) | generic_identity_terms(found, fu)
             identity_sim = pair_similarity(index, lost, found, exclude=generic)
-        results.append((lost, found, score_pair(lost, found, lu, fu, cfg, text_sim=text_sim,
-                                                identity_sim=identity_sim)))
+        res = score_pair(lost, found, lu, fu, cfg, text_sim=text_sim, identity_sim=identity_sim)
+        results.append((lost, found, res))
+        candidate_id = found.id if report.report_type == ReportType.LOST else lost.id
+        try:  # diagnostics only: a logging failure must never change or stop a match decision
+            logger.info(format_candidate(report.id, candidate_id, describe_candidate(lost, found, lu, fu, res, cfg)))
+        except Exception as exc:
+            logger.warning("matching diagnostic failed for report %s: %s", report.id, exc.__class__.__name__)
 
     results.sort(key=lambda r: r[2].score, reverse=True)
     return results

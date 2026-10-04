@@ -127,3 +127,24 @@ def test_embedding_failure_is_logged_and_upload_still_succeeds(client, monkeypat
                         files={"file": ("charger.png", make_image(fmt="PNG"), "image/png")})
     assert r.status_code == 201  # the photo is kept; matching continues without the visual signal
     assert any("image embedding failed" in rec.getMessage() for rec in caplog.records)
+
+
+def test_rejected_candidate_logs_the_exact_rule_without_private_text(client, caplog):
+    import logging
+
+    owner = register(client, "Owner", "owner@example.com")
+    finder = register(client, "Finder", "finder@example.com")
+    no_colour = {**LOST_CHARGER, "color": None, "description": "Lost charger near the gate",
+                 "private_details": "unique-canary-7731 notebook"}
+    lost = client.post("/reports", json=no_colour, headers=owner).json()["id"]
+    client.post("/reports", json=found_charger("2026-10-04T19:02:00Z"), headers=finder)
+    with caplog.at_level(logging.INFO, logger="lostlink.ai"):
+        assert search_again(client, owner, lost) == []
+    lines = [r.getMessage() for r in caplog.records if r.getMessage().startswith("matching candidate:")]
+    assert lines, "every scored candidate must be logged"
+    line = lines[-1]
+    assert "stored=False" in line and "classification=None" in line
+    assert "stage=after classification" in line
+    assert "colour absent on one side" in line
+    assert "category=compatible" in line and "location=same_place" in line
+    assert "unique-canary-7731" not in line and "Lost charger near" not in line  # no private or free text

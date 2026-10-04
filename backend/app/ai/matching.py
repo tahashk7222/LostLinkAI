@@ -496,3 +496,91 @@ def _combine_v1(signals: dict[str, float], ev: _Evidence, cfg: MatchingConfig) -
     lead = "POSSIBLE" if score >= cfg.threshold else None
     return MatchResult(score=score, confidence=confidence, signals=signals, evidence=ev.items, lead=lead,
                        identity_groups=_identity_groups(signals), notify_eligible=lead in NOTIFY_LEADS)
+
+
+def describe_candidate(lost, found, lu: Understanding, fu: Understanding, res: MatchResult, cfg: MatchingConfig) -> dict:
+    """Read-only diagnostic for one scored pair. It never changes a decision.
+
+    Returns only rule outcomes, signal values and colour or feature families. It holds no names, descriptions,
+    identifiers, exact coordinates or private details. `rejection_reason` names the condition that left the pair
+    unclassified; it is None when the pair became a lead.
+    """
+    s = res.signals
+
+    def label(value, names):
+        return names.get(value, "absent") if value is not None else "absent"
+
+    category = label(s.get("category"), {1.0: "compatible", 0.5: "related", 0.0: "conflict"})
+    colour_kind = color_compatibility(lu.colors, fu.colors)
+    colour = colour_kind[0] if colour_kind else "absent"
+    shared_models = bool(set(lu.models) & set(fu.models))
+    feature_kinds = sorted({f.kind for f in fu.typed_features} | {f.kind for f in lu.typed_features})
+    km = None
+    if None not in (lost.latitude, lost.longitude, found.latitude, found.longitude):
+        km = round(haversine_km(lost.latitude, lost.longitude, found.latitude, found.longitude), 2)
+    hours = round((as_utc(found.date_time) - as_utc(lost.date_time)).total_seconds() / 3600, 2)
+
+    weights = {k: W_V2[k] for k in s}
+    mean = sum(weights[k] * s[k] for k in s) / sum(weights.values()) if weights else 0.0
+    base = round(mean * (0.5 + 0.5 * (res.coverage or 0.0)), 3)
+
+    identity = list(res.identity_groups)
+    corroborating = list(res.corroborating)
+    missing = []
+    if not identity and not corroborating:
+        if colour == "absent":
+            missing.append("colour absent on one side")
+        elif colour == "conflict":
+            missing.append("colour conflict (no corroborating colour)")
+        if s.get("brand") is None:
+            missing.append("brand not on both sides")
+        if not feature_kinds:
+            missing.append("no distinctive feature")
+        if not shared_models:
+            missing.append("no shared model code")
+        if "text" not in s or s.get("text", 0) < DESCRIPTION_IDENTITY:
+            missing.append("no description identity (identity similarity is not exposed on the result)")
+    if res.lead is not None:
+        reason = None
+    elif not identity and not corroborating:
+        reason = "no identity or corroborating group: " + "; ".join(missing)
+    elif res.score < cfg.weak_score:
+        reason = f"score {res.score} below weak_score {cfg.weak_score}"
+    else:
+        reason = "unclassified (no rule matched)"
+
+    return {
+        "category": category,
+        "time_hours": hours,
+        "location": "same_place" if (lost.place_key and lost.place_key == found.place_key) else "different_place",
+        "zone": f"{lost.zone}/{found.zone}",
+        "distance_km": km,
+        "colour": colour,
+        "colour_families": f"{sorted(lu.colors)}/{sorted(fu.colors)}",
+        "brand": "present_both" if (lu.brand and fu.brand) else "not_both",
+        "brand_signal": s.get("brand"),
+        "shared_model": shared_models,
+        "feature_kinds": feature_kinds,
+        "features_signal": s.get("features"),
+        "identity_groups": identity,
+        "corroborating": corroborating,
+        "text_score": s.get("text"),
+        "visual_score": s.get("image"),
+        "components": {k: round(v, 3) for k, v in s.items()},
+        "base_score": base,
+        "final_score": res.score,
+        "caps": {k: round(v, 3) for k, v in res.caps.items()},
+        "conflicts": [e["signal"] for e in res.evidence if e["direction"] == "contradicts"],
+        "classification": res.lead,
+        "stored": res.lead is not None,
+        "stage": "stored" if res.lead is not None else "after classification",
+        "rejection_reason": reason,
+    }
+
+
+def format_candidate(report_id: int, candidate_id: int, d: dict) -> str:
+    """One log line for a scored candidate. Keys and values come from describe_candidate only."""
+    parts = [f"report_id={report_id}", f"candidate_id={candidate_id}"]
+    parts += [f"{k}={v}" for k, v in d.items() if k != "components"]
+    parts.append(f"components={d['components']}")
+    return "matching candidate: " + " ".join(parts)
