@@ -39,7 +39,7 @@ function CaseView() {
     pollStopped.current = false;
     load();
     const t = setInterval(() => {
-      if (pollStopped.current) clearInterval(t);
+      if (pollStopped.current || !getToken()) clearInterval(t);  // stop on 401, and never poll without a token
       else load();
     }, 8000);
     return () => clearInterval(t);

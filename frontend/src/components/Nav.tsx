@@ -21,12 +21,18 @@ export function Nav() {
       alive = false;
       if (timer !== undefined) clearInterval(timer);
     };
-    const load = () =>
+    const load = () => {
+      // Checked on every tick: a token removed by another tab must not produce one more unauthenticated request.
+      if (!getToken()) {
+        stop();
+        return;
+      }
       api<{ unread: number }>("/notifications?unread_only=true&limit=1")
         .then((r) => alive && setUnread(r.unread))
         .catch((e) => {
           if (e instanceof ApiError && e.status === 401) stop();
         });
+    };
     load();
     timer = setInterval(load, 20000);
     return stop;
