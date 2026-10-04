@@ -1,0 +1,811 @@
+{
+  "queries": 50,
+  "found_reports": 680,
+  "true_pairs": 50,
+  "hard_negative_pairs": 600,
+  "metrics": {
+    "precision_at_1": 0.12,
+    "recall_retrieved": 1.0,
+    "recall_at_threshold": 0.14,
+    "false_positive_rate_all_negatives": 0.0,
+    "false_positive_rate_hard_negatives": 0.0,
+    "precision_of_notifications": 0.636,
+    "notifications_per_query": 0.22,
+    "weak_leads_per_query": 26.72,
+    "queries_with_false_notification": 0.04
+  },
+  "fpr_by_hard_type": {
+    "hn-before-loss": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-brand": {
+      "population": 40,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-category": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-colour": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-lookalike": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hn-nearby": {
+      "population": 10,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hx-brand": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hx-feature": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hx-missing-brand": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hx-missing-feature": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hx-nearby-same": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hx-same-place-other": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "hx-visual": {
+      "population": 50,
+      "notified": 0,
+      "rate": 0.0
+    }
+  },
+  "recall_by_case": {},
+  "true_pair_outcomes": [
+    {
+      "query": "L001",
+      "found": "F001",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.683,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L002",
+      "found": "F007",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.538,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L003",
+      "found": "F013",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.649,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L004",
+      "found": "F019",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.68,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "colour"
+      ]
+    },
+    {
+      "query": "L005",
+      "found": "F025",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.55,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L006",
+      "found": "F031",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.721,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand"
+      ]
+    },
+    {
+      "query": "L007",
+      "found": "F037",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.586,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand"
+      ]
+    },
+    {
+      "query": "L008",
+      "found": "F043",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.544,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand"
+      ]
+    },
+    {
+      "query": "L009",
+      "found": "F049",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.55,
+      "notified": false,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": []
+    },
+    {
+      "query": "L010",
+      "found": "F055",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.63,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand"
+      ]
+    },
+    {
+      "query": "L011",
+      "found": "F061",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.565,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L012",
+      "found": "F067",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.666,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L013",
+      "found": "F073",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.589,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L014",
+      "found": "F079",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.787,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L015",
+      "found": "F085",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.624,
+      "notified": false,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": []
+    },
+    {
+      "query": "L016",
+      "found": "F091",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.609,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand"
+      ]
+    },
+    {
+      "query": "L017",
+      "found": "F097",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.683,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L018",
+      "found": "F103",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.545,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L019",
+      "found": "F109",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.519,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L020",
+      "found": "F115",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.553,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L021",
+      "found": "F121",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.586,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L022",
+      "found": "F127",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.662,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L023",
+      "found": "F133",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.485,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L024",
+      "found": "F139",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.505,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L025",
+      "found": "F145",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.687,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L026",
+      "found": "F151",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.58,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L027",
+      "found": "F157",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.641,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L028",
+      "found": "F163",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.649,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L029",
+      "found": "F169",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.665,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L030",
+      "found": "F175",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.686,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L031",
+      "found": "F181",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.673,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L032",
+      "found": "F187",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.513,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": []
+    },
+    {
+      "query": "L033",
+      "found": "F193",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.521,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L034",
+      "found": "F199",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.692,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L035",
+      "found": "F205",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.392,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": []
+    },
+    {
+      "query": "L036",
+      "found": "F211",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.577,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L037",
+      "found": "F217",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.587,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L038",
+      "found": "F223",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.508,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L039",
+      "found": "F229",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.543,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L040",
+      "found": "F235",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.667,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L041",
+      "found": "F241",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.657,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L042",
+      "found": "F247",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.558,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L043",
+      "found": "F253",
+      "case": null,
+      "lead": "POSSIBLE",
+      "score": 0.686,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L044",
+      "found": "F259",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.84,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L045",
+      "found": "F265",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.539,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L046",
+      "found": "F271",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.652,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L047",
+      "found": "F277",
+      "case": null,
+      "lead": "STRONG",
+      "score": 0.798,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L048",
+      "found": "F283",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.554,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L049",
+      "found": "F289",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.474,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": []
+    },
+    {
+      "query": "L050",
+      "found": "F295",
+      "case": null,
+      "lead": "WEAK",
+      "score": 0.56,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    }
+  ],
+  "counts": {
+    "true_notified": 7,
+    "notified_total": 11,
+    "false_notified": 4,
+    "false_notified_hard": 0,
+    "false_notified_by_type": {
+      "other_query_hard_negative": 4
+    }
+  },
+  "false_positive_examples": [
+    {
+      "query": "L015",
+      "found": "F501",
+      "negative_type": "other_query_hard_negative",
+      "score": 0.633,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (water bottle)",
+        "Compatible colour (blue)",
+        "Similar marking described: 'name written on the lid'",
+        "Photos look visually similar (a learned visual model)",
+        "Found about 80 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 32 hours after the reported loss"
+      ]
+    },
+    {
+      "query": "L015",
+      "found": "F571",
+      "negative_type": "other_query_hard_negative",
+      "score": 0.614,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (water bottle)",
+        "Compatible colour (blue)",
+        "Similar marking described: 'name written on the lid'",
+        "Photos look visually similar (a learned visual model)",
+        "Found about 60 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 7 days after the reported loss"
+      ]
+    },
+    {
+      "query": "L015",
+      "found": "F361",
+      "negative_type": "other_query_hard_negative",
+      "score": 0.609,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (water bottle)",
+        "Compatible colour (blue)",
+        "Similar marking described: 'name written on the lid'",
+        "Photos look visually similar (a learned visual model)",
+        "Found about 130 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 26 days after the reported loss"
+      ]
+    },
+    {
+      "query": "L029",
+      "found": "F389",
+      "negative_type": "other_query_hard_negative",
+      "score": 0.578,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (id card)",
+        "Compatible colour (white)",
+        "Similar damage described: 'photo partly torn'",
+        "Photos look visually similar (a learned visual model)",
+        "Found about 200 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 12 days after the reported loss"
+      ]
+    }
+  ],
+  "runtime_seconds": 155.08,
+  "label": "regression-visual-weak-extended",
+  "dataset": {
+    "file": "synthetic_pairs_extended.json",
+    "name": "SYNTHETIC",
+    "generator": "backend/evaluation/generate_dataset.py::extend",
+    "seed": 20261003,
+    "notice": "Invented for offline evaluation. Not real user reports, people or locations history. Coordinates are campus place points from app/geo/uet_lahore.json. Photos are rendered from simple synthetic shapes, not real photographs."
+  },
+  "config": {
+    "threshold": 0.55,
+    "max_candidates": 10,
+    "max_notifications": 3,
+    "scorer": "v3",
+    "text_method": "bm25",
+    "weights": {
+      "category": 0.15,
+      "text": 0.2,
+      "color": 0.12,
+      "brand": 0.08,
+      "features": 0.1,
+      "image": 0.1,
+      "location": 0.15,
+      "time": 0.1
+    }
+  }
+}

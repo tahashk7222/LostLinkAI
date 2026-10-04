@@ -59,6 +59,11 @@ IDENTITY_TOTAL = sum(W_V2[k] for k in IDENTITY_V2)
 DESCRIPTION_IDENTITY = 0.35  # description similarity needed to count as an identity group
 FEATURE_IDENTITY = 0.5  # typed-feature overlap needed to count as an identity group
 VISUAL_CORROBORATION = 0.7  # visual similarity that corroborates identity (never creates it)
+# Visual-only Weak lead (scoring v3). Compatible structured evidence plus a photo match at or above this level stores a
+# WEAK lead. It never notifies, never starts verification and never creates identity. The value sits between the
+# unrelated-object maximum (0.714) and the genuine-pair minimum (0.919) of the synthetic vision evaluation, and admits
+# the rejected production candidate at 0.873. See docs/VISION.md section 11b.
+VISUAL_ONLY_WEAK = 0.85
 
 # Typed-feature kinds that identify one item (v3). Accessory and other features are generic: many items
 # carry a keychain or a sticker, so they corroborate but never qualify a lead on their own.
@@ -444,12 +449,16 @@ def _combine_v3(signals: dict[str, float], ev: _Evidence, caps: dict[str, float]
     if colour_conflict and not strong_identity:
         qualifies = False
     strong_contradiction = any(e["direction"] == "contradicts" and e["strength"] == "STRONG" for e in ev.items)
+    # Visual-only Weak: same category, a photo match at or above VISUAL_ONLY_WEAK, and no contradiction at all
+    # (caps is empty only when no conflict was found). Time and place are already bounded by retrieval.
+    visual_only = (not identity and not corroborating and signals.get("category") == 1.0 and not caps
+                   and signals.get("image", 0.0) >= VISUAL_ONLY_WEAK)
 
     if qualifies and score >= cfg.strong_score and total >= 3 and not strong_contradiction:
         lead = "STRONG"
     elif qualifies and score >= cfg.threshold:
         lead = "POSSIBLE"
-    elif (identity or corroborating) and score >= cfg.weak_score:
+    elif (identity or corroborating or visual_only) and score >= cfg.weak_score:
         lead = "WEAK"
     else:
         lead = None

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { api } from "@/lib/api";
+import { ApiError, api, getToken } from "@/lib/api";
 import { formatDate } from "@/lib/format";
 import type { CaseInfo, ChatMessage } from "@/lib/types";
 import { ErrorBox, InfoBox, Protected, ReportThumb, Spinner, StatusBadge } from "@/components/ui";
@@ -18,6 +18,7 @@ function CaseView() {
   const [error, setError] = useState("");
   const [confirm, setConfirm] = useState<"RECOVERED" | "CLOSED" | null>(null);
   const bottom = useRef<HTMLDivElement>(null);
+  const pollStopped = useRef(false);  // set when the session ends (401): polling must not continue
 
   const load = useCallback(async () => {
     try {
@@ -28,13 +29,19 @@ function CaseView() {
       setC(cs);
       setMsgs(m.messages);
     } catch (e) {
+      if (e instanceof ApiError && e.status === 401) pollStopped.current = true;
       setError((e as Error).message);
     }
   }, [id]);
 
   useEffect(() => {
+    if (!getToken()) return;  // no session: nothing to poll
+    pollStopped.current = false;
     load();
-    const t = setInterval(load, 8000);
+    const t = setInterval(() => {
+      if (pollStopped.current) clearInterval(t);
+      else load();
+    }, 8000);
     return () => clearInterval(t);
   }, [load]);
 

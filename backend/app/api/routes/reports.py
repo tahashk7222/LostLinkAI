@@ -179,6 +179,7 @@ def match_now(report_id: int, user: CurrentUser, db: DB):
             db.commit()
         except Exception:
             db.rollback()
+            logger.exception("Search again failed for report %s", report_id)  # server log only; the client gets a generic error
             r = db.get(ItemReport, report_id)
             r.ai_status = AIStatus.FAILED
             r.ai_error = "Automatic matching failed. Please try again later."

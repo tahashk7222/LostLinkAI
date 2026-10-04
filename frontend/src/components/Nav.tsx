@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
-import { api } from "@/lib/api";
+import { ApiError, api, getToken } from "@/lib/api";
 
 export function Nav() {
   const { user, logout } = useAuth();
@@ -13,18 +13,23 @@ export function Nav() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (!user) return;
+    // No token means no session: never poll. A 401 means the session ended: stop polling.
+    if (!user || !getToken()) return;
     let alive = true;
+    let timer: ReturnType<typeof setInterval> | undefined;
+    const stop = () => {
+      alive = false;
+      if (timer !== undefined) clearInterval(timer);
+    };
     const load = () =>
       api<{ unread: number }>("/notifications?unread_only=true&limit=1")
         .then((r) => alive && setUnread(r.unread))
-        .catch(() => {});
+        .catch((e) => {
+          if (e instanceof ApiError && e.status === 401) stop();
+        });
     load();
-    const t = setInterval(load, 20000);
-    return () => {
-      alive = false;
-      clearInterval(t);
-    };
+    timer = setInterval(load, 20000);
+    return stop;
   }, [user, pathname]);
 
   useEffect(() => {

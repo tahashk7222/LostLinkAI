@@ -210,6 +210,44 @@ it: visual similarity is corroboration only, and the matcher requires an identit
 The threshold (0.7) and the weights were deliberately NOT changed on the basis of this synthetic set. Calibrate on real
 photographs before any release.
 
+## 11b. Visual-only Weak leads (scoring v3)
+
+A compatible pair (same category, same place, compatible time) whose photos reach **VISUAL_ONLY_WEAK = 0.85** is
+stored as a **WEAK** lead when it has no identity or corroborating group. It never notifies, never starts ownership
+verification, and never creates identity. A colour, category or brand contradiction, or any conflict cap, blocks it.
+Strong and Possible still require the identity rules.
+
+Why 0.85. The learned-similarity values in section 11 bound it:
+
+| Reference | Learned similarity |
+|---|---|
+| Unrelated objects, maximum (synthetic) | 0.714 |
+| Genuine pairs, minimum (synthetic) | 0.919 |
+| Hard negatives, median (synthetic, look-alike objects) | 0.919 |
+| Production candidate rejected before this change | 0.873 |
+
+0.85 sits above every unrelated pair measured, below every genuine pair measured, and admits the rejected production
+candidate. The value was chosen from these numbers, not tuned to make the production pair match.
+
+Trade-offs, stated plainly:
+
+- **Look-alike objects can become Weak leads.** Same-shape items in the same category can reach 0.85 (the hard-negative
+  median is 0.919). They appear in the Weak list only. They never notify.
+- **Shape drives the score.** Two dark rectangles of the same size and place score about 0.88, whatever the colour. A
+  different silhouette (two discs against a rectangle) scores about 0.59. The model is responsive to shape, so a
+  visual-only Weak lead means "similar silhouette", not "same object".
+- A visual match is never a reason to notify. Notification still needs a Strong or Possible identity lead.
+
+Measured effect (synthetic evaluation, `evaluation/results/regression-visual-weak*.json`):
+
+- Base set (no photos): unchanged. Recall 14%, notification precision 100%, 0.14 notifications per query.
+- Extended set (with photos): recall 14%, precision@1 12%, hard-negative false positives 0%, notification precision
+  63.6%, 0.22 notifications per query, all unchanged from the final hardening pass. Weak leads per query rose from
+  22.7 to 26.7. Those extra Weak leads are the visual-only Weak leads. None of them notify.
+
+Tests: `backend/tests/test_visual_weak.py` (identical photos give a stored, non-notifying WEAK lead; a category or
+colour contradiction blocks it; different silhouettes do not match; missing colour is unknown, not contradictory).
+
 ## 12. Matching impact (regression)
 
 The four matching evaluations were re-run with the learned model (`vision-ml-*.json`) and with the heuristic

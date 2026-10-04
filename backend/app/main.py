@@ -9,6 +9,7 @@ from app import models  # noqa: F401  (registers tables)
 from app.api.routes import admin, auth, cases, flags, geo, images, matches, notifications, reports
 from app.core.config import get_settings
 from app.core.errors import register_error_handlers
+from app.core.log_redaction import install_log_redaction
 from app.core.security import hash_password
 from app.db.migrate import run_migrations
 from app.db.session import SessionLocal, engine
@@ -16,6 +17,7 @@ from app.models import User
 from app.models.enums import Role
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+install_log_redaction()
 
 
 def init_db() -> None:
@@ -35,6 +37,7 @@ def init_db() -> None:
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
+    install_log_redaction()  # uvicorn configures its handlers before startup, so install again here
     init_db()
     yield
 
