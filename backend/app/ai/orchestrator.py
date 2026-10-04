@@ -113,7 +113,10 @@ def run_matching(db: Session, report: ItemReport) -> list[MatchCandidate]:
         return []
 
     results = score_candidates(db, report, cfg)
-    current = {(lost.id, found.id): (lost, found, res) for lost, found, res in select_stored(results, cfg)}
+    # Counts only: no names, coordinates, descriptions or identifiers reach the log.
+    logger.info("matching report %s: %d candidates scored, %d stored, %d notifiable", report.id, len(results),
+                len(select_stored(results, cfg)), sum(1 for r in results if r[2].notify_eligible))
+    current ={(lost.id, found.id): (lost, found, res) for lost, found, res in select_stored(results, cfg)}
     withdraw_matches(db, report, keep=set(current), reason="no longer a candidate")
 
     matches: list[MatchCandidate] = []

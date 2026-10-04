@@ -1,3 +1,4 @@
+import logging
 from typing import Annotated
 
 from fastapi import APIRouter, BackgroundTasks, File, Query, UploadFile
@@ -19,6 +20,8 @@ from app.services.match_lifecycle import withdraw_matches
 from app.services.matches import match_summary
 from app.services.reports import PUBLIC_STATUSES, get_owned, get_viewable, image_url, load_report, serialize
 from app.services.state_machine import transition
+
+logger = logging.getLogger("lostlink.reports")
 
 router = APIRouter(prefix="/reports", tags=["reports"])
 
@@ -139,8 +142,10 @@ async def upload_image(report_id: int, user: CurrentUser, db: DB, bg: Background
     path, meta, img = storage.save_image(data, file.content_type)
     try:
         features = get_image_embedder().embed(img)
-    except Exception:
-        features = None  # matching still works without visual features
+    except Exception as exc:
+        # Logged so a missing visual signal is visible in server logs. Matching still works without it.
+        logger.warning("image embedding failed for report %s: %s", r.id, exc.__class__.__name__)
+        features = None
     image = ItemImage(report_id=r.id, storage_path=path, content_type="image/jpeg", meta=meta, embedding=features)
     db.add(image)
     r.ai_status = AIStatus.PENDING
