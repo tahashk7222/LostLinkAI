@@ -29,8 +29,10 @@ def _config(connection) -> Config:
 
 
 def run_migrations(engine: Engine, target: str = "head") -> None:
-    with engine.begin() as conn:
-        tables = set(inspect(conn).get_table_names())
+    # Alembic opens its own transaction here. Do not open one first: PostgreSQL migrations use
+    # autocommit_block() (ALTER TYPE ... ADD VALUE), which needs Alembic to own the transaction.
+    tables = set(inspect(engine).get_table_names())
+    with engine.connect() as conn:
         cfg = _config(conn)
         if "alembic_version" not in tables and "item_reports" in tables:
             logger.info("Existing pre-migration database detected; stamping baseline %s", BASELINE)
