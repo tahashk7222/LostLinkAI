@@ -3,15 +3,14 @@
     python -m scripts.recompute_image_embeddings            # every photo whose embedding is not from the active model
     python -m scripts.recompute_image_embeddings --all      # recompute every photo
 
-Photos are read from the existing private storage (app/services/storage.py). A photo that cannot be read or embedded
-keeps its old embedding and is counted as failed. Nothing is deleted. The result is a rebuildable derived value.
+Photos are read through app/services/storage.py (local files, or Cloudinary in production). A photo that cannot be read
+or embedded keeps its old embedding and is counted as failed. Nothing is deleted. The result is a rebuildable value.
 """
 
 import argparse
 import logging
 from collections import Counter
 
-from PIL import Image
 from sqlalchemy import select
 
 from app.ai.providers import get_image_embedder
@@ -33,9 +32,7 @@ def recompute(db, embedder=None, only_stale: bool = True) -> Counter:
             counts["skipped"] += 1
             continue
         try:
-            with Image.open(storage.open_image_path(image.storage_path)) as img:
-                img.load()
-                image.embedding = embedder.embed(flatten_for_storage(img))
+            image.embedding = embedder.embed(flatten_for_storage(storage.load_image(image.storage_path)))
             counts["updated"] += 1
         except Exception as exc:  # unreadable file, missing file, inference failure
             log.warning("could not recompute image %s: %s", image.id, exc.__class__.__name__)

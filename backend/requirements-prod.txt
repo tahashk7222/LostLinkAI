@@ -1,2 +1,7 @@
 -r requirements.txt
 psycopg[binary]==3.2.9
+# Derives the pooled-output vision model at build/deploy time (scripts/fetch_vision_model.py). Pinned because the
+# derived file's SHA-256 is checked; a different onnx version may serialise the graph differently.
+onnx==1.23.1
+# Production photo storage (app/services/storage.py). Imported lazily; local development does not need it configured.
+cloudinary==1.46.3

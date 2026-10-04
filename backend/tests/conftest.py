@@ -9,6 +9,11 @@ os.environ["STORAGE_DIR"] = os.path.join(_tmp, "storage")
 os.environ["JWT_SECRET"] = "test-secret-test-secret-test-secret-123"
 os.environ["ADMIN_EMAIL"] = ""
 os.environ["ADMIN_PASSWORD"] = ""
+# Tests never use the production Cloudinary account, even when backend/.env holds real credentials.
+# Cloudinary-specific tests configure it explicitly with mocked SDK calls (tests/test_storage_cloud.py).
+os.environ["CLOUDINARY_CLOUD_NAME"] = ""
+os.environ["CLOUDINARY_API_KEY"] = ""
+os.environ["CLOUDINARY_API_SECRET"] = ""
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402

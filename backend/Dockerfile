@@ -9,6 +9,10 @@ RUN pip install --no-cache-dir -r requirements-prod.txt
 COPY app ./app
 COPY alembic.ini ./
 COPY migrations ./migrations
+COPY scripts ./scripts
+# Derive the learned image model at build time (needs network). Runs as root because /app is root-owned;
+# the app user only reads the file. Fails the build if the checksum does not match.
+RUN python -m scripts.fetch_vision_model
 RUN useradd --create-home appuser && mkdir -p /data/storage && chown -R appuser /data
 USER appuser
 

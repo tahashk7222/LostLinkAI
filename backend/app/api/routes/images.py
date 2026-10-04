@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from fastapi.responses import FileResponse
 
 from app.api.deps import DB
 from app.core.errors import not_found
@@ -18,5 +17,4 @@ def get_image(image_id: int, token: str, db: DB):
     image = db.get(ItemImage, image_id)
     if image is None:
         raise not_found("Image")
-    return FileResponse(storage.open_image_path(image.storage_path), media_type=image.content_type,
-                        headers={"Cache-Control": "private, max-age=600"})
+    return storage.serve_image(image.storage_path, image.content_type)
