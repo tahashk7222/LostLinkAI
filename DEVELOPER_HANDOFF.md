@@ -93,7 +93,7 @@ Full interactive docs at `http://localhost:8000/docs`. Summary:
 | Cases | `GET /cases`, `GET /cases/{id}`, `PUT /cases/{id}/status`, `GET/POST /cases/{id}/messages` |
 | Notifications | `GET /notifications`, `POST /notifications/{id}/read`, `POST /notifications/read-all` |
 | Geo | `GET /geo/config` (the UET Lahore place list and the geofence) |
-| Moderation | `POST /flags`, `/admin/*` (admin role only) |
+| Moderation | `POST /flags`, `/admin/*` (admin role only). New: `GET /admin/dashboard`, `GET /admin/reports/{id}`, `POST /admin/reports/{id}/approve`, `POST /admin/reports/{id}/reject`, `GET /admin/verification`, `GET /admin/cases/{id}`, `POST /admin/cases/{id}/close`. See the README "Admin portal" section |
 
 ## 7. How to run locally
 

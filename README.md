@@ -235,6 +235,43 @@ State machines (`app/services/state_machine.py`), with invalid transitions retur
 - Case: `CONNECTED → RECOVERED → CLOSED` (or `CONNECTED → CLOSED`)
 - Report: `ACTIVE ⇄ POTENTIAL_MATCH → CONNECTED → RECOVERED → CLOSED`, plus `EXPIRED` and `DEACTIVATED`
 
+## Admin portal
+
+Admins sign in like everyone else. An account with role `ADMIN` sees **Admin** in the navigation. The backend checks the
+role on every admin route (401 without a token, 403 for a non-admin), so hiding the page is not the protection.
+To create the first admin, set `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `backend/.env` before starting the API. Use a real
+domain, because reserved domains such as `.test` are rejected.
+
+Pages (`frontend/src/app/admin/`):
+
+- `/admin`: operational cards and recent reports, matches and admin or recovery actions. All numbers come from the API.
+  Tabs for reports, verification, flagged content, users, cases and the audit log.
+- `/admin/reports/{id}`: review one report. Shows the photo, the public details, the reporter's masked email and the
+  extracted attributes, labelled as automated checks. Approve (keeps the report live) or reject with a reason from a
+  fixed list and an optional note.
+- `/admin/cases/{id}`: recovery confirmation. Shows whether each item is in active listings, eligible for matching and
+  archived. Close the case when done.
+
+Lifecycle rules (the same rules the owner and finder use, from `app/services/case_lifecycle.py`):
+
+- Reports go live when created (post-moderation). Rejection moves an open report to `DEACTIVATED`, which takes it out
+  of matching at once, and stores the reason. It is refused for a report in a recovery case.
+- A recovered item leaves active listings and matching, and is stamped `archived_at`. Nothing is deleted.
+- Admin actions and case changes are written to the audit log. The audit entry holds the reason code, never the
+  free-text note.
+- Verification progress is shown as pending, in progress, verified, failed or cancelled. Owners' answers, questions and
+  advisory notes are never returned by admin routes.
+
+New admin endpoints: `GET /admin/dashboard`, `GET /admin/reports/{id}`, `POST /admin/reports/{id}/approve`,
+`POST /admin/reports/{id}/reject`, `GET /admin/verification`, `GET /admin/cases/{id}`, `POST /admin/cases/{id}/close`.
+
+Browser walkthrough (needs an admin account; use a scratch database because it adds rows):
+
+```powershell
+python frontend\e2e\admin_flow.py --api http://localhost:8000 --web http://localhost:3000 `
+  --admin-email admin@example.com --admin-password <password>
+```
+
 ## Privacy & security
 
 - Passwords: bcrypt. Tokens: JWT (`JWT_SECRET` required and checked in production).
