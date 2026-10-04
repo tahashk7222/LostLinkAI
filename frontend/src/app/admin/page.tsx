@@ -6,22 +6,36 @@ import { api } from "@/lib/api";
 import { formatDate } from "@/lib/format";
 import { ErrorBox, PageHeader, Protected, Spinner, StatusBadge, TypeBadge } from "@/components/ui";
 
-type Tab = "overview" | "reports" | "flags" | "users" | "cases" | "audit";
+type Tab = "overview" | "reports" | "verification" | "flags" | "users" | "cases" | "audit";
 
-interface Stats {
-  users: number;
+interface Dashboard {
+  cards: Record<string, number>;
+  totals: { users: number; matches: number; cases: number; open_flags: number };
   reports_by_status: Record<string, number>;
-  reports_by_type: Record<string, number>;
-  matches: number;
-  cases: number;
-  open_flags: number;
-  ai_failures: number;
-  failed_logins_recent: number;
+  recent_reports: { id: number; report_type: string; name: string; status: string; zone: string | null; created_at: string }[];
+  recent_matches: { id: number; status: string; lead: string | null; relevance_percent: number; created_at: string }[];
+  recent_actions: { id: number; action: string; entity_type: string | null; entity_id: number | null; timestamp: string }[];
 }
+
+// Operational cards, shown in this order. Every number comes from the dashboard endpoint.
+const CARDS: [string, string][] = [
+  ["active_lost", "Active lost items"],
+  ["active_found", "Active found items"],
+  ["potential_matches", "Potential matches"],
+  ["verification_open", "Verification in progress"],
+  ["recovery_pending", "Recovery pending"],
+  ["recovered", "Recovered (archived)"],
+  ["rejected", "Rejected reports"],
+  ["open_flags_on_reports", "Suspicious reports (open flags)"],
+];
+
+const VERIFICATION_LABEL: Record<string, string> = {
+  pending: "Pending", in_progress: "In progress", verified: "Verified", failed: "Failed", cancelled: "Cancelled",
+};
 
 function Admin() {
   const [tab, setTab] = useState<Tab>("overview");
-  const [stats, setStats] = useState<Stats | null>(null);
+  const [dash, setDash] = useState<Dashboard | null>(null);
   const [health, setHealth] = useState<{ status: string; database: boolean } | null>(null);
   const [rows, setRows] = useState<any[] | null>(null);
   const [q, setQ] = useState("");
@@ -32,10 +46,11 @@ function Admin() {
     setRows(null);
     try {
       if (tab === "overview") {
-        setStats(await api<Stats>("/admin/stats"));
+        setDash(await api<Dashboard>("/admin/dashboard"));
         setHealth(await api("/health"));
         setRows([]);
       } else if (tab === "reports") setRows((await api(`/admin/reports${q ? `?q=${encodeURIComponent(q)}` : ""}`)).items);
+      else if (tab === "verification") setRows((await api("/admin/verification")).verifications);
       else if (tab === "flags") setRows((await api("/admin/flags")).flags);
       else if (tab === "users") setRows((await api(`/admin/users${q ? `?q=${encodeURIComponent(q)}` : ""}`)).users);
       else if (tab === "cases") setRows((await api("/admin/cases")).cases);
@@ -60,12 +75,13 @@ function Admin() {
   }
 
   const tabs: [Tab, string][] = [
-    ["overview", "Overview"], ["reports", "Reports"], ["flags", "Flagged"], ["users", "Users"], ["cases", "Cases"], ["audit", "Audit log"],
+    ["overview", "Overview"], ["reports", "Reports"], ["verification", "Verification"], ["flags", "Flagged"],
+    ["users", "Users"], ["cases", "Cases"], ["audit", "Audit log"],
   ];
 
   return (
     <div>
-      <PageHeader title="Admin dashboard" subtitle="Moderation and oversight. Private details, exact locations and messages are not shown here." />
+      <PageHeader title="Admin dashboard" subtitle="Moderation and oversight. Private details, exact locations, messages and verification answers are not shown here." />
       <div className="mb-6 flex flex-wrap gap-2">
         {tabs.map(([t, label]) => (
           <button key={t} onClick={() => { setTab(t); setQ(""); }} className={tab === t ? "btn-primary" : "btn-secondary"}>{label}</button>
@@ -77,25 +93,48 @@ function Admin() {
       )}
       {rows === null ? <Spinner /> : (
         <>
-          {tab === "overview" && stats && (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {[
-                ["System health", health ? `${health.status} (database ${health.database ? "OK" : "down"})` : "…"],
-                ["Users", stats.users],
-                ["Lost reports", stats.reports_by_type.LOST ?? 0],
-                ["Found reports", stats.reports_by_type.FOUND ?? 0],
-                ["Potential matches", stats.matches],
-                ["Cases", stats.cases],
-                ["Recovered reports", stats.reports_by_status.RECOVERED ?? 0],
-                ["Open flags", stats.open_flags],
-                ["AI matching failures", stats.ai_failures],
-                ["Failed logins (total)", stats.failed_logins_recent],
-              ].map(([k, v]) => (
-                <div key={k as string} className="card">
-                  <p className="text-sm text-slate-500">{k}</p>
-                  <p className="mt-1 text-2xl font-bold text-slate-900">{v}</p>
-                </div>
-              ))}
+          {tab === "overview" && dash && (
+            <div className="space-y-8">
+              <p className="text-sm text-slate-600">
+                System: {health ? `${health.status} (database ${health.database ? "OK" : "down"})` : "…"}. Users: {dash.totals.users}.
+              </p>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {CARDS.map(([key, label]) => (
+                  <div key={key} className="card">
+                    <p className="text-sm text-slate-500">{label}</p>
+                    <p className="mt-1 text-2xl font-bold text-slate-900">{dash.cards[key] ?? 0}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="grid gap-6 lg:grid-cols-3">
+                <Panel title="Recent reports">
+                  {dash.recent_reports.map((r) => (
+                    <li key={r.id} className="flex items-center justify-between gap-2 py-2 text-sm">
+                      <Link className="text-brand-600 hover:underline" href={`/admin/reports/${r.id}`}>#{r.id} {r.name}</Link>
+                      <StatusBadge status={r.status} />
+                    </li>
+                  ))}
+                  {dash.recent_reports.length === 0 && <li className="py-2 text-sm text-slate-500">No reports yet.</li>}
+                </Panel>
+                <Panel title="Recent matches">
+                  {dash.recent_matches.map((m) => (
+                    <li key={m.id} className="flex items-center justify-between gap-2 py-2 text-sm">
+                      <span>Match #{m.id} · {m.lead ?? "—"} lead</span>
+                      <span className="text-xs text-slate-500">relevance {m.relevance_percent}%</span>
+                    </li>
+                  ))}
+                  {dash.recent_matches.length === 0 && <li className="py-2 text-sm text-slate-500">No matches yet.</li>}
+                </Panel>
+                <Panel title="Recent admin and recovery actions">
+                  {dash.recent_actions.map((a) => (
+                    <li key={a.id} className="py-2 text-sm">
+                      <span className="font-mono text-xs">{a.action}</span>
+                      <div className="text-xs text-slate-500">{a.entity_type ? `${a.entity_type} #${a.entity_id}` : ""} · {formatDate(a.timestamp)}</div>
+                    </li>
+                  ))}
+                  {dash.recent_actions.length === 0 && <li className="py-2 text-sm text-slate-500">No actions yet.</li>}
+                </Panel>
+              </div>
             </div>
           )}
 
@@ -103,7 +142,7 @@ function Admin() {
             <Table head={["Report", "Type", "Status", "AI", "Created", ""]}>
               {rows.map((r) => (
                 <tr key={r.id}>
-                  <td><Link className="text-brand-600 hover:underline" href={`/reports/${r.id}`}>#{r.id} {r.name}</Link><div className="text-xs text-slate-500">{r.location}</div></td>
+                  <td><Link className="text-brand-600 hover:underline" href={`/admin/reports/${r.id}`}>#{r.id} {r.name}</Link><div className="text-xs text-slate-500">{r.location}</div></td>
                   <td><TypeBadge type={r.report_type} /></td>
                   <td><StatusBadge status={r.status} /></td>
                   <td className="text-xs">{r.ai_status}</td>
@@ -118,12 +157,27 @@ function Admin() {
             </Table>
           )}
 
+          {tab === "verification" && (
+            <Table head={["Verification", "Match", "Progress", "Started", "Decided"]}>
+              {rows.length === 0 && <tr><td colSpan={5} className="text-slate-500">No ownership verifications yet.</td></tr>}
+              {rows.map((v) => (
+                <tr key={v.id}>
+                  <td>#{v.id}</td>
+                  <td><Link className="text-brand-600 hover:underline" href={`/matches/${v.match_id}`}>Match #{v.match_id}</Link></td>
+                  <td>{VERIFICATION_LABEL[v.display_status] ?? v.display_status}</td>
+                  <td className="text-xs">{formatDate(v.created_at)}</td>
+                  <td className="text-xs">{v.decided_at ? formatDate(v.decided_at) : "—"}</td>
+                </tr>
+              ))}
+            </Table>
+          )}
+
           {tab === "flags" && (
             <Table head={["Target", "Reason", "Reported", ""]}>
               {rows.length === 0 && <tr><td colSpan={4} className="text-slate-500">No open flags.</td></tr>}
               {rows.map((f) => (
                 <tr key={f.id}>
-                  <td>{f.entity_type === "report" ? <Link className="text-brand-600 hover:underline" href={`/reports/${f.entity_id}`}>Report #{f.entity_id}</Link> : `User #${f.entity_id}`}</td>
+                  <td>{f.entity_type === "report" ? <Link className="text-brand-600 hover:underline" href={`/admin/reports/${f.entity_id}`}>Report #{f.entity_id}</Link> : `User #${f.entity_id}`}</td>
                   <td className="max-w-sm">{f.reason}</td>
                   <td className="text-xs">{formatDate(f.created_at)}</td>
                   <td className="space-x-2 whitespace-nowrap">
@@ -161,7 +215,7 @@ function Admin() {
               {rows.length === 0 && <tr><td colSpan={5} className="text-slate-500">No cases yet.</td></tr>}
               {rows.map((c) => (
                 <tr key={c.id}>
-                  <td>#{c.id}</td>
+                  <td><Link className="text-brand-600 hover:underline" href={`/admin/cases/${c.id}`}>#{c.id}</Link></td>
                   <td>{c.match.lost_report?.name}</td>
                   <td>{c.match.score_percent}%</td>
                   <td><StatusBadge status={c.status} /></td>
@@ -186,6 +240,15 @@ function Admin() {
           )}
         </>
       )}
+    </div>
+  );
+}
+
+function Panel({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="card">
+      <h2 className="mb-2 font-semibold text-slate-900">{title}</h2>
+      <ul className="divide-y divide-slate-100">{children}</ul>
     </div>
   );
 }
