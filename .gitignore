@@ -20,6 +20,7 @@ htmlcov/
 
 # Local data
 backend/storage/
+backend/models/
 backend/*.db
 *.sqlite3
 

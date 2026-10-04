@@ -1,0 +1,151 @@
+{
+  "label": "vision-eval-v1",
+  "dataset": "SYNTHETIC procedurally drawn objects with angle, lighting and background variants",
+  "counts": {
+    "genuine": 12,
+    "hard": 12,
+    "unrelated": 12
+  },
+  "model": "onnx-mobilenetv2-7-pool1280-v1",
+  "embedding_dim": 1280,
+  "preprocessing": "EXIF orientation, RGB, shorter side 256, centre crop 224, ImageNet normalisation, L2 normalisation",
+  "similarity": "cosine (pooled ReLU features are non-negative, so the range is [0, 1])",
+  "scores": {
+    "learned": {
+      "genuine": {
+        "n": 12,
+        "min": 0.919,
+        "max": 0.994,
+        "mean": 0.954,
+        "median": 0.953
+      },
+      "hard": {
+        "n": 12,
+        "min": 0.749,
+        "max": 0.979,
+        "mean": 0.884,
+        "median": 0.919
+      },
+      "unrelated": {
+        "n": 12,
+        "min": 0.651,
+        "max": 0.714,
+        "mean": 0.682,
+        "median": 0.677
+      },
+      "overlap_hard_reaches_genuine_median": 0.25,
+      "overlap_unrelated_reaches_genuine_median": 0.0
+    },
+    "heuristic": {
+      "genuine": {
+        "n": 12,
+        "min": 0.366,
+        "max": 0.924,
+        "mean": 0.724,
+        "median": 0.856
+      },
+      "hard": {
+        "n": 12,
+        "min": 0.742,
+        "max": 0.953,
+        "mean": 0.858,
+        "median": 0.896
+      },
+      "unrelated": {
+        "n": 12,
+        "min": 0.554,
+        "max": 0.836,
+        "mean": 0.65,
+        "median": 0.63
+      },
+      "overlap_hard_reaches_genuine_median": 0.667,
+      "overlap_unrelated_reaches_genuine_median": 0.0
+    }
+  },
+  "unrelated_pairs": [
+    {
+      "pair": "wallet vs laptop (pair 1)",
+      "learned_similarity": 0.678,
+      "heuristic_similarity": 0.711,
+      "learned_reaches_0_7": false
+    },
+    {
+      "pair": "bottle vs shoe (pair 2)",
+      "learned_similarity": 0.651,
+      "heuristic_similarity": 0.644,
+      "learned_reaches_0_7": false
+    },
+    {
+      "pair": "headphones vs bag (pair 3)",
+      "learned_similarity": 0.714,
+      "heuristic_similarity": 0.554,
+      "learned_reaches_0_7": true
+    },
+    {
+      "pair": "phone vs bottle (pair 4)",
+      "learned_similarity": 0.676,
+      "heuristic_similarity": 0.836,
+      "learned_reaches_0_7": false
+    },
+    {
+      "pair": "wallet vs laptop (pair 5)",
+      "learned_similarity": 0.668,
+      "heuristic_similarity": 0.609,
+      "learned_reaches_0_7": false
+    },
+    {
+      "pair": "bottle vs shoe (pair 6)",
+      "learned_similarity": 0.675,
+      "heuristic_similarity": 0.615,
+      "learned_reaches_0_7": false
+    },
+    {
+      "pair": "headphones vs bag (pair 7)",
+      "learned_similarity": 0.683,
+      "heuristic_similarity": 0.603,
+      "learned_reaches_0_7": false
+    },
+    {
+      "pair": "phone vs bottle (pair 8)",
+      "learned_similarity": 0.701,
+      "heuristic_similarity": 0.699,
+      "learned_reaches_0_7": true
+    },
+    {
+      "pair": "wallet vs laptop (pair 9)",
+      "learned_similarity": 0.671,
+      "heuristic_similarity": 0.587,
+      "learned_reaches_0_7": false
+    },
+    {
+      "pair": "bottle vs shoe (pair 10)",
+      "learned_similarity": 0.66,
+      "heuristic_similarity": 0.646,
+      "learned_reaches_0_7": false
+    },
+    {
+      "pair": "headphones vs bag (pair 11)",
+      "learned_similarity": 0.714,
+      "heuristic_similarity": 0.564,
+      "learned_reaches_0_7": true
+    },
+    {
+      "pair": "phone vs bottle (pair 12)",
+      "learned_similarity": 0.697,
+      "heuristic_similarity": 0.737,
+      "learned_reaches_0_7": false
+    }
+  ],
+  "performance": {
+    "device": "cpu",
+    "cuda_available": false,
+    "initialisation_s": 0.147,
+    "first_inference_s": 0.0298,
+    "subsequent_inference_s_mean_of_20": 0.0277,
+    "embedding_dim": 1280,
+    "active_provider_for_app": "cpu"
+  },
+  "limits": [
+    "Synthetic drawn objects, not photographs; small sample; no real-world accuracy claim."
+  ]
+}

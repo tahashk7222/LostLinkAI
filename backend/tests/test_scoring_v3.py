@@ -13,7 +13,7 @@ from app.ai.config import get_matching_config
 from app.ai.lexical import BM25Index, description_terms, pair_similarity
 from app.ai.matching import generic_identity_terms, score_pair
 from app.ai.orchestrator import select_notifiable
-from app.ai.providers.image import HeuristicImageEmbedder
+from app.ai.providers import get_image_embedder
 from app.ai.understanding import understand
 from tests.conftest import register
 from tests.helpers import FOUND_BACKPACK, LOST_BACKPACK
@@ -36,7 +36,7 @@ def _score(lost, found, config=cfg):
 def _with_image(r, spec):
     pic = Image.new("RGB", (240, 240), (235, 235, 235))
     ImageDraw.Draw(pic).rectangle((70, 60, 170, 190), fill=spec)
-    r.images = [SimpleNamespace(embedding=HeuristicImageEmbedder().embed(pic))]
+    r.images = [SimpleNamespace(embedding=get_image_embedder().embed(pic))]
     return r
 
 

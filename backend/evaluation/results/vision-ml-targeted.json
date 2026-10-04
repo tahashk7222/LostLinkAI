@@ -1,0 +1,810 @@
+{
+  "queries": 45,
+  "found_reports": 210,
+  "true_pairs": 45,
+  "hard_negative_pairs": 135,
+  "metrics": {
+    "precision_at_1": 0.644,
+    "recall_retrieved": 1.0,
+    "recall_at_threshold": 0.489,
+    "false_positive_rate_all_negatives": 0.0,
+    "false_positive_rate_hard_negatives": 0.0,
+    "precision_of_notifications": 0.846,
+    "notifications_per_query": 0.578,
+    "weak_leads_per_query": 15.578,
+    "queries_with_false_notification": 0.067
+  },
+  "fpr_by_hard_type": {
+    "tg-common-brand-other": {
+      "population": 45,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "tg-different-brand-same-feature": {
+      "population": 45,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "tg-same-attrs-other": {
+      "population": 45,
+      "notified": 0,
+      "rate": 0.0
+    }
+  },
+  "recall_by_case": {
+    "tc-colour-category-location": {
+      "true_pairs": 5,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "tc-colour-description": {
+      "true_pairs": 5,
+      "notified": 5,
+      "rate": 1.0
+    },
+    "tc-common-brand-feature": {
+      "true_pairs": 5,
+      "notified": 3,
+      "rate": 0.6
+    },
+    "tc-distinctive-description": {
+      "true_pairs": 5,
+      "notified": 5,
+      "rate": 1.0
+    },
+    "tc-generic-template": {
+      "true_pairs": 5,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "tc-missing-brand": {
+      "true_pairs": 5,
+      "notified": 4,
+      "rate": 0.8
+    },
+    "tc-missing-feature": {
+      "true_pairs": 5,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "tc-misspelled": {
+      "true_pairs": 5,
+      "notified": 0,
+      "rate": 0.0
+    },
+    "tc-roman-urdu": {
+      "true_pairs": 5,
+      "notified": 5,
+      "rate": 1.0
+    }
+  },
+  "true_pair_outcomes": [
+    {
+      "query": "L001",
+      "found": "F001",
+      "case": "tc-colour-category-location",
+      "lead": "WEAK",
+      "score": 0.552,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L002",
+      "found": "F005",
+      "case": "tc-colour-category-location",
+      "lead": "WEAK",
+      "score": 0.573,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L003",
+      "found": "F009",
+      "case": "tc-colour-category-location",
+      "lead": "WEAK",
+      "score": 0.551,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L004",
+      "found": "F013",
+      "case": "tc-colour-category-location",
+      "lead": "WEAK",
+      "score": 0.595,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L005",
+      "found": "F017",
+      "case": "tc-colour-category-location",
+      "lead": "WEAK",
+      "score": 0.557,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L006",
+      "found": "F021",
+      "case": "tc-colour-description",
+      "lead": "POSSIBLE",
+      "score": 0.656,
+      "notified": true,
+      "identity_groups": [
+        "description"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L007",
+      "found": "F025",
+      "case": "tc-colour-description",
+      "lead": "POSSIBLE",
+      "score": 0.71,
+      "notified": true,
+      "identity_groups": [
+        "description"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L008",
+      "found": "F029",
+      "case": "tc-colour-description",
+      "lead": "POSSIBLE",
+      "score": 0.671,
+      "notified": true,
+      "identity_groups": [
+        "description"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L009",
+      "found": "F033",
+      "case": "tc-colour-description",
+      "lead": "POSSIBLE",
+      "score": 0.689,
+      "notified": true,
+      "identity_groups": [
+        "description"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L010",
+      "found": "F037",
+      "case": "tc-colour-description",
+      "lead": "POSSIBLE",
+      "score": 0.693,
+      "notified": true,
+      "identity_groups": [
+        "description"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L011",
+      "found": "F041",
+      "case": "tc-common-brand-feature",
+      "lead": "WEAK",
+      "score": 0.964,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L012",
+      "found": "F045",
+      "case": "tc-common-brand-feature",
+      "lead": "STRONG",
+      "score": 0.784,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L013",
+      "found": "F049",
+      "case": "tc-common-brand-feature",
+      "lead": "STRONG",
+      "score": 0.803,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L014",
+      "found": "F053",
+      "case": "tc-common-brand-feature",
+      "lead": "STRONG",
+      "score": 0.786,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L015",
+      "found": "F057",
+      "case": "tc-common-brand-feature",
+      "lead": "WEAK",
+      "score": 0.973,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L016",
+      "found": "F061",
+      "case": "tc-missing-brand",
+      "lead": "POSSIBLE",
+      "score": 0.669,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L017",
+      "found": "F065",
+      "case": "tc-missing-brand",
+      "lead": "POSSIBLE",
+      "score": 0.669,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L018",
+      "found": "F069",
+      "case": "tc-missing-brand",
+      "lead": "POSSIBLE",
+      "score": 0.683,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L019",
+      "found": "F073",
+      "case": "tc-missing-brand",
+      "lead": "WEAK",
+      "score": 0.647,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "accessory features",
+        "colour"
+      ]
+    },
+    {
+      "query": "L020",
+      "found": "F077",
+      "case": "tc-missing-brand",
+      "lead": "POSSIBLE",
+      "score": 0.693,
+      "notified": true,
+      "identity_groups": [
+        "features"
+      ],
+      "corroborating": [
+        "colour"
+      ]
+    },
+    {
+      "query": "L021",
+      "found": "F081",
+      "case": "tc-missing-feature",
+      "lead": "WEAK",
+      "score": 0.678,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L022",
+      "found": "F085",
+      "case": "tc-missing-feature",
+      "lead": "WEAK",
+      "score": 0.672,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L023",
+      "found": "F089",
+      "case": "tc-missing-feature",
+      "lead": "WEAK",
+      "score": 0.848,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L024",
+      "found": "F093",
+      "case": "tc-missing-feature",
+      "lead": "WEAK",
+      "score": 0.677,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L025",
+      "found": "F097",
+      "case": "tc-missing-feature",
+      "lead": "WEAK",
+      "score": 0.694,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L026",
+      "found": "F101",
+      "case": "tc-roman-urdu",
+      "lead": "STRONG",
+      "score": 0.801,
+      "notified": true,
+      "identity_groups": [
+        "features",
+        "description"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L027",
+      "found": "F105",
+      "case": "tc-roman-urdu",
+      "lead": "STRONG",
+      "score": 0.861,
+      "notified": true,
+      "identity_groups": [
+        "features",
+        "description"
+      ],
+      "corroborating": [
+        "accessory features",
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L028",
+      "found": "F109",
+      "case": "tc-roman-urdu",
+      "lead": "STRONG",
+      "score": 0.782,
+      "notified": true,
+      "identity_groups": [
+        "features",
+        "description"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L029",
+      "found": "F113",
+      "case": "tc-roman-urdu",
+      "lead": "STRONG",
+      "score": 0.837,
+      "notified": true,
+      "identity_groups": [
+        "features",
+        "description"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L030",
+      "found": "F117",
+      "case": "tc-roman-urdu",
+      "lead": "STRONG",
+      "score": 0.822,
+      "notified": true,
+      "identity_groups": [
+        "features",
+        "description"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L031",
+      "found": "F121",
+      "case": "tc-misspelled",
+      "lead": "WEAK",
+      "score": 0.543,
+      "notified": false,
+      "identity_groups": [
+        "description"
+      ],
+      "corroborating": []
+    },
+    {
+      "query": "L032",
+      "found": "F125",
+      "case": "tc-misspelled",
+      "lead": "WEAK",
+      "score": 0.546,
+      "notified": false,
+      "identity_groups": [
+        "description"
+      ],
+      "corroborating": []
+    },
+    {
+      "query": "L033",
+      "found": "F129",
+      "case": "tc-misspelled",
+      "lead": "WEAK",
+      "score": 0.558,
+      "notified": false,
+      "identity_groups": [
+        "description"
+      ],
+      "corroborating": []
+    },
+    {
+      "query": "L034",
+      "found": "F133",
+      "case": "tc-misspelled",
+      "lead": "WEAK",
+      "score": 0.546,
+      "notified": false,
+      "identity_groups": [
+        "description"
+      ],
+      "corroborating": []
+    },
+    {
+      "query": "L035",
+      "found": "F137",
+      "case": "tc-misspelled",
+      "lead": "WEAK",
+      "score": 0.552,
+      "notified": false,
+      "identity_groups": [
+        "description"
+      ],
+      "corroborating": []
+    },
+    {
+      "query": "L036",
+      "found": "F141",
+      "case": "tc-generic-template",
+      "lead": "WEAK",
+      "score": 0.65,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L037",
+      "found": "F145",
+      "case": "tc-generic-template",
+      "lead": "WEAK",
+      "score": 0.678,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L038",
+      "found": "F149",
+      "case": "tc-generic-template",
+      "lead": "WEAK",
+      "score": 0.674,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L039",
+      "found": "F153",
+      "case": "tc-generic-template",
+      "lead": "WEAK",
+      "score": 0.841,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L040",
+      "found": "F157",
+      "case": "tc-generic-template",
+      "lead": "WEAK",
+      "score": 0.693,
+      "notified": false,
+      "identity_groups": [],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L041",
+      "found": "F161",
+      "case": "tc-distinctive-description",
+      "lead": "STRONG",
+      "score": 0.877,
+      "notified": true,
+      "identity_groups": [
+        "features",
+        "description"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L042",
+      "found": "F165",
+      "case": "tc-distinctive-description",
+      "lead": "STRONG",
+      "score": 0.879,
+      "notified": true,
+      "identity_groups": [
+        "features",
+        "description"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L043",
+      "found": "F169",
+      "case": "tc-distinctive-description",
+      "lead": "POSSIBLE",
+      "score": 0.7,
+      "notified": true,
+      "identity_groups": [
+        "description"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L044",
+      "found": "F173",
+      "case": "tc-distinctive-description",
+      "lead": "STRONG",
+      "score": 0.882,
+      "notified": true,
+      "identity_groups": [
+        "model",
+        "features",
+        "description"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    },
+    {
+      "query": "L045",
+      "found": "F177",
+      "case": "tc-distinctive-description",
+      "lead": "STRONG",
+      "score": 0.875,
+      "notified": true,
+      "identity_groups": [
+        "features",
+        "description"
+      ],
+      "corroborating": [
+        "brand",
+        "colour"
+      ]
+    }
+  ],
+  "counts": {
+    "true_notified": 22,
+    "notified_total": 26,
+    "false_notified": 4,
+    "false_notified_hard": 0,
+    "false_notified_by_type": {
+      "other_query_true_match": 2,
+      "other_query_hard_negative": 2
+    }
+  },
+  "false_positive_examples": [
+    {
+      "query": "L014",
+      "found": "F167",
+      "negative_type": "other_query_hard_negative",
+      "score": 0.722,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (watch)",
+        "Compatible colour (yellow)",
+        "Same brand (Titan)",
+        "Similar damage described: 'leather strap with a scratch'",
+        "Photos look visually similar (a learned visual model)",
+        "Found about 170 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 7 days after the reported loss"
+      ]
+    },
+    {
+      "query": "L014",
+      "found": "F103",
+      "negative_type": "other_query_hard_negative",
+      "score": 0.714,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (watch)",
+        "Compatible colour (yellow)",
+        "Same brand (Titan)",
+        "Similar damage described: 'leather strap with a scratch'",
+        "Photos look visually similar (a learned visual model)",
+        "Found about 110 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 8 days after the reported loss"
+      ]
+    },
+    {
+      "query": "L006",
+      "found": "F037",
+      "negative_type": "other_query_true_match",
+      "score": 0.614,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (watch)",
+        "Descriptions are very similar",
+        "Compatible colour (yellow)",
+        "Photos look visually similar (a learned visual model)",
+        "Found about 220 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 19 days after the reported loss"
+      ]
+    },
+    {
+      "query": "L024",
+      "found": "F077",
+      "negative_type": "other_query_true_match",
+      "score": 0.609,
+      "lead": "POSSIBLE",
+      "explanation": [
+        "Same item category (phone)",
+        "Compatible colour (blue)",
+        "Similar marking described: 'blue case with a sticker'",
+        "Photos look visually similar (a learned visual model)",
+        "Found about 150 m from where it was lost",
+        "Both on UET Lahore campus",
+        "Found approximately 8 days after the reported loss"
+      ]
+    }
+  ],
+  "runtime_seconds": 38.06,
+  "label": "vision-ml-targeted",
+  "dataset": {
+    "file": "synthetic_pairs_targeted.json",
+    "name": "SYNTHETIC",
+    "generator": "backend/evaluation/generate_targeted.py",
+    "seed": 20261004,
+    "notice": "Invented for offline evaluation. Not real user reports, people or locations history. Coordinates are campus place points from app/geo/uet_lahore.json. Photos are rendered from simple synthetic shapes, not real photographs. Targeted cases, not a random sample."
+  },
+  "config": {
+    "threshold": 0.55,
+    "max_candidates": 10,
+    "max_notifications": 3,
+    "scorer": "v3",
+    "text_method": "bm25",
+    "weights": {
+      "category": 0.15,
+      "text": 0.2,
+      "color": 0.12,
+      "brand": 0.08,
+      "features": 0.1,
+      "image": 0.1,
+      "location": 0.15,
+      "time": 0.1
+    }
+  }
+}

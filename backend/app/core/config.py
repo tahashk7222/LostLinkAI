@@ -19,6 +19,12 @@ class Settings(BaseSettings):
     max_upload_mb: int = 5
 
     match_threshold: float = 0.55
+    # Visual evidence. 'onnx' = learned embedding model (falls back to the heuristic if it cannot load);
+    # 'heuristic' = the colour-histogram + difference-hash method only. See docs/VISION.md.
+    vision_enabled: bool = True
+    vision_provider: str = "onnx"
+    vision_model_path: str = "models/vision/mobilenetv2-7-pooled.onnx"  # relative to backend/
+    vision_device: str = "auto"  # auto | cpu | cuda
     # Optional path to a different geographic boundary file (default: app/geo/uet_lahore.json)
     geofence_file: str = ""
     admin_email: str = ""

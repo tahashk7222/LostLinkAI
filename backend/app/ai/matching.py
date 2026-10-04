@@ -44,7 +44,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
 from app.ai.config import MatchingConfig
-from app.ai.providers import cosine, get_image_embedder
+from app.ai.providers import cosine
+from app.ai.visual import visual_evidence
 from app.ai.providers.text import tokenize
 from app.ai.understanding import Understanding, color_compatibility
 from app.geo.geofence import NEAR_M, area_of, distance_m, get_geofence
@@ -293,17 +294,16 @@ def score_pair(lost, found, lu: Understanding, fu: Understanding, cfg: MatchingC
     if feat is not None:
         signals["features"] = feat
 
-    # Image (visual heuristic, not object recognition). Corroboration only.
-    lost_imgs = [i.embedding for i in lost.images if i.embedding]
-    found_imgs = [i.embedding for i in found.images if i.embedding]
-    if lost_imgs and found_imgs:
-        img = get_image_embedder()
-        best = max(img.similarity(a, b) for a in lost_imgs for b in found_imgs)
-        signals["image"] = round(best, 3)
+    # Image: structured visual evidence (learned model or heuristic, see app/ai/visual.py). Corroboration only.
+    vis = visual_evidence(lost.images, found.images)
+    if vis["available"]:
+        best = vis["similarity"]
+        signals["image"] = best
+        how = "a learned visual model" if vis["method"] == "learned" else "colour and shape"
         if best >= VISUAL_CORROBORATION:
-            ev.support("image", "Photos look visually similar (colour and shape)", "MODERATE", signals["image"])
+            ev.support("image", f"Photos look visually similar ({how})", "MODERATE", best)
         elif best >= 0.55:
-            ev.support("image", "Photos are somewhat visually similar", "WEAK", signals["image"])
+            ev.support("image", f"Photos are somewhat visually similar ({how})", "WEAK", best)
 
     # Location (context): campus-scale distance, plus same place / same campus area / zone
     if None not in (lost.latitude, lost.longitude, found.latitude, found.longitude):

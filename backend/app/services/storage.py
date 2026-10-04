@@ -11,13 +11,25 @@ import io
 import uuid
 from pathlib import Path
 
-from PIL import Image, UnidentifiedImageError
+from PIL import Image, ImageOps, UnidentifiedImageError
 
 from app.core.config import get_settings
 from app.core.errors import AppError
 
 ALLOWED_TYPES = {"image/jpeg", "image/png", "image/webp"}
 MAX_DIMENSION = 2000
+
+
+def flatten_for_storage(img: Image.Image) -> Image.Image:
+    """Return an upright RGB image. EXIF orientation is applied first (phone photos are often stored rotated),
+    then transparency is composited onto white, so transparent pixels do not keep arbitrary colours."""
+    img = ImageOps.exif_transpose(img)
+    if img.mode in ("RGBA", "LA") or (img.mode == "P" and "transparency" in img.info):
+        rgba = img.convert("RGBA")
+        background = Image.new("RGB", rgba.size, (255, 255, 255))
+        background.paste(rgba, mask=rgba.getchannel("A"))
+        return background
+    return img.convert("RGB")
 
 
 def _root() -> Path:
@@ -43,7 +55,7 @@ def save_image(data: bytes, content_type: str | None) -> tuple[str, dict, Image.
     except (UnidentifiedImageError, OSError, SyntaxError, Image.DecompressionBombError):
         raise AppError(400, "The file is not a valid image")
 
-    img = img.convert("RGB")
+    img = flatten_for_storage(img)
     img.thumbnail((MAX_DIMENSION, MAX_DIMENSION))
     name = f"{uuid.uuid4().hex}.jpg"
     # Re-encoding without passing exif= drops all metadata.

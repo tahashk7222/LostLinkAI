@@ -9,6 +9,8 @@ bcrypt==4.3.0
 PyJWT==2.10.1
 Pillow==11.2.1
 alembic==1.16.1
+numpy==2.5.3
+onnxruntime==1.30.0  # CPU inference for the learned image embedder (docs/VISION.md)
 
 # testing
 pytest==8.3.5
