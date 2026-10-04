@@ -11,7 +11,8 @@ from app.api.deps import DB, CurrentUser
 from app.core.errors import conflict, not_found
 from app.models import Case, ItemReport, MatchCandidate, Message, User
 from app.models.enums import CaseStatus, ReportStatus, Role
-from app.schemas.workflow import CaseStatusIn, MessageIn
+from app.models.entities import utcnow
+from app.schemas.workflow import CaseStatusIn, MessageIn, PossessionIn
 from app.services.audit import audit
 from app.services.case_lifecycle import set_case_status
 from app.services.notifications import notify
@@ -49,6 +50,7 @@ def _case_out(db, case: Case, role: str, user: User) -> dict:
         "found_report": to_public(load_report(db, m.found_report_id), user),
         "created_at": case.created_at,
         "updated_at": case.updated_at,
+        "possession_confirmed_at": case.possession_confirmed_at,
     }
 
 
@@ -73,6 +75,32 @@ def update_case_status(case_id: int, body: CaseStatusIn, user: CurrentUser, db: 
     m = case.match
     other_id = m.found_report.user_id if role == "owner" else m.lost_report.user_id
     set_case_status(db, case, body.status, user.id, notify_ids=(other_id,))
+    db.commit()
+    return _case_out(db, case, role, user)
+
+
+@router.post("/{case_id}/possession")
+def confirm_possession(case_id: int, body: PossessionIn, user: CurrentUser, db: DB):
+    """Finder-only. Confirms the finder still has the item (no answers or scores are involved).
+
+    Yes: records the time and tells the owner to arrange the handover. No: closes the case with the existing
+    lifecycle, which returns the reports to active listings and tells the owner.
+    """
+    case, role = _get_case(db, user, case_id, allow_admin=False)
+    if role != "finder":  # the owner and admins cannot make this statement
+        raise not_found("Case")
+    if case.status != CaseStatus.CONNECTED:
+        raise conflict("Possession can only be confirmed while the case is connected")
+    if case.possession_confirmed_at is not None:
+        raise conflict("Possession was already confirmed for this case")
+    owner_id = case.match.lost_report.user_id
+    if body.still_have:
+        case.possession_confirmed_at = utcnow()
+        notify(db, owner_id, "possession_confirmed", link=f"/cases/{case.id}", item=case.match.lost_report.name)
+        audit(db, "case.possession_confirmed", user.id, "case", case.id)
+    else:
+        set_case_status(db, case, CaseStatus.CLOSED, user.id, notify_ids=(owner_id,),
+                        audit_action="case.possession_declined")
     db.commit()
     return _case_out(db, case, role, user)
 

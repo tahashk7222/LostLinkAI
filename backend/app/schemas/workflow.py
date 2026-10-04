@@ -18,6 +18,11 @@ class CaseStatusIn(BaseModel):
     status: CaseStatus
 
 
+class PossessionIn(BaseModel):
+    """Finder's answer to "Do you still have this item?". Possession, not ownership."""
+    still_have: bool
+
+
 class MessageIn(BaseModel):
     message: str = Field(min_length=1, max_length=2000)
 

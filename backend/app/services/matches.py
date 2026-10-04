@@ -1,7 +1,8 @@
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.ai.config import get_matching_config
+from app.ai.verification import MAX_VERIFICATION_ATTEMPTS
 from app.core.errors import not_found
 from app.models import Case, ItemReport, MatchCandidate, User, Verification
 from app.models.enums import Role
@@ -61,6 +62,10 @@ def match_summary(db: Session, m: MatchCandidate, user: User) -> dict:
         "my_report_id": mine,
         "case_id": case.id if case else None,
         "verification_status": verification.result if verification else None,
+        # Owners see how many verification attempts remain. Other roles see nothing extra.
+        "verification_attempts_left": (MAX_VERIFICATION_ATTEMPTS - db.scalar(
+            select(func.count()).select_from(Verification).where(Verification.match_id == m.id))
+            if role == "owner" else None),
         "disclaimer": DISCLAIMER,
         "created_at": m.created_at,
     }

@@ -56,6 +56,8 @@ export interface Match {
   /** Null for suggestions created before lead labels existed. */
   lead: LeadLabel | null;
   evidence: Evidence[];
+  /** Owner only: verification attempts still allowed for this match (the cap is 3). */
+  verification_attempts_left?: number | null;
   explanation: string[];
   signals: Record<string, number>;
   status: string;

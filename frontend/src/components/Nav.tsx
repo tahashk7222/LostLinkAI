@@ -70,7 +70,7 @@ export function Nav() {
                 )}
               </Link>
               <Link href="/profile" className="rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100">
-                {user.name.split(" ")[0]}
+                Profile
               </Link>
               <button onClick={logout} className="rounded-lg px-3 py-2 text-left text-sm text-slate-500 hover:bg-slate-100">
                 Log out

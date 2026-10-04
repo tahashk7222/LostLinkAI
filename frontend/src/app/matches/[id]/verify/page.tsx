@@ -11,10 +11,13 @@ interface VerificationState {
   status: string | null;
   match_status: string;
   questions?: Question[];
-  my_answers?: Record<string, string> | null;
-  answers?: Record<string, string>;
-  advisory_score?: number;
-  advisory_notes?: string[];
+  my_answers?: Record<string, string> | null;  // owner only: their own answers
+}
+
+interface CaseInfo {
+  id: number;
+  status: string;
+  possession_confirmed_at: string | null;
 }
 
 function Verify() {
@@ -25,16 +28,32 @@ function Verify() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [confirmReject, setConfirmReject] = useState(false);
+  const [caseInfo, setCaseInfo] = useState<CaseInfo | null>(null);
 
   const load = useCallback(async () => {
     try {
       const [m, ver] = await Promise.all([api<Match>(`/matches/${id}`), api<VerificationState>(`/matches/${id}/verification`)]);
       setMatch(m);
       setV(ver);
+      if (m.case_id && m.my_role === "finder") setCaseInfo(await api<CaseInfo>(`/cases/${m.case_id}`));
     } catch (e) {
       setError((e as Error).message);
     }
   }, [id]);
+
+  // Possession is a separate statement from ownership: "I still have this item" or "I no longer have this item".
+  async function confirmPossession(stillHave: boolean) {
+    if (!match?.case_id) return;
+    setBusy(true);
+    setError("");
+    try {
+      setCaseInfo(await api<CaseInfo>(`/cases/${match.case_id}/possession`, { method: "POST", json: { still_have: stillHave } }));
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
   useEffect(() => {
     load();
   }, [load]);
@@ -97,7 +116,7 @@ function Verify() {
         )}
         {match.status === "VERIFIED" && (
           <InfoBox tone="success">
-            Ownership verified by the finder. <Link className="font-semibold underline" href={`/cases/${match.case_id}`}>Open messages</Link> to arrange recovery.
+            Verification completed successfully. The finder will confirm whether they still have the item. <Link className="font-semibold underline" href={`/cases/${match.case_id}`}>Open messages</Link> to arrange recovery.
           </InfoBox>
         )}
         {match.status === "REJECTED" && <InfoBox tone="warn">The finder could not confirm ownership from your answers. Your lost report stays active.</InfoBox>}
@@ -111,42 +130,48 @@ function Verify() {
   // ---------- Finder ----------
   return (
     <div className="mx-auto max-w-2xl space-y-6">
-      <PageHeader title="Review ownership answers" subtitle={`Someone believes the "${item}" you found is theirs.`} />
+      <PageHeader title="Verify ownership claim" subtitle={`Someone believes the "${item}" you found is theirs.`} />
       {error && <ErrorBox message={error} />}
-      {match.status === "AWAITING_FINDER_REVIEW" && v.answers ? (
+      {match.status === "AWAITING_FINDER_REVIEW" ? (
         <div className="space-y-4">
-          <div className="card space-y-4">
-            {v.questions?.map((q) => (
-              <div key={q.id}>
-                <p className="text-sm font-medium text-slate-700">{q.question}</p>
-                <p className="mt-1 rounded-lg bg-slate-50 p-3 text-sm text-slate-800">{v.answers?.[q.id] || <i className="text-slate-400">No answer</i>}</p>
-              </div>
-            ))}
-          </div>
-          <div className="card space-y-2">
-            <h2 className="font-semibold text-slate-900">LostLink AI check (advisory)</h2>
-            <p className="text-sm">Consistency with your notes: <b>{Math.round((v.advisory_score ?? 0) * 100)}%</b></p>
-            <ul className="list-disc pl-5 text-sm text-slate-600">
-              {v.advisory_notes?.map((n) => <li key={n}>{n}</li>)}
-            </ul>
-          </div>
+          <InfoBox>
+            The potential owner has submitted ownership verification. Their details are private and are not shown to you.
+            Confirm only if you are sure this person is the owner.
+          </InfoBox>
           <InfoBox tone="warn">
-            You have the item, so you make the decision. Accept only if the answers clearly describe this item. Accepting
-            opens an in-app chat. No contact details are shared automatically.
+            Accepting opens an in-app chat. No contact details are shared automatically.
           </InfoBox>
           <div className="flex flex-wrap gap-2">
-            <button className="btn-primary" disabled={busy} onClick={() => decide("ACCEPT")}>Answers match: confirm owner</button>
+            <button className="btn-primary" disabled={busy} onClick={() => decide("ACCEPT")}>Confirm this person is the owner</button>
             {!confirmReject ? (
-              <button className="btn-secondary" disabled={busy} onClick={() => setConfirmReject(true)}>Answers don&apos;t match</button>
+              <button className="btn-secondary" disabled={busy} onClick={() => setConfirmReject(true)}>This is not the owner</button>
             ) : (
               <button className="btn-danger" disabled={busy} onClick={() => decide("REJECT")}>Confirm: reject claim</button>
             )}
           </div>
         </div>
-      ) : match.status === "VERIFIED" ? (
-        <InfoBox tone="success">
-          You confirmed the owner. <Link className="font-semibold underline" href={`/cases/${match.case_id}`}>Open messages</Link> to arrange the handover.
+      ) : match.status === "VERIFIED" && caseInfo?.status === "CLOSED" ? (
+        <InfoBox>
+          You told us you no longer have this item. The case is closed, and the item is back in circulation.
         </InfoBox>
+      ) : match.status === "VERIFIED" && caseInfo?.possession_confirmed_at ? (
+        <InfoBox tone="success">
+          Thank you. The owner has been asked to arrange the handover in{" "}
+          <Link className="font-semibold underline" href={`/cases/${match.case_id}`}>messages</Link>. Once the item is returned,
+          the owner marks it recovered.
+        </InfoBox>
+      ) : match.status === "VERIFIED" ? (
+        <div className="card space-y-4">
+          <div>
+            <h2 className="font-semibold text-slate-900">Verification passed</h2>
+            <p className="mt-1 text-sm text-slate-600">Ownership verification completed successfully.</p>
+          </div>
+          <p className="font-medium text-slate-900">Please confirm whether you still have this item.</p>
+          <div className="flex flex-wrap gap-2">
+            <button className="btn-primary" disabled={busy} onClick={() => confirmPossession(true)}>I still have this item</button>
+            <button className="btn-secondary" disabled={busy} onClick={() => confirmPossession(false)}>I no longer have this item</button>
+          </div>
+        </div>
       ) : match.status === "REJECTED" ? (
         <InfoBox tone="warn">You rejected this claim. Your found report remains active.</InfoBox>
       ) : (

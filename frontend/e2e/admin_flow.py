@@ -123,11 +123,11 @@ def main() -> None:
         # --- admin: verification monitor shows progress, never the answers ---
         admin_page.goto(f"{args.web}/admin")
         admin_page.get_by_role("button", name="Verification", exact=True).click()
-        expect(admin_page.get_by_text("Verified", exact=True).first).to_be_visible(timeout=10000)
+        expect(admin_page.get_by_text("Verification passed", exact=True).first).to_be_visible(timeout=10000)
         body = admin_page.inner_text("body")
         if PRIVATE_ANSWER in body or "Small tear inside" in body:
             failures.append("verification answer visible in the admin portal")
-        print("4. Verification monitor shows 'Verified' and no owner answers")
+        print("4. Verification monitor shows 'Verification passed' and no owner answers")
 
         # --- admin: recovery confirmation ---
         admin_page.goto(f"{args.web}/admin/cases/{case_id}")

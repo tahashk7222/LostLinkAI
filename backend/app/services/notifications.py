@@ -22,26 +22,31 @@ TEMPLATES: dict[str, tuple[str, str]] = {
     "match_finder": (
         "Your found item may match a lost report",
         "Someone's lost-item report may match the \"{item}\" you found. "
-        "If they ask to verify ownership, you'll be asked to review their answers.",
+        "If they ask to verify ownership, you'll be asked to decide whether they are the owner.",
     ),
     "verification_submitted": (
-        "Ownership answers ready for your review",
-        "A possible owner answered verification questions about the \"{item}\" you found. "
-        "Please compare their answers with the item and accept or reject.",
+        "Ownership verification ready for your decision",
+        "A possible owner submitted verification for the \"{item}\" you found. "
+        "Their answers are private and are not shown to you. Open the match to accept or reject.",
     ),
     "verification_accepted": (
-        "Ownership verified",
-        "The finder confirmed your ownership answers for \"{item}\". You can now message them in the app "
-        "to arrange recovery.",
+        "Verification passed",
+        "Ownership verification completed successfully for \"{item}\". The finder will confirm whether they still "
+        "have the item. Messages open once they do.",
     ),
     "verification_rejected": (
         "Ownership not confirmed",
         "The finder could not confirm ownership of \"{item}\" from your answers. "
         "Your lost report stays active and LostLink AI will keep looking.",
     ),
+    "possession_confirmed": (
+        "The finder still has the item",
+        "The finder confirmed they still have \"{item}\". Use in-app messages to arrange the handover, "
+        "then mark it recovered.",
+    ),
     "case_connected": (
-        "Owner verified — chat is open",
-        "You confirmed the owner of \"{item}\". Use in-app messages to arrange the handover.",
+        "Verification passed — please confirm",
+        "Ownership verification completed successfully for \"{item}\". Please confirm whether you still have the item.",
     ),
     "new_message": ("New message", "You have a new message about \"{item}\"."),
     "case_recovered": ("Item marked recovered", "\"{item}\" has been marked as recovered. Thank you for using LostLink AI!"),

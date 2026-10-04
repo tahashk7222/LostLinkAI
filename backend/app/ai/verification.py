@@ -38,6 +38,8 @@ BY_GROUP = {
 }
 
 MAX_ANSWER_LEN = 1000
+# Verification attempts per match (each start creates one row). A rejected claim may be retried until this cap.
+MAX_VERIFICATION_ATTEMPTS = 3
 
 
 def build_questions(found_report) -> list[dict]:

@@ -21,7 +21,7 @@ MATCH_TRANSITIONS: dict[MatchStatus, set[MatchStatus]] = {
     M.VERIFICATION_PENDING: {M.AWAITING_FINDER_REVIEW, M.DISMISSED},
     M.AWAITING_FINDER_REVIEW: {M.VERIFIED, M.REJECTED},
     M.VERIFIED: set(),
-    M.REJECTED: set(),
+    M.REJECTED: {M.POTENTIAL_MATCH},  # the owner may retry, up to MAX_VERIFICATION_ATTEMPTS (see routes/matches.py)
     M.DISMISSED: set(),
 }
 

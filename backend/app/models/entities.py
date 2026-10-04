@@ -145,6 +145,8 @@ class Case(TimestampMixin, Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     match_id: Mapped[int] = mapped_column(ForeignKey("match_candidates.id", ondelete="CASCADE"), unique=True)
     status: Mapped[CaseStatus] = mapped_column(Enum(CaseStatus), default=CaseStatus.CONNECTED)
+    # Set when the finder confirms they still have the item. A possession check, not an ownership check.
+    possession_confirmed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
     match: Mapped[MatchCandidate] = relationship()
 

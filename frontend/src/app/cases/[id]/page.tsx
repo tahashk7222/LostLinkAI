@@ -8,7 +8,7 @@ import { formatDate } from "@/lib/format";
 import type { CaseInfo, ChatMessage } from "@/lib/types";
 import { ErrorBox, InfoBox, Protected, ReportThumb, Spinner, StatusBadge } from "@/components/ui";
 
-const STEPS = ["Potential match", "Ownership verified", "Connected", "Recovered"];
+const STEPS = ["Potential match", "Verification passed", "Connected", "Recovered"];
 
 function CaseView() {
   const { id } = useParams<{ id: string }>();

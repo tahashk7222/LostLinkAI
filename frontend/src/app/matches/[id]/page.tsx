@@ -169,7 +169,21 @@ function MatchDetails() {
             {m.status === "VERIFIED" && m.case_id && (
               <Link href={`/cases/${m.case_id}`} className="btn-primary">Open case &amp; messages</Link>
             )}
-            {m.status === "REJECTED" && (
+            {m.my_role === "owner" && m.status === "REJECTED" && (m.verification_attempts_left ?? 0) > 0 && (
+              <>
+                <p className="text-sm text-slate-600">
+                  Ownership was not confirmed for this match. Your report remains active. You can try again
+                  ({m.verification_attempts_left} {m.verification_attempts_left === 1 ? "attempt" : "attempts"} left).
+                </p>
+                <button className="btn-primary" onClick={startVerification} disabled={busy}>Try verification again</button>
+              </>
+            )}
+            {m.my_role === "owner" && m.status === "REJECTED" && (m.verification_attempts_left ?? 0) === 0 && (
+              <p className="text-sm text-slate-600">
+                Ownership could not be confirmed for this match, and no verification attempts are left. Your report remains active.
+              </p>
+            )}
+            {m.status === "REJECTED" && m.my_role !== "owner" && (
               <p className="text-sm text-slate-600">Ownership was not confirmed for this match. Your report remains active.</p>
             )}
           </div>

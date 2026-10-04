@@ -1,9 +1,9 @@
 from datetime import datetime, timezone
 
 from fastapi import APIRouter
-from sqlalchemy import or_, select
+from sqlalchemy import func, or_, select
 
-from app.ai.verification import MAX_ANSWER_LEN, build_questions, evaluate_answers
+from app.ai.verification import MAX_ANSWER_LEN, MAX_VERIFICATION_ATTEMPTS, build_questions, evaluate_answers
 from app.api.deps import DB, CurrentUser
 from app.core.errors import bad_request, conflict
 from app.models import Case, ItemReport, MatchCandidate, Verification
@@ -20,6 +20,11 @@ router = APIRouter(prefix="/matches", tags=["matches & verification"])
 
 def _latest_verification(db, match_id: int) -> Verification | None:
     return db.scalar(select(Verification).where(Verification.match_id == match_id).order_by(Verification.id.desc()))
+
+
+def verification_attempts(db, m: MatchCandidate) -> int:
+    """How many verifications have been started for this match (one row per start)."""
+    return db.scalar(select(func.count()).select_from(Verification).where(Verification.match_id == m.id))
 
 
 @router.get("")
@@ -58,6 +63,14 @@ def start_verification(match_id: int, user: CurrentUser, db: DB):
         raise conflict("A Weak lead cannot start ownership verification. You can mark it as not yours.")
     if m.found_report.status not in (ReportStatus.ACTIVE, ReportStatus.POTENTIAL_MATCH):
         raise conflict("This found item is no longer available for verification")
+    attempts = verification_attempts(db, m)
+    if attempts >= MAX_VERIFICATION_ATTEMPTS:
+        raise conflict("No verification attempts are left for this match")
+    if m.status == MatchStatus.REJECTED:  # retry after the finder rejected the claim
+        transition(m, MatchStatus.POTENTIAL_MATCH)
+        for r in (m.lost_report, m.found_report):
+            if r.status == ReportStatus.ACTIVE:
+                transition(r, ReportStatus.POTENTIAL_MATCH)
     transition(m, MatchStatus.VERIFICATION_PENDING)
     v = Verification(match_id=m.id, questions=build_questions(m.found_report))
     db.add(v)
@@ -75,9 +88,9 @@ def get_verification(match_id: int, user: CurrentUser, db: DB):
     out = {"status": v.result, "match_status": m.status, "questions": v.questions,
            "submitted_at": v.submitted_at, "decided_at": v.decided_at}
     if role == "owner":
-        out["my_answers"] = v.answers
-    elif role == "finder" and v.answers is not None:
-        out.update(answers=v.answers, advisory_score=v.advisory_score, advisory_notes=v.advisory_notes)
+        out["my_answers"] = v.answers  # the owner sees only their own answers
+    # The finder never receives the owner's answers, the advisory score or the advisory notes. The stored
+    # evaluation is for the audit trail. Admin routes do not return it either.
     return out
 
 

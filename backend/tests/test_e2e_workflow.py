@@ -69,10 +69,11 @@ def test_full_recovery_workflow(client):
     assert client.post(f"/matches/{match['id']}/verify", headers=owner, json={"decision": "ACCEPT"}).status_code == 404
 
     # 9. Finder reviews answers + advisory score and accepts
+    # The owner's answers are private: the finder gets the outcome to decide on, never the answers themselves.
     fv = client.get(f"/matches/{match['id']}/verification", headers=finder).json()
-    assert fv["answers"]["contents"].startswith("A blue calculus notebook")
-    assert 0 <= fv["advisory_score"] <= 1
-    assert any("advisory" in n for n in fv["advisory_notes"])
+    assert "answers" not in fv and "my_answers" not in fv
+    assert "advisory_score" not in fv and "advisory_notes" not in fv
+    assert "A blue calculus notebook" not in str(fv)
     r = client.post(f"/matches/{match['id']}/verify", headers=finder, json={"decision": "ACCEPT"})
     assert r.status_code == 200, r.text
     case_id = r.json()["case_id"]
@@ -113,5 +114,5 @@ def test_rejected_verification_reopens_reports(client):
     assert r.json()["status"] == "REJECTED"
     assert client.get(f"/reports/{lost['id']}", headers=owner).json()["status"] == "ACTIVE"
     assert client.get("/cases", headers=owner).json()["cases"] == []
-    # cannot restart a rejected match
-    assert client.post(f"/matches/{match['id']}/verification", headers=owner).status_code == 409
+    # the owner may retry after a rejection (policy: up to 3 attempts per match; see test_verification_workflow.py)
+    assert client.post(f"/matches/{match['id']}/verification", headers=owner).status_code == 201

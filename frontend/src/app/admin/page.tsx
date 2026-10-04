@@ -30,7 +30,7 @@ const CARDS: [string, string][] = [
 ];
 
 const VERIFICATION_LABEL: Record<string, string> = {
-  pending: "Pending", in_progress: "In progress", verified: "Verified", failed: "Failed", cancelled: "Cancelled",
+  pending: "Pending", in_progress: "In progress", verified: "Verification passed", failed: "Failed", cancelled: "Cancelled",
 };
 
 function Admin() {
